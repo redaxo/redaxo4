@@ -15,12 +15,12 @@ if (!$REX['GG'])
 
 // Setupservicestatus - if everything ok -> false; if problem set to true;
 $REX['SETUP'] = true;
-$REX['SERVER'] = "redaxo.org";
+$REX['SERVER'] = "www.redaxo.org";
 $REX['SERVERNAME'] = "REDAXO";
 $REX['VERSION'] = "4";
 $REX['SUBVERSION'] = "5";
 $REX['MINORVERSION'] = "0";
-$REX['ERROR_EMAIL'] = "jan.kristinus@yakamara.de";
+$REX['ERROR_EMAIL'] = "";
 $REX['FILEPERM'] = octdec(664); // oktaler wert
 $REX['DIRPERM'] = octdec(775); // oktaler wert
 $REX['INSTNAME'] = "rex20120626100101";

@@ -509,21 +509,21 @@ function rex_setup_dropREXtables()
             <div class="rex-form-wrapper">
               <div class="rex-form-row">
                 <p class="rex-form-col-a rex-form-text">
-                  <label for="serveraddress">'.$I18N->msg("setup_024").'</label>
-                  <input class="rex-form-text" type="text" id="serveraddress" name="serveraddress" value="'.htmlspecialchars($serveraddress).'"'. rex_tabindex() .' />
-                </p>
-              </div>
-
-              <div class="rex-form-row">
-                <p class="rex-form-col-a rex-form-text">
-                  <label for="serverbezeichnung">'.$I18N->msg("setup_025").'</label>
+                  <label for="serverbezeichnung" title="$REX[\'SERVERNAME\']">'.$I18N->msg("setup_025").'</label>
                   <input class="rex-form-text" type="text" id="serverbezeichnung" name="serverbezeichnung" value="'.htmlspecialchars($serverbezeichnung).'"'. rex_tabindex() .' />
                 </p>
               </div>
 
               <div class="rex-form-row">
                 <p class="rex-form-col-a rex-form-text">
-                  <label for="error_email">'.$I18N->msg("setup_026").'</label>
+                  <label for="serveraddress" title="$REX[\'SERVER\']">'.$I18N->msg("setup_024").'</label>
+                  <input class="rex-form-text" type="text" id="serveraddress" name="serveraddress" value="'.htmlspecialchars($serveraddress).'"'. rex_tabindex() .' />
+                </p>
+              </div>
+
+              <div class="rex-form-row">
+                <p class="rex-form-col-a rex-form-text">
+                  <label for="error_email" title="$REX[\'ERROR_EMAIL\']">'.$I18N->msg("setup_026").'</label>
                   <input class="rex-form-text" type="text" id="error_email" name="error_email" value="'.htmlspecialchars($error_email).'"'. rex_tabindex() .' />
                 </p>
               </div>
@@ -594,7 +594,7 @@ function rex_setup_dropREXtables()
         <script type="text/javascript">
            <!--
           jQuery(function($) {
-            $("#serveraddress").focus();
+            $("#serverbezeichnung").focus();
           });
            //-->
         </script>';
