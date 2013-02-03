@@ -391,7 +391,7 @@ class rex_login
       }
       else
       {
-        //$this->message = $I18N->msg('login_welcome');
+        $this->message = $I18N->msg('login_welcome');
         $ok = false;
       }
     }

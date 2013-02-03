@@ -11,7 +11,7 @@ rex_title('Login');
 $js = '';
 if ($rex_user_loginmessage != '')
 {
-  echo rex_warning($rex_user_loginmessage)."\n";
+  echo rex_info($rex_user_loginmessage)."\n";
   $js = '
     var time_el = $("div.rex-message p span strong");
     if(time_el.length == 1) {
@@ -36,7 +36,7 @@ echo '
 <div class="rex-form rex-form-login">
 <form action="index.php" method="post" id="loginformular">
   <fieldset class="rex-form-col-1">
-    <legend>' . $I18N->msg('login_welcome') . '</legend>
+    <legend>Login</legend>
     <input type="hidden" name="javascript" value="0" id="javascript" />
 
     <div class="rex-form-wrapper">

@@ -36,8 +36,8 @@ new_password = Neues Passwort
 login_error = Fehler bei der Anmeldung. Bitte vor dem nächsten Versuch {0} Sekunden warten.
 login_session_expired = Session beendet.
 login_user_not_found = Benutzer nicht gefunden!
-login_welcome = Bitte anmelden.
-login_logged_out = Abgemeldet.
+login_welcome = Herzlich Willkommen!
+login_logged_out = Sie wurden abgemeldet.
 
 # redaxo/include/layout_redaxo/top.php
 logged_out  =  nicht angemeldet
