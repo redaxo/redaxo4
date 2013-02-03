@@ -81,7 +81,7 @@ $REX['TEMP_PREFIX']   = 'tmp_';
 $REX['FRONTEND_FILE']	= 'index.php';
 
 // Passwortverschlüsselung, z.B: md5 / mcrypt ...
-$REX['PSWFUNC'] = "";
+$REX['PSWFUNC'] = "sha1";
 
 // bei fehllogin 5 sekunden kein relogin moeglich
 $REX['RELOGINDELAY'] = 5;

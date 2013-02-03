@@ -16,6 +16,7 @@ Version 4.5.0 (2013-XX-XX)
   * Update textile -> 2.5
   * Favicon im Backend
   * Standard-Session-Dauer im Backend auf zwei Stunden erhöht
+  * Standard für Passworthashing auf sha1 geändert
   * Bei Addoninstallation wird der Ordnername gecheckt
   * Drei Laufzeitlevels für EPs: EARLY, NORMAL, LATE
   * Medienpool: Bei automatischer Umbenennung wird diese als Info angezeigt
