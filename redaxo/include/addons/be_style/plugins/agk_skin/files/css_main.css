@@ -741,8 +741,11 @@ div#rex-form-mediapool-detail div.rex-form-row p select.rex-form-select-year {
 }
 
 
+div#rex-form-system-setup .rex-area-col-2 .rex-area-col-a .rex-area-content {
+  padding-right: 30px;
+}
 div#rex-form-system-setup div.rex-widget input {
-	width: 90px;
+  width: 90px;
 }
 
 
