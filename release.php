@@ -191,9 +191,9 @@ function buildRelease($name = null, $version = null)
     fclose($h);
 
     $cont = ereg_replace("(REX\['SETUP'\].?\=.?)[^;]*", '\\1true', $cont);
-    $cont = ereg_replace("(REX\['SERVER'\].?\=.?)[^;]*", '\\1"redaxo.org"', $cont);
+    $cont = ereg_replace("(REX\['SERVER'\].?\=.?)[^;]*", '\\1"www.redaxo.org"', $cont);
     $cont = ereg_replace("(REX\['SERVERNAME'\].?\=.?)[^;]*", '\\1"REDAXO"', $cont);
-    $cont = ereg_replace("(REX\['ERROR_EMAIL'\].?\=.?)[^;]*", '\\1"info@redaxo.org"', $cont);
+    $cont = ereg_replace("(REX\['ERROR_EMAIL'\].?\=.?)[^;]*", '\\1""', $cont);
     $cont = ereg_replace("(REX\['INSTNAME'\].?\=.?\")[^\"]*", "\\1"."rex".date("Ymd")."000000", $cont);
     $cont = ereg_replace("(REX\['LANG'\].?\=.?)[^;]*", '\\1"de_de"', $cont);
     $cont = ereg_replace("(REX\['START_ARTICLE_ID'\].?\=.?)[^;]*", '\\11', $cont);
