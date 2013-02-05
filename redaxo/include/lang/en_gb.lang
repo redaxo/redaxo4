@@ -42,8 +42,8 @@ new_password = New password
 login_error = Error on login. Try again in {0} seconds.
 login_session_expired = Session expired.
 login_user_not_found = User does not exist.
-login_welcome = Please login.
-login_logged_out = Signed out.
+login_welcome = Welcome!
+login_logged_out = Logout successful.
 
 # redaxo/include/layout_redaxo/top.php
 logged_out  =  Not signed in
