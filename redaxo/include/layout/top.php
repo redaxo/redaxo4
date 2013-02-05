@@ -55,6 +55,7 @@ $body_attr["onunload"] = array('closeAll();');
   <!--
   var redaxo = true;
   var rex_imageExtensions = <?php echo '["'.implode('","',$REX['MEDIAPOOL']['IMAGE_EXTENSIONS']).'"]' ?>;
+  var rex_accesskeysEnabled = <?php echo isset($REX['USER']) && $REX['USER']->hasPerm('accesskeys[]') ? 'true' : 'false' ?>;
 
   // jQuery is now removed from the $ namespace
   // to use the $ shorthand, use (function($){ ... })(jQuery);
