@@ -631,10 +631,12 @@ jQuery(function($){
 
   // ------------------ Accesskey Navigation
   $(document).keypress(function(event) {
-    if(!rex_accesskeysEnabled)
+    // @gharlan: bitte comment wg. char range formulieren..
+    if (!rex_accesskeysEnabled || event.which < 48 || (event.which > 57 && event.which < 97) || event.which > 122){
       return true;
+    }
 
-    var key = String.fromCharCode(event.which).replace(/[^a-z0-9]/ig,'');
+    var key = String.fromCharCode(event.which);
     var haystack = $("input[accesskey="+ key +"]");
 
     if(haystack.size() > 0)
@@ -653,7 +655,7 @@ jQuery(function($){
           hit.click();
         else if(hit.attr("href") !== undefined && hit.attr("href") != "#")
           document.location = hit.attr("href");
-      
+
         return false;
       }
     }
