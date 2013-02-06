@@ -662,15 +662,14 @@ jQuery(function($){
     }
   });
 
-  $(function() {
-    var last_state = rex_accesskeysEnabled;
-    $("input,button,textarea,select,option")
-      .on("focus", function(event) {
-        rex_accesskeysEnabled = false;
-      })
-      .on("blur", function(event) {
-        rex_accesskeysEnabled = last_state;
-      });
-  });
+  var last_state;
+  $(document)
+    .on("focus", "input,button,textarea,select,option", function(event) {
+      last_state = rex_accesskeysEnabled;
+      rex_accesskeysEnabled = false;
+    })
+    .on("blur", "input,button,textarea,select,option", function(event) {
+      rex_accesskeysEnabled = last_state;
+    });
 
 });
