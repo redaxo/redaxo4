@@ -1,0 +1,28 @@
+.CodeMirror {
+  background: #fff;
+  border:1px solid #999;
+  height:auto;
+}
+
+.CodeMirror-scroll {
+  height: auto !important;
+  max-height: 600px;
+  min-height: 350px;
+  overflow-x: auto !important;
+}
+
+.CodeMirror pre {
+  font-size: 12px;
+  line-height: 12px;
+}
+
+#rex-page-template.be-style-agb-skin div.rex-form-template-editmode div.rex-form-row p.rex-form-textarea textarea#content,
+#rex-page-module.be-style-agb-skin div.rex-form-module-editmode div.rex-form-row p.rex-form-textarea textarea#eingabe,
+#rex-page-module.be-style-agb-skin div.rex-form-module-editmode div.rex-form-row p.rex-form-textarea textarea#ausgabe,
+#rex-page-module.be-style-agb-skin div.rex-action-editmode div.rex-form-row p.rex-form-textarea textarea#previewaction,
+#rex-page-module.be-style-agb-skin div.rex-action-editmode div.rex-form-row p.rex-form-textarea textarea#presaveaction,
+#rex-page-module.be-style-agb-skin div.rex-action-editmode div.rex-form-row p.rex-form-textarea textarea#postsaveaction {
+    clear: left;
+    margin-left: 5px !important;
+    width: 730px !important;
+}
