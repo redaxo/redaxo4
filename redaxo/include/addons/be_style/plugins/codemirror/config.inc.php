@@ -93,7 +93,7 @@ if($REX["REDAXO"]) {
 
       theme = area.attr("codemirror-theme");
       if(typeof theme == "undefined") {
-        theme = "redaxo";
+        theme = "' . $REX['codemirror']['settings']['theme'] . '";
       };
 
       $(\'<style type="text/css">@import url("../files/addons/be_style/plugins/codemirror/theme/\' + theme + \'.css")</style>\').appendTo("head");
