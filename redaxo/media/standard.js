@@ -364,7 +364,7 @@ function deleteREX(id, i_list, i_select)
     source.options[position] = null;
     sourcelength--;
 
-    // Wenn das erste gel�scht wurde
+    // Wenn das erste gelöscht wurde
     if(position == 0)
     {
       // Und es gibt noch weitere,
@@ -596,7 +596,7 @@ jQuery(function($){
 
     if(value && value.length != 0 && $.inArray(ext, rex_imageExtensions))
     {
-      // img tag nur einmalig einf�gen, ggf erzeugen wenn nicht vorhanden
+      // img tag nur einmalig einfügen, ggf erzeugen wenn nicht vorhanden
       var img = $('img', div);
       if(img.length == 0)
       {
@@ -630,44 +630,45 @@ jQuery(function($){
   });
 
   // ------------------ Accesskey Navigation
-  var ENABLE_KEY_NAV = true;
-
   $(document).keypress(function(event) {
-    if(!ENABLE_KEY_NAV)
+    // @gharlan: bitte comment wg. char range formulieren..
+    if (!rex_accesskeysEnabled || event.which < 48 || (event.which > 57 && event.which < 97) || event.which > 122){
       return true;
+    }
 
-     var key = String.fromCharCode(event.which);
-     var haystack = $("input[accesskey="+ key +"]");
+    var key = String.fromCharCode(event.which);
+    var haystack = $("input[accesskey="+ key +"]");
 
-     if(haystack.size() > 0)
-     {
-       $(haystack.get(0)).click();
-       return false;
-     }
-     else
-     {
-       haystack = $("a[accesskey="+ key +"]");
+    if(haystack.size() > 0)
+    {
+      $(haystack.get(0)).click();
+      return false;
+    }
+    else
+    {
+      haystack = $("a[accesskey="+ key +"]");
 
-       if(haystack.size() > 0)
-       {
-         var hit = $(haystack.get(0));
-         if(hit.attr("onclick") != undefined)
-           hit.click();
-         else if(hit.attr("href") != undefined && hit.attr("href") != "#")
-           document.location = hit.attr("href");
+      if(haystack.size() > 0)
+      {
+        var hit = $(haystack.get(0));
+        if(hit.attr("onclick") !== undefined)
+          hit.click();
+        else if(hit.attr("href") !== undefined && hit.attr("href") != "#")
+          document.location = hit.attr("href");
 
-         return false;
-       }
-     }
+        return false;
+      }
+    }
   });
 
   $(function() {
+    var last_state = rex_accesskeysEnabled;
     $("input,button,textarea,select,option")
-      .live("focus", function(event) {
-        ENABLE_KEY_NAV = false;
+      .on("focus", function(event) {
+        rex_accesskeysEnabled = false;
       })
-      .live("blur", function(event) {
-        ENABLE_KEY_NAV = true;
+      .on("blur", function(event) {
+        rex_accesskeysEnabled = last_state;
       });
   });
 
