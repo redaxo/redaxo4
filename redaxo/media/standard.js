@@ -364,7 +364,7 @@ function deleteREX(id, i_list, i_select)
     source.options[position] = null;
     sourcelength--;
 
-    // Wenn das erste gel�scht wurde
+    // Wenn das erste gelöscht wurde
     if(position == 0)
     {
       // Und es gibt noch weitere,
@@ -596,7 +596,7 @@ jQuery(function($){
 
     if(value && value.length != 0 && $.inArray(ext, rex_imageExtensions))
     {
-      // img tag nur einmalig einf�gen, ggf erzeugen wenn nicht vorhanden
+      // img tag nur einmalig einfügen, ggf erzeugen wenn nicht vorhanden
       var img = $('img', div);
       if(img.length == 0)
       {
@@ -630,45 +630,46 @@ jQuery(function($){
   });
 
   // ------------------ Accesskey Navigation
-  var ENABLE_KEY_NAV = true;
-
   $(document).keypress(function(event) {
-    if(!ENABLE_KEY_NAV)
+    // return true if !rex_accesskeysEnabled or key is not 0-9 or a-z
+    // keycodes: 48 => '0', 57 => '9', 97 => 'a', 122 => 'z'
+    if (!rex_accesskeysEnabled || event.which < 48 || (event.which > 57 && event.which < 97) || event.which > 122){
       return true;
+    }
 
-     var key = String.fromCharCode(event.which);
-     var haystack = $("input[accesskey="+ key +"]");
+    var key = String.fromCharCode(event.which);
+    var haystack = $("input[accesskey="+ key +"]");
 
-     if(haystack.size() > 0)
-     {
-       $(haystack.get(0)).click();
-       return false;
-     }
-     else
-     {
-       haystack = $("a[accesskey="+ key +"]");
+    if(haystack.size() > 0)
+    {
+      $(haystack.get(0)).click();
+      return false;
+    }
+    else
+    {
+      haystack = $("a[accesskey="+ key +"]");
 
-       if(haystack.size() > 0)
-       {
-         var hit = $(haystack.get(0));
-         if(hit.attr("onclick") != undefined)
-           hit.click();
-         else if(hit.attr("href") != undefined && hit.attr("href") != "#")
-           document.location = hit.attr("href");
+      if(haystack.size() > 0)
+      {
+        var hit = $(haystack.get(0));
+        if(hit.attr("onclick") !== undefined)
+          hit.click();
+        else if(hit.attr("href") !== undefined && hit.attr("href") != "#")
+          document.location = hit.attr("href");
 
-         return false;
-       }
-     }
+        return false;
+      }
+    }
   });
 
-  $(function() {
-    $("input,button,textarea,select,option")
-      .live("focus", function(event) {
-        ENABLE_KEY_NAV = false;
-      })
-      .live("blur", function(event) {
-        ENABLE_KEY_NAV = true;
-      });
-  });
+  var last_state;
+  $(document)
+    .on("focus", "input,button,textarea,select,option", function(event) {
+      last_state = rex_accesskeysEnabled;
+      rex_accesskeysEnabled = false;
+    })
+    .on("blur", "input,button,textarea,select,option", function(event) {
+      rex_accesskeysEnabled = last_state;
+    });
 
 });
