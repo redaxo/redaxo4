@@ -210,13 +210,24 @@ function openPage(src)
 </script>
 <?php
 
-// -------------- Include Page
-switch($subpage)
-{
-  case 'add_file'  : $file = 'mediapool.upload.inc.php'; break;
-  case 'categories': $file = 'mediapool.structure.inc.php'; break;
-  case 'sync'      : $file = 'mediapool.sync.inc.php'; break;
-  default          : $file = 'mediapool.media.inc.php'; break;
-}
+$content = rex_register_extension_point('PAGE_MEDIAPOOL_OUTPUT', "",
+  array(
+    'subpage' => $subpage,
+  )
+);
 
-require $REX['INCLUDE_PATH'].'/pages/'.$file;
+if($content != "") {
+  echo $content;
+
+} else {
+  switch($subpage)
+  {
+    case 'add_file'  : $file = 'mediapool.upload.inc.php'; break;
+    case 'categories': $file = 'mediapool.structure.inc.php'; break;
+    case 'sync'      : $file = 'mediapool.sync.inc.php'; break;
+    default          : $file = 'mediapool.media.inc.php'; break;
+  }
+
+  require $REX['INCLUDE_PATH'].'/pages/'.$file;
+
+}
