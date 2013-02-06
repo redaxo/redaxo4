@@ -631,7 +631,8 @@ jQuery(function($){
 
   // ------------------ Accesskey Navigation
   $(document).keypress(function(event) {
-    // @gharlan: bitte comment wg. char range formulieren..
+    // return true if !rex_accesskeysEnabled or key is not 0-9 or a-z
+    // keycodes: 48 => '0', 57 => '9', 97 => 'a', 122 => 'z'
     if (!rex_accesskeysEnabled || event.which < 48 || (event.which > 57 && event.which < 97) || event.which > 122){
       return true;
     }
