@@ -183,9 +183,10 @@ if ($warning != '')
         <tbody>
 <?php
   $dir = getImportDir();
-  $folder = readImportFolder('.sql');
+  $files = readImportFolder('.sql');
+  sort($files);
 
-  foreach ($folder as $file)
+  foreach ($files as $file)
   {
     $filepath = $dir.'/'.$file;
     $filec = date('d.m.Y H:i', filemtime($filepath));
@@ -248,9 +249,10 @@ if ($warning != '')
         <tbody>
 <?php
   $dir = getImportDir();
-  $folder = readImportFolder('.tar.gz');
+  $files = readImportFolder('.tar.gz');
+  sort($files);
 
-  foreach ($folder as $file)
+  foreach ($files as $file)
   {
     $filepath = $dir.'/'.$file;
     $filec = date('d.m.Y H:i', filemtime($filepath));
