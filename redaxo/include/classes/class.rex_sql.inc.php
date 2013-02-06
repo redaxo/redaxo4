@@ -765,9 +765,12 @@ class rex_sql
    */
   static /*public*/ function showCreateTable($table, $DBID=1)
   {
+  
     $sql = rex_sql::factory($DBID);
-    $create = reset($sql->getArray("SHOW CREATE TABLE `$table`"));
+    $create = $sql->getArray("SHOW CREATE TABLE `$table`");
+    $create = current($create);
     $create = $create['Create Table'];
+    
     return $create;
   }
 
