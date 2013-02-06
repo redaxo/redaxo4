@@ -30,6 +30,7 @@ Version 4.5.0 (2013-XX-XX)
   * Imagemanager: neue EPs: IMAGE_MANAGER_FILTERSET, IMAGE_MANAGER_INIT
   * Imagemanager: wird nun nicht direkt, sondern nach EP ADDONS_INCLUDED aktiviert
   * Mediapool: upload unzulässiger Dateitypen wird unterbunden
+  * Page Content: neuer EP: PAGE_CONTENT_OUTPUT
 
   Bugfixes:
   * Cronjobs werden nicht mehr nach jedem Bearbeiten erneut ausgeführt

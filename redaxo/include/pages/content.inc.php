@@ -733,15 +733,34 @@ if ($article->getRows() == 1)
             </div>
             ';
 
+
+    // ----- EXTENSION POINT
+    $content = rex_register_extension_point('PAGE_CONTENT_OUTPUT', "",
+      array(
+        'article_id' => $article_id,
+        'clang' => $clang,
+        'function' => $function,
+        'mode' => $mode
+      )
+    );
+
+    if($content != "") {
+      echo $content;
+      $mode = "";
+    }
+    
+   
     // ------------------------------------------ WARNING
     if($global_warning != '')
     {
       echo rex_warning($global_warning);
     }
+    
     if($global_info != '')
     {
       echo rex_info($global_info);
     }
+    
     if ($mode != 'edit')
     {
       if($warning != '')
@@ -754,11 +773,14 @@ if ($article->getRows() == 1)
       }
     }
 
-    echo '
-            <div class="rex-content-body">
-            <div class="rex-content-body-2">
-            ';
+    if($mode != "") {
+      echo '
+              <div class="rex-content-body">
+              <div class="rex-content-body-2">
+              ';
 
+    }
+    
     if ($mode == 'edit')
     {
       // ------------------------------------------ START: MODULE EDITIEREN/ADDEN ETC.
@@ -1109,11 +1131,13 @@ if ($article->getRows() == 1)
 
     }
 
-    echo '
-            </div>
-            </div>
-            <!-- *** OUTPUT OF ARTICLE-CONTENT - END *** -->
-            ';
+    if($mode != "") {
+      echo '
+              </div>
+              </div>
+              <!-- *** OUTPUT OF ARTICLE-CONTENT - END *** -->
+              ';
+    }
 
     // ------------------------------------------ END: AUSGABE
 
