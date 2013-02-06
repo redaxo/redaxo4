@@ -662,12 +662,13 @@ jQuery(function($){
   });
 
   $(function() {
+    var last_state = rex_accesskeysEnabled;
     $("input,button,textarea,select,option")
-      .live("focus", function(event) {
+      .on("focus", function(event) {
         rex_accesskeysEnabled = false;
       })
-      .live("blur", function(event) {
-        rex_accesskeysEnabled = true;
+      .on("blur", function(event) {
+        rex_accesskeysEnabled = last_state;
       });
   });
 
