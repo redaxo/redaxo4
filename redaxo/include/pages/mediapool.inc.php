@@ -156,6 +156,13 @@ function selectMedialist(filename)
   ?>
 }
 
+function confirmMedialistUpdate(curAnchor)
+{  
+  var jConfirmMsg = jQuery('<span style="color: #188D12; font-weight: bold;"> OK!</span>');
+  jQuery(curAnchor).after(jConfirmMsg);
+  jConfirmMsg.fadeOut(1500);
+}
+
 function selectMediaListArray(files)
 {
   <?php
