@@ -14,7 +14,7 @@ $REX['ADDON']['version'][$mypage] = '1.0';
 $REX['ADDON']['author'][$mypage] = 'Jan Kristinus';
 $REX['ADDON']['supportpage'][$mypage] = 'www.redaxo.org/de/forum';
 
-$REX['codemirror']['settings']['theme'] = 'ambiance';
+$REX['codemirror']['settings']['theme'] = 'redaxo';
 
 /* THEMES:
  * ambiance, blackboard, cobalt, eclipse, elegant, erlang-dark,
