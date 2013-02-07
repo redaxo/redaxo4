@@ -742,7 +742,7 @@ if ($subpage == '')
       $opener_link = "<a href=\"javascript:selectMedia('".$file_name."', '".addslashes(htmlspecialchars($files->getValue('title')))."');\">".$I18N->msg('pool_file_get')."</a>";
       if (substr($opener_input_field,0,14)=="REX_MEDIALIST_")
       {
-        $opener_link = "<a href=\"javascript:selectMedialist('".$file_name."', this);\" onclick=\"confirmMedialistUpdate(this);\">".$I18N->msg('pool_file_get')."</a>";
+        $opener_link = "<a href=\"javascript:selectMedialist('".$file_name."');\" onclick=\"confirmMedialistUpdate(this);\">".$I18N->msg('pool_file_get')."</a>";
       }
     }
 
