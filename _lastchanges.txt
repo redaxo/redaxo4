@@ -33,6 +33,7 @@ Version 4.5.0 (2013-XX-XX)
   * Mediapool: upload unzulässiger Dateitypen wird unterbunden
   * Mediapool: neuer EP: PAGE_MEDIAPOOL_OUTPUT
   * Page Content: neuer EP: PAGE_CONTENT_OUTPUT
+  * Page Specials: neue Eps: PAGE_SPECIALS_MENU, PAGE_SPECIALS_OUTPUT
 
   Bugfixes:
   * Cronjobs werden nicht mehr nach jedem Bearbeiten erneut ausgeführt
