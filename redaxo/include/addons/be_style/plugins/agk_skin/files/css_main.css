@@ -943,7 +943,9 @@ body div#rex-website div#rex-navi-footer ul{ background:#333; padding:0px; margi
 
 
 a[href*="selectMedialist"]:active {
-  transition-property: color;
-  transition-duration: .5s;
-  color: #188D12;
+  margin-left: -5px;
+  padding: 5px 30px 5px 5px;
+  background-color: #D2EFD9;
+  color: #107C2C;
+  transition-property: background-color;
 }
