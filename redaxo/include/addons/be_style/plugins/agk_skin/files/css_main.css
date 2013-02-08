@@ -938,3 +938,12 @@ body div#rex-navi-logout ul.rex-logout li{ background:#333; padding:10px; }
 body div#rex-website div#rex-footer,
 body div#rex-website div#rex-navi-footer ul{ background:#333; padding:0px; margin:0px; }
 */
+
+
+
+
+a[href*="selectMedialist"]:active {
+  transition-property: color;
+  transition-duration: .5s;
+  color: #188D12;
+}
