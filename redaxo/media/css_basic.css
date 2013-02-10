@@ -511,8 +511,8 @@ div#rex-navi-main ul li {
 	background-image: url(../media/pipe_c1.gif);
 	background-position: 0px 2px;
 }
-div#rex-navi-logout ul li.rex-navi-first, 
-div#rex-navi-main ul li.rex-navi-first {
+div#rex-navi-logout ul li:first-child, 
+div#rex-navi-main ul li:first-child {
 	background: none;
 }
 

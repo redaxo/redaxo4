@@ -92,8 +92,8 @@ div#rex-navi-logout ul li a,
 div#rex-navi-logout ul li span {
 	padding: 0 5px;
 }
-div#rex-navi-logout ul li.rex-navi-first a, 
-div#rex-navi-logout ul li.rex-navi-first span {
+div#rex-navi-logout ul li:first-child a, 
+div#rex-navi-logout ul li:first-child span {
 	padding-left: 0;
 }
 
