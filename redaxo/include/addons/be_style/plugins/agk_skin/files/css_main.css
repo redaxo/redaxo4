@@ -419,7 +419,7 @@ div#rex-form-structure-category p.rex-button-add a {
 /*	Border *********************************************************************
 *******************************************************************************/
 table.rex-table tr.rex-metainfo-cat td {
-  border-color: #DFE9E9;
+  border-bottom-color: #DFE9E9;
 }
 div.rex-content-editmode div.rex-form.rex-form-content-editmode-add-slice div.rex-content-editmode-module-name, 
 div.rex-content-editmode div.rex-content-editmode-module-name.rex-form-content-editmode-edit-slice, 
@@ -948,4 +948,22 @@ a[href*="selectMedialist"]:active {
   background-color: #D2EFD9;
   color: #107C2C;
   transition-property: background-color;
+}
+
+
+
+/* ------------------------------------------------------------------ */
+/* Font size fix (maybe just a Firefox/Ubuntu issue)                  */
+/* ------------------------------------------------------------------ */
+div#rex-navi-main dt {
+  font-size: 16px;
+}
+
+div#rex-footer {
+  padding: 8px 0;
+}
+
+.rex-code {
+  font-size: 12px;
+  line-height: 17px;
 }
