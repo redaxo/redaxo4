@@ -55,7 +55,7 @@ if($REX["REDAXO"]) {
 
   function rex_be_style_agk_skin_css_body($params)
   {
-    $params["subject"]["class"][] = "be-style-agb-skin";
+    $params["subject"]["class"][] = "be-style-agk-skin";
     return $params["subject"];
   }
 
