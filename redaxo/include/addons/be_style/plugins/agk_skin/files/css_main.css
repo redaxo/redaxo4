@@ -967,3 +967,58 @@ div#rex-footer {
   font-size: 12px;
   line-height: 17px;
 }
+
+
+/* ------------------------------------------------------------------ */
+/* Slice menu with transparent background */
+/* ------------------------------------------------------------------ */
+
+div.rex-content-editmode-module-name div.rex-navi-slice {
+background: transparent;
+}
+
+/* ------------------------------------------------------------------ */
+/* JQuery UI aristo skin style for input fields and textareas */
+/* ------------------------------------------------------------------ */
+
+input:not([type="submit"]):not([type="button"]):not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="range"]),
+textarea {
+   -moz-transition: all 250ms ease-in-out 0s;
+    border: 1px solid #999999; /* #CECECE */
+    border-radius: 2px 2px 2px 2px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) inset, 0 1px 0 rgba(255, 255, 255, 0.2);
+    outline: medium none;
+    padding: 3px;
+}
+
+input:focus:not([type="submit"]):not([type="button"]):not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="range"]),
+textarea:focus {
+  border: 1px solid #95BDD4;
+}
+
+.rex-widget input {
+background-color: #F0EFEB !important;
+}
+
+/* ------------------------------------------------------------------ */
+/* Full width template and module textareas */
+/* ------------------------------------------------------------------ */
+
+div.rex-form-template-editmode div.rex-form-row p.rex-form-textarea textarea,
+div.rex-form-module-editmode div.rex-form-row p.rex-form-textarea textarea {
+height: 350px;
+margin-left: 5px;
+width: 725px;
+}
+
+/* ------------------------------------------------------------------ */
+/* More row padding for forms */
+/* ------------------------------------------------------------------ */
+
+div.rex-form div.rex-form-row {
+    padding: 7px 0;
+}
+
+
+
+

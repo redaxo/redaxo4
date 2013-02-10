@@ -1,0 +1,16 @@
+agk_skin = AGK Skin Theme
+agk_skin_features = Funktionen
+
+agk_skin_codemirror = CodeMirror
+agk_skin_codemirror_check = CodeMirror aktivieren
+agk_skin_codemirror_theme = CodeMirror Theme
+
+agk_skin_codemirror_info = Sobald CodeMirror aktiviert ist, werden diese bei Templates und Modulen automatisch verwendet. Sofern man selbst diese verwenden möchte, bitte folgende Form verwenden <code>&lt;textarea class="codemirror" codemirror-theme="themename" und codemirror-mode="php/htmlmixed"&gt;&lt;/textarea&gt;</code> verwenden. codemirror-theme und codemirror-mode sind optional. 
+
+agk_labeling = Ergänzungen
+agk_skin_labelcolor = Erkennungsfarbe (z.B. #090)
+agk_skin_showlink = Link zur Webseite anzeigen ?
+
+agk_skin_config_updated = Eingaben wurden gespeichert
+
+agk_skin_update = Einstellungen speichern
