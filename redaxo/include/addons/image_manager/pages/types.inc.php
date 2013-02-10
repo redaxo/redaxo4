@@ -55,7 +55,7 @@ if ($func == '')
 {
   // Nach Status sortieren, damit Systemtypen immer zuletzt stehen
   // (werden am seltesten bearbeitet)
-  $query = 'SELECT * FROM '.$REX['TABLE_PREFIX'].'679_types ORDER BY status';
+  $query = 'SELECT * FROM '.$REX['TABLE_PREFIX'].'679_types ORDER BY status, name';
 
   $list = rex_list::factory($query);
   $list->setNoRowsMessage($I18N->msg('imanager_type_no_types'));
