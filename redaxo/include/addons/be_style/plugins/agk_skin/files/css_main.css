@@ -915,19 +915,34 @@ div#rex-header {
 }
 
 
-
-
-body.rex-layout-liquid div#rex-website {	
-	width: 100%;
+/* liquid Layout */
+body.rex-layout-liquid div#rex-website {
+  width: 100%;
 }
-body.rex-layout-liquid div#rex-navi-main {
-	width: 15%;
-	margin-left: 2%;
+body.rex-layout-liquid div#rex-navi-logout {
+  float: none;
 }
 body.rex-layout-liquid div#rex-wrapper {
-	width: 78%;
-	margin-right: 2%;
+  float:none;
+  margin-left: 203px;
+  margin-right: 16px;
+  width: auto;
 }
+body.rex-layout-liquid div#rex-wrapper2 {
+  width:100%;
+  float:left;
+}
+body.rex-layout-liquid div#rex-wrapper:after {
+  clear: both;
+  content: '.';
+  display: block;
+  height: 0;
+  visibility: hidden;
+  font-size: 0px;
+}
+
+
+
 
 
 
