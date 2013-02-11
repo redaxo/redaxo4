@@ -454,7 +454,7 @@ div#rex-navi-logout {
 }
 div#rex-navi-logout p, 
 div#rex-navi-logout ul {
-	padding: 34px 10px 0 0;
+	padding: 40px 10px 0 0;
 	text-align: right;
 }
 
@@ -782,7 +782,7 @@ div#rex-redaxo-link a {
 
 div#rex-extra h1 {
   position: absolute;
-  top: 28px;
+  top: 32px;
   left: 202px;
   color: #2C8EC0;
   font-size: 17px;

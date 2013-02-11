@@ -16,12 +16,11 @@ $REX['ADDON']['author'][$mypage] = 'Umsetzung: Jan Kristinus';
 $REX['ADDON']['supportpage'][$mypage] = 'www.redaxo.org/de/forum';
 
 // --- DYN
-$REX['ADDON']['be_style']['plugin_customizer']['projectname'] = "";
 $REX['ADDON']['be_style']['plugin_customizer']['labelcolor'] = "#090";
 $REX['ADDON']['be_style']['plugin_customizer']['codemirror_theme'] = "eclipse";
 $REX['ADDON']['be_style']['plugin_customizer']['codemirror'] = 1;
-$REX['ADDON']['be_style']['plugin_customizer']['showlink'] = 0;
-$REX['ADDON']['be_style']['plugin_customizer']['textarea'] = 0;
+$REX['ADDON']['be_style']['plugin_customizer']['showlink'] = 1;
+$REX['ADDON']['be_style']['plugin_customizer']['textarea'] = 1;
 $REX['ADDON']['be_style']['plugin_customizer']['liquid'] = 0;
 // --- /DYN
 
@@ -64,24 +63,6 @@ if($REX["REDAXO"]) {
     return $content;
   }
 
-  function rex_be_style_customizer_meta($params) {
-    global $REX;
-    $server = "";
-    if(substr($REX["SERVER"],0,4) != "http") {
-      $server = 'http://'.$REX["SERVER"];
-    }
-    $meta = array();
-    foreach($params["subject"] as $k => $nav) {
-      if($k == "user") {
-        $meta[$k] = $nav;
-        $meta["linktowebsite"] = '<li><a href="'.$server.'">'.htmlspecialchars($REX["SERVERNAME"]).'</a></li>';
-      } else {
-        $meta[$k] = $nav;
-      }
-    }
-    return $meta;
-  }
-
   function rex_be_style_customizer_extra($params) {
     global $REX;
 
@@ -91,8 +72,8 @@ if($REX["REDAXO"]) {
     }
 
     $params['subject'] = str_replace('<div id="rex-extra"></div>',
-                                     '<div id="rex-extra"><h1><a href="' . $server . '">' . $REX['ADDON']['be_style']['plugin_customizer']['projectname'] . '</a></h1></div>',
-                                     $params['subject']);
+      '<div id="rex-extra"><h1><a href="' . $server . '" onclick="window.open(this.href); return false">' . $REX['SERVERNAME'] . '</a></h1></div>',
+      $params['subject']);
 
     return $params['subject'];
   }
@@ -109,17 +90,14 @@ if($REX["REDAXO"]) {
     return $params['subject'];
   }
 
-
   rex_register_extension('PAGE_HEADER', 'rex_be_style_customizer_css_add');
   rex_register_extension('PAGE_SPECIALS_MENU', 'rex_be_style_customizer_label_navi');
   rex_register_extension('PAGE_SPECIALS_OUTPUT', 'rex_be_style_customizer_label_content');
 
   if($REX['ADDON']['be_style']['plugin_customizer']['showlink']) {
-    rex_register_extension('META_NAVI', 'rex_be_style_customizer_meta');
-  }
-  if($REX['ADDON']['be_style']['plugin_customizer']['projectname'] != '') {
     rex_register_extension('OUTPUT_FILTER', 'rex_be_style_customizer_extra');
   }
+
   if($REX['ADDON']['be_style']['plugin_customizer']['textarea'] || $REX['ADDON']['be_style']['plugin_customizer']['liquid']) {
     rex_register_extension('PAGE_BODY_ATTR', 'rex_be_style_customizer_body');
   }

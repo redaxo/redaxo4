@@ -55,7 +55,6 @@ if ($func == 'update')
   }
  
   $content = '
-$REX[\'ADDON\'][\'be_style\'][\'plugin_customizer\'][\'projectname\'] = "'. $REX['ADDON']['be_style']['plugin_customizer']['projectname'] . '";
 $REX[\'ADDON\'][\'be_style\'][\'plugin_customizer\'][\'labelcolor\'] = "'.$REX['ADDON']['be_style']['plugin_customizer']['labelcolor'].'";
 $REX[\'ADDON\'][\'be_style\'][\'plugin_customizer\'][\'codemirror_theme\'] = "'.$REX['ADDON']['be_style']['plugin_customizer']['codemirror_theme'].'";
 $REX[\'ADDON\'][\'be_style\'][\'plugin_customizer\'][\'codemirror\'] = '.$REX['ADDON']['be_style']['plugin_customizer']['codemirror'].';
@@ -128,13 +127,6 @@ echo '
             <fieldset class="rex-form-col-1">
 
               <div class="rex-form-wrapper">
-
-                <div class="rex-form-row">
-                  <p class="rex-form-col-a rex-form-text">
-                    <label for="rex-form-agk-projectname">'.$I18N->msg("customizer_projectname").'</label>
-                    <input class="rex-form-text" type="text" id="rex-form-agk-projectname" name="customizer-projectname" value="'. $REX['ADDON']['be_style']['plugin_customizer']['projectname'].'" />
-                  </p>
-                </div>
 
                 <div class="rex-form-row">
                   <p class="rex-form-col-a rex-form-text">
