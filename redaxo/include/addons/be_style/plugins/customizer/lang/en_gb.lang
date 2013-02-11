@@ -1,0 +1,16 @@
+customizer = customizer
+customizer_features = function
+
+customizer_codemirror = CodeMirror
+customizer_codemirror_check = activate CodeMirror
+customizer_codemirror_theme = CodeMirror Theme
+
+customizer_codemirror_info =
+
+customizer_labeling = Additions
+customizer_labelcolor = color (#090)
+customizer_showlink = activate link
+
+customizer_config_updated = settings have been saved
+
+customizer_update = save settings

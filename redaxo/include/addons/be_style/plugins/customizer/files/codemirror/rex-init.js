@@ -13,7 +13,7 @@ jQuery(document).ready(function()
     }
 
     mode = "application/x-httpd-php";
-    theme = agk_skin_codemirror_defaulttheme;
+    theme = customizer_codemirror_defaulttheme;
 
     new_mode = jQuery(this).attr("codemirror-mode");
     new_theme = jQuery(this).attr("codemirror-theme");
@@ -26,7 +26,7 @@ jQuery(document).ready(function()
       theme = new_theme;
     }
   
-    jQuery("head").append('<link rel="stylesheet" type="text/css" href="../files/addons/be_style/plugins/agk_skin/codemirror/theme/'+theme+'.css" media="screen" />');
+    jQuery("head").append('<link rel="stylesheet" type="text/css" href="../files/addons/be_style/plugins/customizer/codemirror/theme/'+theme+'.css" media="screen" />');
     
     cm_editor[cm] = CodeMirror.fromTextArea(document.getElementById(id), {
       lineNumbers: true,
