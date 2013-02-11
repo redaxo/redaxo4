@@ -11,8 +11,9 @@ Version 4.5.0 (2013-XX-XX)
 
   Neu
   * Mindestvoraussetzungen: PHP 5.3, MySQL 5
+  * auch mit PHP 5.4 getestet
   * Nur noch UTF-8
-  * Update jQuery -> 1.8
+  * Update jQuery -> 1.8.3
   * Update XForm -> 4.5
   * Update textile -> 2.5
   * Favicon im Backend
@@ -34,6 +35,12 @@ Version 4.5.0 (2013-XX-XX)
   * Mediapool: neuer EP: PAGE_MEDIAPOOL_OUTPUT
   * Page Content: neuer EP: PAGE_CONTENT_OUTPUT
   * Page Specials: neue Eps: PAGE_SPECIALS_MENU, PAGE_SPECIALS_OUTPUT
+  * be_style: customizer plugin ergänzt. farblabel, frontpage link, codemirror, liquid design
+  * settings: files und generated ordner in master definierbar
+  * default addons: xform und community eingebaut
+  * Metannavigation: neuer EP: META_NAVI
+  * diverse kleiner optische Korrekturen
+  * diverse kleinere Ergänzungen (z.B. Sortierung Import, Sortierung Mediasync ..)
 
   Bugfixes:
   * Cronjobs werden nicht mehr nach jedem Bearbeiten erneut ausgeführt
