@@ -66,7 +66,7 @@ if($REX["REDAXO"]) {
   function rex_be_style_customizer_extra($params) {
     global $REX;
 
-    $server = '';
+    $server = $REX["SERVER"];
     if(substr($REX["SERVER"],0,4) != 'http') {
       $server = 'http://'.$REX["SERVER"];
     }
