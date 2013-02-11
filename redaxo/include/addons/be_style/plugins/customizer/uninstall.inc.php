@@ -6,5 +6,3 @@ if ($error != '') {
 } else {
   $REX['ADDON']['install']['customizer'] = 0;
 }
-
-?>
