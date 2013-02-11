@@ -9,8 +9,15 @@ customizer_codemirror_info = Sobald CodeMirror aktiviert ist, werden diese bei T
 
 customizer_labeling = Ergänzungen
 customizer_labelcolor = Erkennungsfarbe (z.B. #090)
+customizer_labelcolor_error = Keine gültiger Farbcode (z.B. #0af oder #00aaff)
 customizer_showlink = Link zur Webseite anzeigen ?
 
 customizer_config_updated = Eingaben wurden gespeichert
+customizer_config_update_failed = Eingaben wurden nicht gespeichert
 
 customizer_update = Einstellungen speichern
+
+
+customizer_projectname = Projektname
+customizer_textarea = breite Textarea unter Template und Module
+customizer_liquid = Liquid Layout

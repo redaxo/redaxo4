@@ -780,6 +780,15 @@ div#rex-redaxo-link a {
 	text-indent: -1000em;
 }
 
+div#rex-extra h1 {
+  position: absolute;
+  top: 28px;
+  left: 202px;
+  color: #2C8EC0;
+  font-size: 17px;
+  font-weight: normal;
+  line-height: 26px;
+}
 
 /*	Rundungen ******************************************************************
 *******************************************************************************/
@@ -987,7 +996,7 @@ div#rex-footer {
   border-right-color: #999;
 }
 
-.be-style-codemirror-full .rex-form .CodeMirror {
+.be-style-agk-skin-textarea .rex-form .CodeMirror {
   left: 0 !important;
   width: 100% !important;
   height: 500px !important;
@@ -995,8 +1004,8 @@ div#rex-footer {
   border-left: 0;
   border-right: 0;
 }
-.be-style-codemirror-full .rex-form .CodeMirror pre,
-.be-style-codemirror-full .rex-form .CodeMirror-linenumber {
+.be-style-agk-skin-textarea .rex-form .CodeMirror pre,
+.be-style-agk-skin-textarea .rex-form .CodeMirror-linenumber {
   font-size: 12px;
   line-height: 16px;
 }
