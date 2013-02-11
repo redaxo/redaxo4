@@ -654,7 +654,7 @@ function rex_setup_dropREXtables()
             else
             {
               // no permissions error
-              $err_msg = $I18N->msg("setup_03802")." ".$I18N->msg("setup_03803", "addons/import_export/files/")." <br>";
+              $err_msg = $I18N->msg("setup_03802")." ".$I18N->msg("setup_03803", "addons/import_export/backup/")." <br>";
             }
 
             // notify without setup abort
