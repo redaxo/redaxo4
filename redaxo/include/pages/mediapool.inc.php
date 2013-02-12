@@ -206,20 +206,6 @@ function openPage(src)
   self.close();
 }
 
-jQuery(document).ready(function() {
-  jQuery(".rex-mediapool-selectmedia").on("click",function(){
-    t = jQuery(this);
-    file = t.attr("data-rex-media");
-    t.html("<?php echo $I18N->msg('pool_file_get_again') ;?>");
-/*
-    setTimeout(function() {
-      t.html("<?php echo $I18N->msg('pool_file_get_again') ;?>");
-    }, 1000, t);
-*/
-  });
-
-});
-
 //-->
 </script>
 <?php
