@@ -12,17 +12,7 @@ $func = rex_request('func', 'string');
 
 // -------------- Header
 
-$subline = array();
-$subline[] = array( '', $I18N->msg('main_preferences') );
-$subline[] = array( 'lang', $I18N->msg('languages') );
-
-$subline = rex_register_extension_point('PAGE_SPECIALS_MENU', $subline,
-  array(
-    'subpage' => $subpage,
-  )
-);
-
-rex_title($I18N->msg('specials'),$subline);
+rex_title($I18N->msg('specials'), $REX['PAGES']['specials']->getPage()->getSubPages());
 
 $content = rex_register_extension_point('PAGE_SPECIALS_OUTPUT', "",
   array(
