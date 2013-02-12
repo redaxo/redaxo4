@@ -44,5 +44,3 @@ textile_numeric_list = Numbered (ordered) list
 textile_enum_list = Unordered list
 
 textile_tables = Tables
-
-textile_install_phpversion = This Addon requires PHP {0} or higher

@@ -2,9 +2,9 @@ textile_example_for = Eksempel
 
 textile_code_for_module_input = Kildekode til modulets indgave (input)
 textile_code_for_module_output = Kildekode til modulets udgave (output)
-textile_module_intro_moduleoutput = Venligst brug nedestående kildekode til <b>modulets output</b>
-textile_module_intro_help = Venligst brug følgende funktionsopkald for at se en liste over alle informationer/instruktioner i <b>modulets indgave (input)</b><br />
-textile_module_rights = <b>Bemærk venligst:</b><br />De udførlige informationer kan kun vises, hvis rettigheden <strong>textile[help]</strong> er valgt i brugerprofilen.
+textile_module_intro_moduleoutput = Venligst brug nedestÃ¥ende kildekode til <b>modulets output</b>
+textile_module_intro_help = Venligst brug fÃ¸lgende funktionsopkald for at se en liste over alle informationer/instruktioner i <b>modulets indgave (input)</b><br />
+textile_module_rights = <b>BemÃ¦rk venligst:</b><br />De udfÃ¸rlige informationer kan kun vises, hvis rettigheden <strong>textile[help]</strong> er valgt i brugerprofilen.
 
 textile_instructions = Instruktioner
 
@@ -20,9 +20,9 @@ textile_text_bold = fed
 textile_text_cite = cite
 textile_text_source_author = Kilde/Forfatter
 textile_text_strike = strege ud
-textile_text_insert = insæt
-textile_text_sup = sup (hævet skrift)
-textile_text_sub = sub (sænket skrift)
+textile_text_insert = insÃ¦t
+textile_text_sup = sup (hÃ¦vet skrift)
+textile_text_sub = sub (sÃ¦nket skrift)
 
 textile_links = Links/anchor
 textile_link_internal = Link (intern): til "kontakt"

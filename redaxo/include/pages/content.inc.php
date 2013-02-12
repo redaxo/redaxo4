@@ -12,14 +12,6 @@
 // - <? ?> $ Problematik bei REX_ACTION
 */
 
-
-
-
-
-
-
-
-
 unset ($REX_ACTION);
 
 $category_id = rex_request('category_id', 'rex-category-id');
@@ -96,14 +88,10 @@ if ($article->getRows() == 1)
   rex_title($I18N->msg('content'), $KATout);
 
   // ----- Request Parameter
-  $mode     = rex_request('mode', 'string');
+  $mode     = rex_request('mode', 'string', 'edit');
   $function = rex_request('function', 'string');
   $warning  = htmlspecialchars(rex_request('warning', 'string'));
   $info     = htmlspecialchars(rex_request('info', 'string'));
-
-  // ----- mode defs
-  if ($mode != 'meta')
-    $mode = 'edit';
 
   // ----- Sprachenblock
   $sprachen_add = '&amp;mode='. $mode .'&amp;category_id=' . $category_id . '&amp;article_id=' . $article_id;
@@ -684,12 +672,18 @@ if ($article->getRows() == 1)
     if ($mode == 'edit')
     {
       $listElements[] = '<a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang . '&amp;ctype=' . $ctype . '" class="rex-active"'. rex_tabindex() .'>' . $I18N->msg('edit_mode') . '</a>';
-      $listElements[] = '<a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=meta&amp;clang=' . $clang . '&amp;ctype=' . $ctype . '"'. rex_tabindex() .'>' . $I18N->msg('metadata') . '</a>';
+
+    } else {
+        $listElements[] = '<a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang . '&amp;ctype=' . $ctype . '"'. rex_tabindex() .'>' . $I18N->msg('edit_mode') . '</a>';
+
     }
-    else
-    {
-      $listElements[] = '<a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang . '&amp;ctype=' . $ctype . '"'. rex_tabindex() .'>' . $I18N->msg('edit_mode') . '</a>';
+
+    if($mode == 'meta') {
       $listElements[] = '<a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=meta&amp;clang=' . $clang . '&amp;ctype=' . $ctype . '" class="rex-active"'. rex_tabindex() .'>' . $I18N->msg('metadata') . '</a>';
+
+    } else {
+      $listElements[] = '<a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=meta&amp;clang=' . $clang . '&amp;ctype=' . $ctype . '"'. rex_tabindex() .'>' . $I18N->msg('metadata') . '</a>';
+
     }
 
     $listElements[] = '<a href="../' . rex_getUrl($article_id,$clang) . '" onclick="window.open(this.href); return false;" '. rex_tabindex() .'>' . $I18N->msg('show') . '</a>';
@@ -733,32 +727,54 @@ if ($article->getRows() == 1)
             </div>
             ';
 
-    // ------------------------------------------ WARNING
-    if($global_warning != '')
-    {
-      echo rex_warning($global_warning);
-    }
-    if($global_info != '')
-    {
-      echo rex_info($global_info);
-    }
-    if ($mode != 'edit')
-    {
-      if($warning != '')
-      {
-        echo rex_warning($warning);
-      }
-      if($info != '')
-      {
-        echo rex_info($info);
-      }
-    }
 
-    echo '
-            <div class="rex-content-body">
-            <div class="rex-content-body-2">
-            ';
+    // ----- EXTENSION POINT
+    $content = rex_register_extension_point('PAGE_CONTENT_OUTPUT', "",
+      array(
+        'article_id' => $article_id,
+        'clang' => $clang,
+        'function' => $function,
+        'mode' => $mode
+      )
+    );
 
+    if($content != "") {
+      echo $content;
+      $mode = "";
+    }
+    
+    if($mode == 'edit' || $mode == 'meta') {
+
+        // ------------------------------------------ WARNING
+        if($global_warning != '')
+        {
+          echo rex_warning($global_warning);
+        }
+
+        if($global_info != '')
+        {
+          echo rex_info($global_info);
+        }
+
+        if ($mode != 'edit')
+        {
+          if($warning != '')
+          {
+            echo rex_warning($warning);
+          }
+          if($info != '')
+          {
+            echo rex_info($info);
+          }
+        }
+
+        echo '
+              <div class="rex-content-body">
+              <div class="rex-content-body-2">
+              ';
+
+    }
+    
     if ($mode == 'edit')
     {
       // ------------------------------------------ START: MODULE EDITIEREN/ADDEN ETC.
@@ -787,8 +803,7 @@ if ($article->getRows() == 1)
                   ';
       // ------------------------------------------ END: MODULE EDITIEREN/ADDEN ETC.
 
-    }
-    elseif ($mode == 'meta')
+    } else if ($mode == 'meta')
     {
       // ------------------------------------------ START: META VIEW
 
@@ -1109,11 +1124,13 @@ if ($article->getRows() == 1)
 
     }
 
-    echo '
-            </div>
-            </div>
-            <!-- *** OUTPUT OF ARTICLE-CONTENT - END *** -->
-            ';
+    if($mode == 'edit' || $mode == 'meta') {
+      echo '
+              </div>
+              </div>
+              <!-- *** OUTPUT OF ARTICLE-CONTENT - END *** -->
+              ';
+    }
 
     // ------------------------------------------ END: AUSGABE
 

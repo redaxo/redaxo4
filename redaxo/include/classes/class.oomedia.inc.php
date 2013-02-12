@@ -59,7 +59,7 @@ class OOMedia
   /**
    * @access public
    */
-  function getMediaByName($filename)
+  static function getMediaByName($filename)
   {
     return OOMedia :: getMediaByFileName($filename);
   }
@@ -70,11 +70,11 @@ class OOMedia
    * @example OOMedia::getMediaByExtension('css');
    * @example OOMedia::getMediaByExtension('gif');
    */
-  function getMediaByExtension($extension)
+  static function getMediaByExtension($extension)
   {
     global $REX;
 
-    $extlist_path = $REX['INCLUDE_PATH'].'/generated/files/'.$extension.'.mextlist';
+    $extlist_path = $REX['GENERATED_PATH'].'/files/'.$extension.'.mextlist';
     if (!file_exists($extlist_path))
     {
       require_once ($REX['INCLUDE_PATH'].'/functions/function_rex_generate.inc.php');
@@ -100,14 +100,14 @@ class OOMedia
   /**
    * @access public
    */
-  function getMediaByFileName($name)
+  static function getMediaByFileName($name)
   {
     global $REX;
 
     if ($name == '')
       return null;
 
-    $media_path = $REX['INCLUDE_PATH'].'/generated/files/'.$name.'.media';
+    $media_path = $REX['GENERATED_PATH'].'/files/'.$name.'.media';
     if (!file_exists($media_path))
     {
       require_once ($REX['INCLUDE_PATH'].'/functions/function_rex_generate.inc.php');
@@ -253,7 +253,7 @@ class OOMedia
   function getPath()
   {
     global $REX;
-    return $REX['HTDOCS_PATH'].'files';
+    return $REX['HTDOCS_PATH'].$REX['MEDIA_DIR'];
   }
 
   /**
@@ -307,7 +307,7 @@ class OOMedia
   /**
    * @access protected
    */
-  function _getFormattedSize($size)
+  static function _getFormattedSize($size)
   {
 
     // Setup some common file size measurements.
@@ -492,7 +492,7 @@ class OOMedia
       else
       {
         // Bild 1:1 anzeigen
-        $path .= 'files/';
+        $path .= $REX['MEDIA_DIR'].'/';
         $file = $this->getFileName();
       }
     }
@@ -572,7 +572,7 @@ class OOMedia
    * @access public
    * @static
    */
-  function isValid($media)
+  static function isValid($media)
   {
     return is_object($media) && is_a($media, 'oomedia');
   }
@@ -589,22 +589,10 @@ class OOMedia
    * @access public
    * @static
    */
-  function _isImage($filename)
+  static function _isImage($filename)
   {
-    static $imageExtensions;
-
-    if (!isset ($imageExtensions))
-    {
-      $imageExtensions = array (
-        'gif',
-        'jpeg',
-        'jpg',
-        'png',
-        'bmp'
-      );
-    }
-
-    return in_array(OOMedia :: _getExtension($filename), $imageExtensions);
+    global $REX;
+    return in_array(OOMedia :: _getExtension($filename), $REX['MEDIAPOOL']['IMAGE_EXTENSIONS']);
   }
 
   /**
@@ -730,7 +718,7 @@ class OOMedia
    * @access public
    * @static
    */
-  function _getExtension($filename)
+  static function _getExtension($filename)
   {
     return substr(strrchr($filename, "."), 1);
   }
@@ -760,7 +748,7 @@ class OOMedia
   /**
    * @access protected
    */
-  function _getTableName()
+  static function _getTableName()
   {
     global $REX;
     return $REX['TABLE_PREFIX'].'file';
@@ -850,66 +838,30 @@ class OOMedia
   }
 
   // allowed filetypes
-  function getDocTypes()
+  static function getDocTypes()
   {
-    static $docTypes = array (
-      'bmp',
-      'css',
-      'doc',
-      'docx',
-      'eps',
-      'gif',
-      'gz',
-      'jpg',
-      'mov',
-      'mp3',
-      'ogg',
-      'pdf',
-      'png',
-      'ppt',
-      'pptx',
-      'pps',
-      'ppsx',
-      'rar',
-      'rtf',
-      'swf',
-      'tar',
-      'tif',
-      'txt',
-      'wma',
-      'xls',
-      'xlsx',
-      'zip'
-    );
-    return $docTypes;
+    global $REX;
+    return $REX['MEDIAPOOL']['ALLOWED_DOCTYPES'];
   }
 
-  function isDocType($type)
+  static function isDocType($type)
   {
     return in_array($type, OOMedia :: getDocTypes());
   }
 
   // allowed image upload types
-  function getImageTypes()
+  static function getImageTypes()
   {
-    static $imageTypes = array (
-      'image/gif',
-      'image/jpg',
-      'image/jpeg',
-      'image/png',
-      'image/x-png',
-      'image/pjpeg',
-      'image/bmp'
-    );
-    return $imageTypes;
+    global $REX;
+    return $REX['MEDIAPOOL']['IMAGE_TYPES'];
   }
 
-  function isImageType($type)
+  static function isImageType($type)
   {
     return in_array($type, OOMedia :: getImageTypes());
   }
 
-  function compareImageTypes($type1, $type2)
+  static function compareImageTypes($type1, $type2)
   {
     static $jpg = array (
       'image/jpg',
@@ -959,7 +911,7 @@ class OOMedia
    * @deprecated 20.02.2010
    * Stattdessen getMediaByFileName() nutzen
    */
-  function getMediaById($id)
+  static function getMediaById($id)
   {
     global $REX;
 

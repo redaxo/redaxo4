@@ -7,6 +7,46 @@ angehandelt.
 Änderungen im Detail:
 ---------------------------------------------------------------------------------
 
+Version 4.5.0 (2013-XX-XX)
+
+  Neu
+  * Mindestvoraussetzungen: PHP 5.3, MySQL 5
+  * auch mit PHP 5.4 getestet
+  * Nur noch UTF-8
+  * Update jQuery -> 1.8.3
+  * Update XForm -> 4.5
+  * Update textile -> 2.5
+  * Favicon im Backend
+  * Standard-Session-Dauer im Backend auf zwei Stunden erhöht
+  * Standard für Passworthashing auf sha1 geändert
+  * Bei Addoninstallation wird der Ordnername gecheckt
+  * Drei Laufzeitlevels für EPs: EARLY, NORMAL, LATE
+  * Medienpool: Bei automatischer Umbenennung wird diese als Info angezeigt
+  * REX_VARs: Arrays sind nutzbar ohne Actions, z. B. bei multiselects
+  * rex_form: Beliebige Defaultwerte sind möglich, auch NULL
+  * rex_list: Spaltensortierung beliebig einstellbar
+  * rex_select: Optgroups möglich
+  * phpmailer: Globale BCC-Adresse einstellbar
+  * textile: Neue Parameter $restricted und $doctype
+  * rex_navigation: Erweitert um Callbacks und Filter
+  * Imagemanager: neue EPs: IMAGE_MANAGER_FILTERSET, IMAGE_MANAGER_INIT
+  * Imagemanager: wird nun nicht direkt, sondern nach EP ADDONS_INCLUDED aktiviert
+  * Mediapool: upload unzulässiger Dateitypen wird unterbunden
+  * Mediapool: neuer EP: PAGE_MEDIAPOOL_OUTPUT
+  * Page Content: neuer EP: PAGE_CONTENT_OUTPUT
+  * Page Specials: neue Eps: PAGE_SPECIALS_MENU, PAGE_SPECIALS_OUTPUT
+  * be_style: customizer plugin ergänzt. farblabel, frontpage link, codemirror, liquid design
+  * settings: files und generated ordner in master definierbar
+  * default addons: xform und community eingebaut
+  * Metannavigation: neuer EP: META_NAVI
+  * diverse kleiner optische Korrekturen
+  * diverse kleinere Ergänzungen (z.B. Sortierung Import, Sortierung Mediasync ..)
+
+  Bugfixes:
+  * Cronjobs werden nicht mehr nach jedem Bearbeiten erneut ausgeführt
+  * Image Manager: Probleme mit Transparenz bei PNGs beseitigt
+
+
 Version 4.4.1 (2012-08-03)
 
   Bugfixes
@@ -17,6 +57,7 @@ Version 4.4.1 (2012-08-03)
   * utf8 Demo: charset Angaben korrigiert auf utf8
   * XSS behoben - wenn eingeloggt und Admin: http://www.redaxo.org/de/download/sicherheitshinweise/
   * Mediasync: sofern kein Mimetype erkannt wird, wird nun application/octet-stream gesetzt
+
 
 Version 4.4.0 (2012-06-27)
 

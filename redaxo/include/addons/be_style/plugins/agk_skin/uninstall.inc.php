@@ -16,10 +16,8 @@
  */
 
 $error = '';
-
-if ($error != '')
+if ($error != '') {
   $REX['ADDON']['installmsg']['agk_skin'] = $error;
-else
+} else {
   $REX['ADDON']['install']['agk_skin'] = 0;
-
-?>
+}

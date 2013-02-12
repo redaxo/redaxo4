@@ -21,11 +21,11 @@ if ($rex_user_loginmessage != '')
           setTimeout(disableLogin, 1000);
         } else {
           $("div.rex-message p span").html("'. htmlspecialchars($I18N->msg('login_welcome')) .'");
-          $("#loginformular input:not(:hidden)").attr("disabled", "");
+          $("#loginformular input:not(:hidden)").prop("disabled", "");
           $("#rex-form-login").focus();
         }
       };
-      $("#loginformular input:not(:hidden)").attr("disabled", "disabled");
+      $("#loginformular input:not(:hidden)").prop("disabled", "disabled");
       setTimeout(disableLogin, 1000);
     }';
 }
@@ -36,7 +36,7 @@ echo '
 <div class="rex-form rex-form-login">
 <form action="index.php" method="post" id="loginformular">
   <fieldset class="rex-form-col-1">
-    <legend>Login</legend>
+    <legend>' . $I18N->msg('login_welcome') . '</legend>
     <input type="hidden" name="javascript" value="0" id="javascript" />
 
     <div class="rex-form-wrapper">

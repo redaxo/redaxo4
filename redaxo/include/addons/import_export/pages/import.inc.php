@@ -72,7 +72,7 @@ elseif ($function == "dbimport")
     }
     else
     {
-      $warning = $I18N->msg("im_export_file_could_not_be_uploaded")." ".$I18N->msg("im_export_you_have_no_write_permission_in", "addons/import_export/files/")." <br>";
+      $warning = $I18N->msg("im_export_file_could_not_be_uploaded")." ".$I18N->msg("im_export_you_have_no_write_permission_in", "addons/import_export/backup/")." <br>";
     }
   }
 
@@ -116,7 +116,7 @@ elseif ($function == "fileimport")
     }
     else
     {
-      $warning = $I18N->msg("im_export_file_could_not_be_uploaded")." ".$I18N->msg("im_export_you_have_no_write_permission_in", "addons/import_export/files/")." <br>";
+      $warning = $I18N->msg("im_export_file_could_not_be_uploaded")." ".$I18N->msg("im_export_you_have_no_write_permission_in", "addons/import_export/backup/")." <br>";
     }
   }
 
@@ -183,9 +183,10 @@ if ($warning != '')
         <tbody>
 <?php
   $dir = getImportDir();
-  $folder = readImportFolder('.sql');
+  $files = readImportFolder('.sql');
+  sort($files);
 
-  foreach ($folder as $file)
+  foreach ($files as $file)
   {
     $filepath = $dir.'/'.$file;
     $filec = date('d.m.Y H:i', filemtime($filepath));
@@ -248,9 +249,10 @@ if ($warning != '')
         <tbody>
 <?php
   $dir = getImportDir();
-  $folder = readImportFolder('.tar.gz');
+  $files = readImportFolder('.tar.gz');
+  sort($files);
 
-  foreach ($folder as $file)
+  foreach ($files as $file)
   {
     $filepath = $dir.'/'.$file;
     $filec = date('d.m.Y H:i', filemtime($filepath));

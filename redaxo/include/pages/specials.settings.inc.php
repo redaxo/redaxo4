@@ -210,15 +210,15 @@ echo '
 
                 <div class="rex-form-row">
                   <p class="rex-form-col-a rex-form-text">
-                    <label for="rex-form-server">$REX[\'SERVER\']</label>
-                    <input class="rex-form-text" type="text" id="rex-form-server" name="neu_SERVER" value="'. htmlspecialchars($REX['SERVER']).'" />
+                    <label for="rex-form-servername" title="$REX[\'SERVERNAME\']">'.$I18N->msg("specials_settings_servername").'</label>
+                    <input class="rex-form-text" type="text" id="rex-form-servername" name="neu_SERVERNAME" value="'. htmlspecialchars($REX['SERVERNAME']).'" />
                   </p>
                 </div>
 
                 <div class="rex-form-row">
                   <p class="rex-form-col-a rex-form-text">
-                    <label for="rex-form-servername">$REX[\'SERVERNAME\']</label>
-                    <input class="rex-form-text" type="text" id="rex-form-servername" name="neu_SERVERNAME" value="'. htmlspecialchars($REX['SERVERNAME']).'" />
+                    <label for="rex-form-server" title="$REX[\'SERVER\']">'.$I18N->msg("specials_settings_server").'</label>
+                    <input class="rex-form-text" type="text" id="rex-form-server" name="neu_SERVER" value="'. htmlspecialchars($REX['SERVER']).'" />
                   </p>
                 </div>
               </div>
@@ -272,7 +272,7 @@ echo '
 
                 <div class="rex-form-row">
                   <p class="rex-form-col-a rex-form-read">
-                    <label for="rex_include_path">$REX[\'INCLUDE_PATH\']</label>
+                    <label for="rex_include_path" title="$REX[\'INCLUDE_PATH\']">'.$I18N->msg("specials_settings_include_path").'</label>
                     <span class="rex-form-read" id="rex_include_path" title="'. htmlspecialchars($REX['INCLUDE_PATH']) .'">&quot;';
 
                     $tmp = $REX['INCLUDE_PATH'];
@@ -287,42 +287,42 @@ echo '
 
                 <div class="rex-form-row">
                   <p class="rex-form-col-a rex-form-text">
-                    <label for="rex-form-error-email">$REX[\'ERROR_EMAIL\']</label>
+                    <label for="rex-form-error-email" title="$REX[\'ERROR_EMAIL\']">'.$I18N->msg("specials_settings_error_email").'</label>
                     <input class="rex-form-text" type="text" id="rex-form-error-email" name="neu_error_emailaddress" value="'.htmlspecialchars($REX['ERROR_EMAIL']).'" />
                   </p>
                 </div>
 
                 <div class="rex-form-row">
                   <p class="rex-form-col-a rex-form-widget">
-                    <label for="rex-form-startarticle-id">$REX[\'START_ARTICLE_ID\']</label>
+                    <label for="rex-form-startarticle-id" title="$REX[\'START_ARTICLE_ID\']">'.$I18N->msg("specials_settings_startarticle").'</label>
                     '. rex_var_link::_getLinkButton('neu_startartikel', 1, $REX['START_ARTICLE_ID']) .'
                   </p>
                 </div>
 
                 <div class="rex-form-row">
                   <p class="rex-form-col-a rex-form-widget">
-                    <label for="rex-form-notfound-article-id">$REX[\'NOTFOUND_ARTICLE_ID\']</label>
+                    <label for="rex-form-notfound-article-id" title="$REX[\'NOTFOUND_ARTICLE_ID\']">'.$I18N->msg("specials_settings_notfound_article").'</label>
                     '. rex_var_link::_getLinkButton('neu_notfoundartikel', 2, $REX['NOTFOUND_ARTICLE_ID']) .'
                   </p>
                 </div>
 
                 <div class="rex-form-row">
                   <p class="rex-form-col-a rex-form-select">
-                    <label for="rex-form-default-template-id">$REX[\'DEFAULT_TEMPLATE_ID\']</label>
+                    <label for="rex-form-default-template-id" title="$REX[\'DEFAULT_TEMPLATE_ID\']">'.$I18N->msg("specials_settings_default_template").'</label>
                     '. $sel_template->get() .'
                   </p>
                 </div>
 
                 <div class="rex-form-row">
                   <p class="rex-form-col-a rex-form-select">
-                    <label for="rex-form-lang">$REX[\'LANG\']</label>
+                    <label for="rex-form-lang" title="$REX[\'LANG\']">'.$I18N->msg("specials_settings_backend_lang").'</label>
                     '.$sel_lang->get().'
                   </p>
                 </div>
 
                 <div class="rex-form-row">
                   <p class="rex-form-col-a rex-form-select">
-                    <label for="rex-form-mod-rewrite">$REX[\'MOD_REWRITE\']</label>
+                    <label for="rex-form-mod-rewrite" title="$REX[\'MOD_REWRITE\']">'.$I18N->msg("specials_settings_mod_rewrite").'</label>
                     '.$sel_mod_rewrite->get().'
                   </p>
                 </div>

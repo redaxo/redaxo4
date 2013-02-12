@@ -23,7 +23,7 @@ $body_attr = array();
 $body_id = str_replace('_', '-', $REX["PAGE"]);
 
 if (in_array($body_id, $popups_arr))
-  $body_attr["class"] = array('rex-popup'.$body_id);
+  $body_attr["class"] = array('rex-popup rex-popup'.$body_id);
 
 $body_attr["id"] = array('rex-page-'.$body_id);
 $body_attr["onunload"] = array('closeAll();');
@@ -54,6 +54,8 @@ $body_attr["onunload"] = array('closeAll();');
   <script type="text/javascript">
   <!--
   var redaxo = true;
+  var rex_imageExtensions = <?php echo '["'.implode('","',$REX['MEDIAPOOL']['IMAGE_EXTENSIONS']).'"]' ?>;
+  var rex_accesskeysEnabled = <?php echo isset($REX['USER']) && $REX['USER']->hasPerm('accesskeys[]') ? 'true' : 'false' ?>;
 
   // jQuery is now removed from the $ namespace
   // to use the $ shorthand, use (function($){ ... })(jQuery);
@@ -90,16 +92,26 @@ foreach($body_attr as $k => $v){
 
 <div id="rex-navi-logout"><?php
 
-if ($REX['USER'] && !$REX["PAGE_NO_NAVI"])
-{
+if ($REX['USER'] && !$REX["PAGE_NO_NAVI"]) {
   $accesskey = 1;
   $user_name = $REX['USER']->getValue('name') != '' ? $REX['USER']->getValue('name') : $REX['USER']->getValue('login');
-  echo '<ul class="rex-logout"><li class="rex-navi-first"><span>' . $I18N->msg('logged_in_as') . ' '. htmlspecialchars($user_name) .'</span></li><li><a href="index.php?page=profile">' . $I18N->msg('profile_title') . '</a></li><li><a href="index.php?rex_logout=1"'. rex_accesskey($I18N->msg('logout'), $REX['ACKEY']['LOGOUT']) .'>' . $I18N->msg('logout') . '</a></li></ul>' . "\n";
-}else if(!$REX["PAGE_NO_NAVI"])
-{
+
+  $meta_item = array();
+  $meta_item["user"] = '<li class="rex-navi-first"><span>' . $I18N->msg('logged_in_as') . ' '. htmlspecialchars($user_name) .'</span></li>';
+  $meta_item["profile"] = '<li><a href="index.php?page=profile">' . $I18N->msg('profile_title') . '</a></li>';
+  $meta_item["logout"] = '<li><a href="index.php?rex_logout=1"'. rex_accesskey($I18N->msg('logout'), $REX['ACKEY']['LOGOUT']) .'>' . $I18N->msg('logout') . '</a></li>';
+  
+  $meta_item = rex_register_extension_point('META_NAVI', $meta_item );
+
+  if(count($meta_item)>0) {
+    echo '<ul class="rex-logout">'.implode("",$meta_item).'</ul>' . "\n";
+  }
+
+}else if(!$REX["PAGE_NO_NAVI"]) {
+
   echo '<p class="rex-logout">' . $I18N->msg('logged_out') . '</p>';
-}else
-{
+
+}else {
   echo '<p class="rex-logout">&nbsp;</p>';
 }
 

@@ -12,17 +12,34 @@ $func = rex_request('func', 'string');
 
 // -------------- Header
 
-$subline = array(
-  array( '', $I18N->msg('main_preferences')),
-  array( 'lang', $I18N->msg('languages')),
+$subline = array();
+$subline[] = array( '', $I18N->msg('main_preferences') );
+$subline[] = array( 'lang', $I18N->msg('languages') );
+
+$subline = rex_register_extension_point('PAGE_SPECIALS_MENU', $subline,
+  array(
+    'subpage' => $subpage,
+  )
 );
 
 rex_title($I18N->msg('specials'),$subline);
 
-switch($subpage)
-{
-  case 'lang': $file = 'specials.clangs.inc.php'; break;
-  default : $file = 'specials.settings.inc.php'; break;
+$content = rex_register_extension_point('PAGE_SPECIALS_OUTPUT', "",
+  array(
+    'subpage' => $subpage,
+  )
+);
+
+if($content != "") {
+  echo $content;
+
+} else {
+  switch($subpage) {
+    case 'lang': $file = 'specials.clangs.inc.php'; break;
+    default : $file = 'specials.settings.inc.php'; break;
+  }
+
+  require $REX['INCLUDE_PATH'].'/pages/'.$file;
+
 }
 
-require $REX['INCLUDE_PATH'].'/pages/'.$file;

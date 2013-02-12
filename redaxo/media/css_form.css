@@ -613,3 +613,10 @@ body#rex-page-image-resize div.rex-form div.rex-form-element-v2 p input.rex-form
 #rex-addon-editmode.rex-form div.rex-form-row p.rex-form-radio input.rex-form-radio {
   margin-bottom: 5px;
 }
+
+/*	Setup Schritt 2 *********************************************************/
+
+div#rex-form-setup-step-2 div.rex-form-row label {
+	width: 160px;
+}
+

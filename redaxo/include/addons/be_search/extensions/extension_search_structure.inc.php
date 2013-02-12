@@ -164,7 +164,7 @@ function rex_a256_search_structure($params)
   $select_name = 'category_id';
   $add_homepage = true;
   $article_id_input = '';
-  if($mode == 'edit' || $mode == 'meta')
+  if($mode)
   {
     $select_name = 'article_id';
     $add_homepage = false;

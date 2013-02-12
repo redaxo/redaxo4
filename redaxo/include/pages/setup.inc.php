@@ -242,10 +242,9 @@ function rex_setup_dropREXtables()
     $langpath = $REX['INCLUDE_PATH'].'/lang';
     foreach($REX['LANGUAGES'] as $l)
     {
-      $isUtf8 = substr($l, -4) == 'utf8';
       $I18N_T = rex_create_lang($l,$langpath,FALSE);
       $label = $I18N_T->msg('lang');
-      if($isUtf8) $label .= ' (utf-8)';
+      $label .= ' (utf-8)';
       $langs[$l] = '<li><a href="index.php?checkmodus=0.5&amp;lang='.$l.'"'. rex_tabindex() .'>'.$label.'</a></li>';
 
     }
@@ -284,10 +283,7 @@ function rex_setup_dropREXtables()
     $license_file = $Basedir.'/../../../_lizenz.txt';
     $license = '<p class="rex-tx1">'.nl2br(rex_get_file_contents($license_file)).'</p>';
 
-    if(strpos($REX['LANG'], 'utf') !== false)
     echo $license;
-    else
-    echo utf8_decode($license);
 
     echo '</div>
         </div>
@@ -303,7 +299,7 @@ function rex_setup_dropREXtables()
   if ($checkmodus == 1)
   {
     // -------------------------- VERSIONSCHECK
-    if (version_compare(phpversion(), '4.3.2', '<') == 1)
+    if (version_compare(phpversion(), '5.3.0', '<'))
     {
       $MSG['err'] .= '<li>'. $I18N->msg('setup_010', phpversion()).'</li>';
     }
@@ -321,12 +317,12 @@ function rex_setup_dropREXtables()
     $REX['INCLUDE_PATH'].DIRECTORY_SEPARATOR.'addons.inc.php',
     $REX['INCLUDE_PATH'].DIRECTORY_SEPARATOR.'plugins.inc.php',
     $REX['INCLUDE_PATH'].DIRECTORY_SEPARATOR.'clang.inc.php',
-    $REX['INCLUDE_PATH'].DIRECTORY_SEPARATOR.'generated',
-    $REX['INCLUDE_PATH'].DIRECTORY_SEPARATOR.'generated'.DIRECTORY_SEPARATOR.'articles',
-    $REX['INCLUDE_PATH'].DIRECTORY_SEPARATOR.'generated'.DIRECTORY_SEPARATOR.'templates',
-    $REX['INCLUDE_PATH'].DIRECTORY_SEPARATOR.'generated'.DIRECTORY_SEPARATOR.'files',
+    $REX['GENERATED_PATH'],
+    $REX['GENERATED_PATH'].DIRECTORY_SEPARATOR.'articles',
+    $REX['GENERATED_PATH'].DIRECTORY_SEPARATOR.'templates',
+    $REX['GENERATED_PATH'].DIRECTORY_SEPARATOR.'files',
     $REX['MEDIAFOLDER'],
-    $REX['MEDIAFOLDER'] .DIRECTORY_SEPARATOR.'_readme.txt',
+    $REX['MEDIAFOLDER'] .DIRECTORY_SEPARATOR.'.redaxo',
     getImportDir()
     );
 
@@ -513,21 +509,21 @@ function rex_setup_dropREXtables()
             <div class="rex-form-wrapper">
               <div class="rex-form-row">
                 <p class="rex-form-col-a rex-form-text">
-                  <label for="serveraddress">'.$I18N->msg("setup_024").'</label>
-                  <input class="rex-form-text" type="text" id="serveraddress" name="serveraddress" value="'.htmlspecialchars($serveraddress).'"'. rex_tabindex() .' />
-                </p>
-              </div>
-
-              <div class="rex-form-row">
-                <p class="rex-form-col-a rex-form-text">
-                  <label for="serverbezeichnung">'.$I18N->msg("setup_025").'</label>
+                  <label for="serverbezeichnung" title="$REX[\'SERVERNAME\']">'.$I18N->msg("setup_025").'</label>
                   <input class="rex-form-text" type="text" id="serverbezeichnung" name="serverbezeichnung" value="'.htmlspecialchars($serverbezeichnung).'"'. rex_tabindex() .' />
                 </p>
               </div>
 
               <div class="rex-form-row">
                 <p class="rex-form-col-a rex-form-text">
-                  <label for="error_email">'.$I18N->msg("setup_026").'</label>
+                  <label for="serveraddress" title="$REX[\'SERVER\']">'.$I18N->msg("setup_024").'</label>
+                  <input class="rex-form-text" type="text" id="serveraddress" name="serveraddress" value="'.htmlspecialchars($serveraddress).'"'. rex_tabindex() .' />
+                </p>
+              </div>
+
+              <div class="rex-form-row">
+                <p class="rex-form-col-a rex-form-text">
+                  <label for="error_email" title="$REX[\'ERROR_EMAIL\']">'.$I18N->msg("setup_026").'</label>
                   <input class="rex-form-text" type="text" id="error_email" name="error_email" value="'.htmlspecialchars($error_email).'"'. rex_tabindex() .' />
                 </p>
               </div>
@@ -598,7 +594,7 @@ function rex_setup_dropREXtables()
         <script type="text/javascript">
            <!--
           jQuery(function($) {
-            $("#serveraddress").focus();
+            $("#serverbezeichnung").focus();
           });
            //-->
         </script>';
@@ -642,14 +638,7 @@ function rex_setup_dropREXtables()
           $info_msg .= rex_setup_dropREXtables();
 
           // set database default charset
-          if (rex_lang_is_utf8())
-          {
-            $info_msg .= rex_setup_setDBcharset('utf8 COLLATE utf8_general_ci');
-          }
-          else
-          {
-            $info_msg .= rex_setup_setDBcharset('latin1 COLLATE latin1_general_ci');
-          }
+          $info_msg .= rex_setup_setDBcharset('utf8 COLLATE utf8_general_ci');
 
           // create temp sql dump from upload
           $tmp_sql = getImportDir().'/temp.sql';
@@ -665,7 +654,7 @@ function rex_setup_dropREXtables()
             else
             {
               // no permissions error
-              $err_msg = $I18N->msg("setup_03802")." ".$I18N->msg("setup_03803", "addons/import_export/files/")." <br>";
+              $err_msg = $I18N->msg("setup_03802")." ".$I18N->msg("setup_03803", "addons/import_export/backup/")." <br>";
             }
 
             // notify without setup abort
@@ -687,14 +676,7 @@ function rex_setup_dropREXtables()
       // ----- vorhandenen Export importieren
 
       // set database default charset
-      if (rex_lang_is_utf8())
-      {
-        $err_msg .= rex_setup_setDBcharset('utf8 COLLATE utf8_general_ci');
-      }
-      else
-      {
-        $err_msg .= rex_setup_setDBcharset('latin1 COLLATE latin1_general_ci');
-      }
+      $err_msg .= rex_setup_setDBcharset('utf8 COLLATE utf8_general_ci');
 
       $import_name = rex_post('import_name', 'string');
 
@@ -724,11 +706,7 @@ function rex_setup_dropREXtables()
     elseif ($dbanlegen == 1)
     {
       // ----- volle Datenbank, alte DB löschen / drop
-      if(rex_lang_is_utf8()){
-        rex_setup_setDBcharset('utf8 COLLATE utf8_general_ci');
-      }else{
-        rex_setup_setDBcharset('latin1 COLLATE latin1_general_ci');
-      }
+      rex_setup_setDBcharset('utf8 COLLATE utf8_general_ci');
 
       $import_sql = $REX['INCLUDE_PATH'].'/install/redaxo4_4.sql';
 
@@ -745,11 +723,7 @@ function rex_setup_dropREXtables()
     elseif ($dbanlegen == 0)
     {
       // ----- leere Datenbank neu einrichten
-      if(rex_lang_is_utf8()){
-        rex_setup_setDBcharset('utf8 COLLATE utf8_general_ci');
-      }else{
-        rex_setup_setDBcharset('latin1 COLLATE latin1_general_ci');
-      }
+      rex_setup_setDBcharset('utf8 COLLATE utf8_general_ci');
 
       $import_sql = $REX['INCLUDE_PATH'].'/install/redaxo4_4.sql';
 

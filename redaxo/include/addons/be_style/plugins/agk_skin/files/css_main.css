@@ -88,6 +88,9 @@ div#rex-title h1 {
 	line-height: 1.1;
 }
 
+.rex-popupmediapool td p.rex-tx1 {
+  line-height: 1.4;
+}
 
 /*	Background Color ***********************************************************
 *******************************************************************************/
@@ -416,7 +419,7 @@ div#rex-form-structure-category p.rex-button-add a {
 /*	Border *********************************************************************
 *******************************************************************************/
 table.rex-table tr.rex-metainfo-cat td {
-  border-color: #DFE9E9;
+  border-bottom-color: #DFE9E9;
 }
 div.rex-content-editmode div.rex-form.rex-form-content-editmode-add-slice div.rex-content-editmode-module-name, 
 div.rex-content-editmode div.rex-content-editmode-module-name.rex-form-content-editmode-edit-slice, 
@@ -451,7 +454,7 @@ div#rex-navi-logout {
 }
 div#rex-navi-logout p, 
 div#rex-navi-logout ul {
-	padding: 34px 10px 0 0;
+	padding: 40px 10px 0 0;
 	text-align: right;
 }
 
@@ -461,6 +464,9 @@ div#rex-navi-main {
 	margin-left: 16px;
 	padding: 0;
 	background: none;
+}
+html > body div#rex-navi-main {
+  min-height: 0;
 }
 
 div#rex-wrapper {
@@ -510,9 +516,13 @@ html>body div#rex-title {
 	min-height: 0;
 }
 div#rex-title h1 {
-	padding-top: 5px;
-	padding-bottom: 18px;
-	padding-left: 0px;
+  padding-top: 5px;
+  padding-bottom: 18px;
+  padding-left: 0px;
+}
+.rex-popup div#rex-title h1 {
+  padding-top: 20px;
+  padding-bottom: 18px;
 }
 div#rex-output {
 	margin-top: 22px;
@@ -738,12 +748,19 @@ div#rex-form-mediapool-detail div.rex-form-row p select.rex-form-select-year {
 }
 
 
+div#rex-form-system-setup .rex-area-col-2 .rex-area-col-a .rex-area-content {
+  padding-right: 30px;
+}
 div#rex-form-system-setup div.rex-widget input {
-	width: 90px;
+  width: 90px;
 }
 
 
-
+/*	Mediapool ******************************************************************
+*******************************************************************************/
+.rex-popupmediapool td p.rex-tx1:last-child {
+  margin-bottom: 0px;
+}
 /*	Widget *********************************************************************
 *******************************************************************************/
 div.rex-widget p.rex-widget-icons {
@@ -770,6 +787,15 @@ div#rex-redaxo-link a {
 	text-indent: -1000em;
 }
 
+div#rex-extra h1 {
+  position: absolute;
+  top: 32px;
+  left: 202px;
+  color: #2C8EC0;
+  font-size: 17px;
+  font-weight: normal;
+  line-height: 26px;
+}
 
 /*	Rundungen ******************************************************************
 *******************************************************************************/
@@ -863,10 +889,6 @@ div#rex-form-mediapool-selectcategory {
 body.rex-popup div#rex-navi-logout {
 	margin-bottom: 2px;
 }
-body.rex-popup div#rex-title h1 {
-	padding-bottom: 5px;
-	text-align: right;
-}
 body.rex-popup div#rex-output {
 	margin-top: 12px;
 }
@@ -900,19 +922,43 @@ div#rex-header {
 }
 
 
-
-
-body.rex-layout-liquid div#rex-website {	
-	width: 100%;
+/* liquid Layout */
+body.rex-layout-liquid div#rex-website {
+  width: 100%;
 }
-body.rex-layout-liquid div#rex-navi-main {
-	width: 15%;
-	margin-left: 2%;
+body.rex-layout-liquid div#rex-navi-logout {
+  float: none;
 }
 body.rex-layout-liquid div#rex-wrapper {
-	width: 78%;
-	margin-right: 2%;
+  float: none;
+  margin-left: 203px;
+  margin-right: 16px;
+  width: auto;
 }
+body.rex-layout-liquid div#rex-wrapper2 {
+  width: 100%;
+  float: left;
+}
+body.rex-layout-liquid div#rex-wrapper:after {
+  clear: both;
+  content: '.';
+  display: block;
+  height: 0;
+  visibility: hidden;
+  font-size: 0px;
+}
+
+body#rex-page-login div#rex-wrapper,
+body#rex-page-linkmap div#rex-wrapper,
+body#rex-page-mediapool div#rex-wrapper,
+body#rex-page-setup div#rex-wrapper {
+  margin-left: 0;
+}
+body.rex-popup div#rex-wrapper2 {
+  width: auto;
+  float: none;
+}
+
 
 
 
@@ -932,3 +978,65 @@ body div#rex-navi-logout ul.rex-logout li{ background:#333; padding:10px; }
 body div#rex-website div#rex-footer,
 body div#rex-website div#rex-navi-footer ul{ background:#333; padding:0px; margin:0px; }
 */
+
+
+
+
+a[href*="selectMedialist"]:active {
+  margin-left: -5px;
+  padding: 5px 30px 5px 5px;
+  background-color: #D2EFD9;
+  color: #107C2C;
+  transition-property: background-color;
+}
+
+
+
+/* ------------------------------------------------------------------ */
+/* Font size fix (maybe just a Firefox/Ubuntu issue)                  */
+/* ------------------------------------------------------------------ */
+div#rex-navi-main dt {
+  font-size: 16px;
+}
+
+div#rex-footer {
+  padding: 8px 0;
+}
+
+.rex-code {
+  font-size: 12px;
+  line-height: 17px;
+}
+
+
+
+.rex-form .CodeMirror {
+  left: -29px !important;
+  width: 486px !important;
+  height: 400px !important;
+  border: 1px solid #999;
+  border-left-color: #ddd;
+}
+
+.rex-form .CodeMirror pre,
+.rex-form .CodeMirror-linenumber {
+  font-size: 11px;
+  line-height: 14px;
+}
+.rex-form .CodeMirror-gutters {
+  border-right-color: #999;
+}
+
+.be-style-agk-skin-textarea .rex-form .CodeMirror {
+  left: 0 !important;
+  width: 100% !important;
+  height: 500px !important;
+  margin-bottom: 20px !important;
+  border-left: 0;
+  border-right: 0;
+}
+.be-style-agk-skin-textarea .rex-form .CodeMirror pre,
+.be-style-agk-skin-textarea .rex-form .CodeMirror-linenumber {
+  font-size: 12px;
+  line-height: 16px;
+}

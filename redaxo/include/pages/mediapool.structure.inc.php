@@ -207,6 +207,13 @@ if ($PERMALL)
   {
     echo '
         </div>
+        <script type="text/javascript">
+          <!--
+          jQuery(function($){
+            $("#rex-form-field-name").focus();
+          });
+          //-->
+        </script>
       </fieldset>
     </form>
   </div>

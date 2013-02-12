@@ -1,10 +1,10 @@
 version = Verze
 
-version_liveversion = Æiv· verze
-version_workingversion = PracovnÌ verze
-version_working_to_live = Povolit jako æivou verzi
-version_preview = N·hled
-version_copy_live_to_workingversion = KopÌrovat do pracovnÌ verze
-version_info_working_version_to_live = PracovnÌ verze p¯epnuta na æivou
-version_info_live_version_to_working = Æiv· verze byla zkopÌrov·na do pracovnÌ verze
-version_warning_working_version_to_live = PracovnÌ verze nem˘æe b˝t p¯epnuta na æivou, protoæe je pr·zdn·.
+version_liveversion = ≈Ωiv√° verze
+version_workingversion = Pracovn√≠ verze
+version_working_to_live = Povolit jako ≈æivou verzi
+version_preview = N√°hled
+version_copy_live_to_workingversion = Kop√≠rovat do pracovn√≠ verze
+version_info_working_version_to_live = Pracovn√≠ verze p≈ôepnuta na ≈æivou
+version_info_live_version_to_working = ≈Ωiv√° verze byla zkop√≠rov√°na do pracovn√≠ verze
+version_warning_working_version_to_live = Pracovn√≠ verze nem≈Ø≈æe b√Ωt p≈ôepnuta na ≈æivou, proto≈æe je pr√°zdn√°.

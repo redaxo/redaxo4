@@ -146,7 +146,7 @@ class rex_list
     $this->init();
   }
 
-  function factory($query, $rowsPerPage = 30, $listName = null, $debug = false, $class = null)
+  static function factory($query, $rowsPerPage = 30, $listName = null, $debug = false, $class = null)
   {
     // keine spezielle klasse angegeben -> default klasse verwenden?
     if(!$class)
@@ -1011,7 +1011,12 @@ class rex_list
 
     // Columns vars
     $columnFormates = array();
-    $columnNames = array_diff($this->getColumnNames(), $this->columnDisabled);
+    $columnNames = array();
+    foreach ($this->getColumnNames() as $columnName) {
+      if (is_array($columnName) || !in_array($columnName, $this->columnDisabled)) {
+        $columnNames[] = $columnName;
+      }
+    }
 
     // List vars
     $sortColumn = $this->getSortColumn();

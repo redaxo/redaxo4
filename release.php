@@ -68,10 +68,8 @@ function buildRelease($name = null, $version = null)
     '.svn',
     '.project',
     '.DS_Store',
-    '.git',
-    '.build'
+    '.git'
   );
-
   // Dateien/Verzeichnisse die nur in bestimmten Ordnern nicht kopiert werden sollen
   $ignoreFiles = array(
     './.gitmodules',
@@ -88,13 +86,10 @@ function buildRelease($name = null, $version = null)
     './coding_standards.php',
     './lang_scan.php',
   );
-
   // Addons die vorinstalliert sein sollen
   $preinstallAddons = array(
     'be_style',
-    'textile',
     );
-
   // Plugins die vorinstalliert sein sollen
   $preinstallPlugins = array(
     'be_style' => 'agk_skin',
@@ -117,8 +112,7 @@ function buildRelease($name = null, $version = null)
     if(!$version)
       $name .= date('ymd');
     else
-      #$name .= str_replace('.', '_', $version);
-      $name .= '_'.$version;
+      $name .= str_replace('.', '_', $version);
   }
 
   if($version)
@@ -130,7 +124,7 @@ function buildRelease($name = null, $version = null)
   foreach($releaseConfigs as $releaseConfig)
   {
     $path = $cfg_path;
-    $name = $systemName .'_'. $releaseConfig['name'].'_'.date('dmY');
+    $name = $systemName .'_'. $releaseConfig['name'];
 
     if(substr($path, -1) != '/')
       $path .= '/';
@@ -197,9 +191,9 @@ function buildRelease($name = null, $version = null)
     fclose($h);
 
     $cont = ereg_replace("(REX\['SETUP'\].?\=.?)[^;]*", '\\1true', $cont);
-    #$cont = ereg_replace("(REX\['SERVER'\].?\=.?)[^;]*", '\\1"redaxo.org"', $cont);
-    #$cont = ereg_replace("(REX\['SERVERNAME'\].?\=.?)[^;]*", '\\1"REDAXO"', $cont);
-    #$cont = ereg_replace("(REX\['ERROR_EMAIL'\].?\=.?)[^;]*", '\\1"info@redaxo.org"', $cont);
+    $cont = ereg_replace("(REX\['SERVER'\].?\=.?)[^;]*", '\\1"www.redaxo.org"', $cont);
+    $cont = ereg_replace("(REX\['SERVERNAME'\].?\=.?)[^;]*", '\\1"REDAXO"', $cont);
+    $cont = ereg_replace("(REX\['ERROR_EMAIL'\].?\=.?)[^;]*", '\\1""', $cont);
     $cont = ereg_replace("(REX\['INSTNAME'\].?\=.?\")[^\"]*", "\\1"."rex".date("Ymd")."000000", $cont);
     $cont = ereg_replace("(REX\['LANG'\].?\=.?)[^;]*", '\\1"de_de"', $cont);
     $cont = ereg_replace("(REX\['START_ARTICLE_ID'\].?\=.?)[^;]*", '\\11', $cont);
@@ -533,27 +527,6 @@ function copyFolderStructure($structure, $dest, $use_lang)
         else
         {
           copy($path.'/'.$dir, $dest .'/'. $path.'/'.$dir);
-
-          // create iso lang from utf8 if required
-          if(substr($dir, -10) == '_utf8.lang')
-          {
-            $isoLang = substr($dir, 0, -10).'.lang';
-            if(!file_exists($isoLang))
-            {
-              echo '> convert file '. $path .'/'. $dir .' to iso'.PHP_EOL;
-              buildIsoLangFile( $dest .'/'. $path.'/'.$dir, $dir);
-            }
-          }
-          // create utf8 lang from iso if required
-          else if (substr($dir, -5) == '.lang')
-          {
-            $utfLang = substr($dir, 0, -5).'_utf8.lang';
-            if(!file_exists($utfLang))
-            {
-              echo '> convert file '. $path .'/'. $dir .' to utf-8'.PHP_EOL;
-              buildUtf8LangFile( $dest .'/'. $path.'/'.$dir, $dir);
-            }
-          }
         }
       }
       elseif(is_dir($path.'/'.$dir))
@@ -562,65 +535,6 @@ function copyFolderStructure($structure, $dest, $use_lang)
           mkdir($dest .'/'. $path.'/'.$dir);
       }
     }
-  }
-}
-
-function langCharset($lang)
-{
-  $charset_from = 'iso-8859-1';
-
-  // Wenn neue Sprachdateien mit anderen charsets, dann hier fest einbrennen
-  if(substr($lang, 0, 5) == 'cs_cz')
-    $charset_from = 'iso-8859-2';
-  else if (substr($lang, 0, 5) == 'sr_sr')
-    $charset_from = 'iso-8859-5';
-  else if (substr($lang, 0, 5) == 'tr_tr')
-    $charset_from = 'iso-8859-9';
-
-  return $charset_from;
-}
-
-function buildIsoLangFile($langFile, $lang)
-{
-  $charset_to = langCharset($lang);
-
-  $content = '';
-  if($hdl = fopen($langFile, 'r'))
-  {
-    $content = fread($hdl, filesize($langFile));
-    fclose($hdl);
-
-    // Charset auf UTF-8 ändern
-    $content = preg_replace('/^htmlcharset = (.*)$/m', 'htmlcharset = '. $charset_to, $content);
-  }
-
-  $isoFile = str_replace('_utf8.lang', '.lang', $langFile);
-  if($hdl = fopen($isoFile, 'w+'))
-  {
-    fwrite($hdl, iconv('UTF-8', $charset_to, $content));
-    fclose($hdl);
-  }
-}
-
-function buildUtf8LangFile($langFile, $lang)
-{
-  $charset_from = langCharset($lang);
-
-  $content = '';
-  if($hdl = fopen($langFile, 'r'))
-  {
-    $content = fread($hdl, filesize($langFile));
-    fclose($hdl);
-
-    // Charset auf UTF-8 ändern
-    $content = preg_replace('/^htmlcharset = (.*)$/m', 'htmlcharset = utf-8', $content);
-  }
-
-  $utf8File = str_replace('.lang', '_utf8.lang', $langFile);
-  if($hdl = fopen($utf8File, 'w+'))
-  {
-    fwrite($hdl, iconv($charset_from, 'UTF-8', $content));
-    fclose($hdl);
   }
 }
 

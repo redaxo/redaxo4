@@ -24,12 +24,13 @@ function rex_be_add_page($params)
  */
 function rex_be_style_css_add($params)
 {
+  global $REX;
   $addon = "be_style";
   foreach(OOPlugin::getAvailablePlugins($addon) as $plugin)
   {
-    if (file_exists('../files/addons/'.$addon.'/plugins/'.$plugin.'/css_main.css'))
+    if (file_exists('../'.$REX['MEDIA_ADDON_DIR'].'/'.$addon.'/plugins/'.$plugin.'/css_main.css'))
     {
-      $params["subject"] .= "\n".'  <link rel="stylesheet" type="text/css" href="../files/addons/'.$addon.'/plugins/'.$plugin.'/css_main.css" media="screen, projection, print" />';
+      $params["subject"] .= "\n".'  <link rel="stylesheet" type="text/css" href="../'.$REX['MEDIA_ADDON_DIR'].'/'.$addon.'/plugins/'.$plugin.'/css_main.css" media="screen, projection, print" />';
     }
   }
   return $params["subject"];
