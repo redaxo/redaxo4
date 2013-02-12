@@ -6,7 +6,7 @@
 	url = https://github.com/dergel/redaxo4_xform.git
 [submodule "redaxo/include/addons/textile/vendor"]
 	path = redaxo/include/addons/textile/vendor
-	url = git://github.com/netcarver/textile.git
+	url = https://github.com/gharlan/textile.git
 [submodule "redaxo/include/addons/community"]
 	path = redaxo/include/addons/community
 	url = https://github.com/dergel/redaxo4_community.git

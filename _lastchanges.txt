@@ -15,7 +15,7 @@ Version 4.5.0 (2013-XX-XX)
   * Nur noch UTF-8
   * Update jQuery -> 1.8.3
   * Update XForm -> 4.5
-  * Update textile -> 2.5
+  * Update textile -> 2.5.1
   * Favicon im Backend
   * Standard-Session-Dauer im Backend auf zwei Stunden erhöht
   * Standard für Passworthashing auf sha1 geändert
