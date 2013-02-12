@@ -32,10 +32,10 @@ if($REX["REDAXO"]) {
     global $REX;
 
     if($REX['ADDON']['be_style']['plugin_customizer']['codemirror']) {
-    
+
       $params["subject"] .= "\n".'<link rel="stylesheet" type="text/css" href="../'.$REX['MEDIA_ADDON_DIR'].'/be_style/plugins/customizer/codemirror/codemirror.css" media="screen" />';
       $params["subject"] .= "\n".'<script type="text/javascript">var customizer_codemirror_defaulttheme="'.$REX['ADDON']['be_style']['plugin_customizer']['codemirror_theme'].'";</script>';
-    
+
       $params["subject"] .= "\n".'<script type="text/javascript" src="../'.$REX['MEDIA_ADDON_DIR'].'/be_style/plugins/customizer/codemirror/codemirror-compressed.js"></script>';
       $params["subject"] .= "\n".'<script type="text/javascript" src="../'.$REX['MEDIA_ADDON_DIR'].'/be_style/plugins/customizer/codemirror/rex-init.js"></script>';
     }
@@ -46,9 +46,13 @@ if($REX["REDAXO"]) {
   }
 
   function rex_be_style_customizer_label_navi($params) {
-    global $I18N;
-    $params["subject"][] = array( 'customizer', $I18N->msg('customizer') );
-    return $params["subject"];
+    if (isset($params['pages']['specials'])) {
+      global $I18N;
+      $page = new rex_be_page($I18N->msg('customizer'), array('page'=>'specials', 'subpage' => 'customizer'));
+      $page->setRequiredPermissions('isAdmin');
+      $page->setHref('index.php?page=specials&subpage=customizer');
+      $params['pages']['specials']->getPage()->addSubPage($page);
+    }
   }
 
   function rex_be_style_customizer_label_content($params) {
@@ -91,7 +95,7 @@ if($REX["REDAXO"]) {
   }
 
   rex_register_extension('PAGE_HEADER', 'rex_be_style_customizer_css_add');
-  rex_register_extension('PAGE_SPECIALS_MENU', 'rex_be_style_customizer_label_navi');
+  rex_register_extension('PAGE_CHECKED', 'rex_be_style_customizer_label_navi');
   rex_register_extension('PAGE_SPECIALS_OUTPUT', 'rex_be_style_customizer_label_content');
 
   if($REX['ADDON']['be_style']['plugin_customizer']['showlink']) {
