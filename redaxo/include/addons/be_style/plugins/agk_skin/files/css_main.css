@@ -981,17 +981,6 @@ body div#rex-website div#rex-navi-footer ul{ background:#333; padding:0px; margi
 
 
 
-
-a[href*="selectMedialist"]:active {
-  margin-left: -5px;
-  padding: 5px 30px 5px 5px;
-  background-color: #D2EFD9;
-  color: #107C2C;
-  transition-property: background-color;
-}
-
-
-
 /* ------------------------------------------------------------------ */
 /* Font size fix (maybe just a Firefox/Ubuntu issue)                  */
 /* ------------------------------------------------------------------ */
