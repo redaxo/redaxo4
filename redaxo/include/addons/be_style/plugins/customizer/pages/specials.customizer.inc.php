@@ -27,7 +27,10 @@ if ($func == 'update')
   $REX['ADDON']['be_style']['plugin_customizer']['projectname'] = htmlspecialchars(rex_request('customizer-projectname', 'string'));
 
   $labelcolor = rex_request("customizer-labelcolor","string");
-  if (preg_match('/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/', $labelcolor)) {
+  if ($labelcolor == '') {
+    $REX['ADDON']['be_style']['plugin_customizer']['labelcolor'] = '';
+  }
+  elseif (preg_match('/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/', $labelcolor)) {
     $REX['ADDON']['be_style']['plugin_customizer']['labelcolor'] = htmlspecialchars($labelcolor);
   }
   else {
