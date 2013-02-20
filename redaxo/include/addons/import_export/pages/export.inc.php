@@ -41,8 +41,10 @@ if ($impname != '')
     $impname = "";
 }
 
-if ($exportfilename == '')
-  $exportfilename = strtolower($REX['SERVER']).'_rex'.$REX['VERSION'].$REX['SUBVERSION'].$REX['MINORVERSION'].'_'.date("Ymd_Hi");
+if ($exportfilename == '') {
+  $server = preg_replace('@^https?://|/.*|[^\w.-]@', '', $REX['SERVER']);
+  $exportfilename = strtolower($server).'_rex'.$REX['VERSION'].$REX['SUBVERSION'].$REX['MINORVERSION'].'_'.date("Ymd_Hi");
+}
 
 
 if ($function == 'export')
