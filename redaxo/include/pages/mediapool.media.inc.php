@@ -267,19 +267,19 @@ if ($subpage == "detail")
     {
       if ($ffiletype_ii)
       {
-        $opener_link .= '<a href="javascript:insertImage(\''. $encoded_fname .'\',\''.$gf->getValue('title').'\');">'.$I18N->msg('pool_image_get').'</a> | ';
+        $opener_link .= '<a class="rex-mediapool-selectmedia" data-rex-media="'.$fname.'" href="javascript:insertImage(\''. $encoded_fname .'\',\''.$gf->getValue('title').'\');">'.$I18N->msg('pool_image_get').'</a> | ';
       }
     }
     elseif($opener_input_field == 'TINY')
     {
-      $opener_link .= '<a href="javascript:insertLink(\''.$encoded_fname.'\');">'.$I18N->msg('pool_link_get').'</a>';
+      $opener_link .= '<a class="rex-mediapool-selectmedia" data-rex-media="'.$fname.'" href="javascript:insertLink(\''.$encoded_fname.'\');">'.$I18N->msg('pool_link_get').'</a>';
     }
     elseif($opener_input_field != '')
     {
-      $opener_link = '<a href="javascript:selectMedia(\''.$encoded_fname.'\', \''.addslashes(htmlspecialchars($gf->getValue('title'))).'\');">'.$I18N->msg('pool_file_get').'</a>';
+      $opener_link = '<a class="rex-mediapool-selectmedia" data-rex-media="'.$fname.'" href="javascript:selectMedia(\''.$encoded_fname.'\', \''.addslashes(htmlspecialchars($gf->getValue('title'))).'\');">'.$I18N->msg('pool_file_get').'</a>';
       if (substr($opener_input_field,0,14)=="REX_MEDIALIST_")
       {
-        $opener_link = '<a href="javascript:selectMedialist(\''.$encoded_fname.'\');">'.$I18N->msg('pool_file_get').'</a>';
+        $opener_link = '<a class="rex-mediapool-selectmedia" data-rex-media="'.$fname.'" href="javascript:selectMedialist(\''.$encoded_fname.'\');">'.$I18N->msg('pool_file_get').'</a>';
       }
     }
 
@@ -732,17 +732,17 @@ if ($subpage == '')
     {
       if (OOMedia::_isImage($file_name))
       {
-        $opener_link .= "<a href=\"javascript:insertImage('$file_name','".$files->getValue("title")."')\">".$I18N->msg('pool_image_get')."</a><br>";
+        $opener_link .= '<a class="rex-mediapool-selectmedia" data-rex-media="'.$file_name.'" href="javascript:insertImage(\''.$file_name.'\',\''.$files->getValue("title").'\')">'.$I18N->msg('pool_image_get').'</a><br>';
       }
 
     } elseif ($opener_input_field == 'TINY'){
-        $opener_link .= "<a href=\"javascript:insertLink('".$file_name."');\">".$I18N->msg('pool_link_get')."</a>";
+        $opener_link .= '<a class="rex-mediapool-selectmedia" data-rex-media="'.$file_name.'" href="javascript:insertLink(\''.$file_name.'\');">'.$I18N->msg('pool_link_get').'</a>';
     } elseif ($opener_input_field != '')
     {
-      $opener_link = "<a href=\"javascript:selectMedia('".$file_name."', '".addslashes(htmlspecialchars($files->getValue('title')))."');\">".$I18N->msg('pool_file_get')."</a>";
+      $opener_link = '<a class="rex-mediapool-selectmedia" data-rex-media="'.$file_name.'" href="javascript:selectMedia(\''.$file_name.'\', \''.addslashes(htmlspecialchars($files->getValue('title'))).'\');">'.$I18N->msg('pool_file_get').'</a>';
       if (substr($opener_input_field,0,14)=="REX_MEDIALIST_")
       {
-        $opener_link = "<a href=\"javascript:selectMedialist('".$file_name."');\">".$I18N->msg('pool_file_get')."</a>";
+        $opener_link = '<a class="rex-mediapool-selectmedia" data-rex-media="'.$file_name.'" href="javascript:selectMedialist(\''.$file_name.'\');">'.$I18N->msg('pool_file_get').'</a>';
       }
     }
 
@@ -805,3 +805,4 @@ if ($subpage == '')
   </form>
   </div>';
 }
+
