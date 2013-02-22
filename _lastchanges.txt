@@ -34,7 +34,7 @@ Version 4.5.0 (2013-XX-XX)
   * Mediapool: upload unzulässiger Dateitypen wird unterbunden
   * Mediapool: neuer EP: PAGE_MEDIAPOOL_OUTPUT
   * Page Content: neuer EP: PAGE_CONTENT_OUTPUT
-  * Page Specials: neue Eps: PAGE_SPECIALS_MENU, PAGE_SPECIALS_OUTPUT
+  * Page Specials: neuer EP: PAGE_SPECIALS_OUTPUT
   * be_style: customizer plugin ergänzt. farblabel, frontpage link, codemirror, liquid design
   * settings: files und generated ordner in master definierbar
   * default addons: xform und community eingebaut
