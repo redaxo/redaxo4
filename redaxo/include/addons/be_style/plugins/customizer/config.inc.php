@@ -31,6 +31,8 @@ if($REX["REDAXO"]) {
   function rex_be_style_customizer_css_add($params) {
     global $REX;
 
+    $params["subject"] .= "\n".'<link rel="stylesheet" type="text/css" href="../'.$REX['MEDIA_ADDON_DIR'].'/be_style/plugins/customizer/customizer.css" media="screen" />';
+
     if($REX['ADDON']['be_style']['plugin_customizer']['codemirror']) {
 
       $params["subject"] .= "\n".'<link rel="stylesheet" type="text/css" href="../'.$REX['MEDIA_ADDON_DIR'].'/be_style/plugins/customizer/codemirror/codemirror.css" media="screen" />';
@@ -75,8 +77,10 @@ if($REX["REDAXO"]) {
       $server = 'http://'.$REX["SERVER"];
     }
 
-    $params['subject'] = str_replace('<div id="rex-extra"></div>',
-      '<div id="rex-extra"><h1><a href="' . $server . '" onclick="window.open(this.href); return false">' . $REX['SERVERNAME'] . '</a></h1></div>',
+    $class = (strlen($REX['SERVERNAME']) > 50) ? ' be-style-customizer-small' : '';
+
+    $params['subject'] = str_replace('<div id="rex-extra">',
+      '<div id="rex-extra"><h1 class="be-style-customizer-title' . $class . '"><a href="' . $server . '" onclick="window.open(this.href); return false">' . $REX['SERVERNAME'] . '</a></h1>',
       $params['subject']);
 
     return $params['subject'];

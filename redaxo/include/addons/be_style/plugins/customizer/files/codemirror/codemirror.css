@@ -240,11 +240,9 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {color: #f22;}
   }
 }
 
-
-.CodeMirror { 
+.CodeMirror {
   border-top: 1px solid black; border-bottom: 1px solid black;
 }
 .CodeMirror-activeline-background {
   background: #e8f2ff !important;
 }
-
