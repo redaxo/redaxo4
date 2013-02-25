@@ -228,7 +228,7 @@ if ($func == '')
     if (count($disabled) > 0)
       $env_js .= '
         if ($("#'. $typeFieldId .' option:selected").val() == "'. $group .'")
-          $("#'. $envFieldId .' option[value=\''. implode('\'], #'. $envFieldId .' option[value=\'', $disabled) .'\']").attr("disabled","disabled").attr("selected","");
+          $("#'. $envFieldId .' option[value=\''. implode('\'], #'. $envFieldId .' option[value=\'', $disabled) .'\']").prop("disabled",true).prop("selected",false);
 ';
 
     $params = $cronjob->getParamFields();
@@ -342,7 +342,7 @@ if ($func == '')
         currentShown.show();
       }).change();
       $('#<?php echo $typeFieldId ?>').change(function(){
-        $('#<?php echo $envFieldId ?> option').attr('disabled','');<?php echo $env_js; ?>
+        $('#<?php echo $envFieldId ?> option').prop('disabled',false);<?php echo $env_js; ?>
       }).change();<?php echo $visible_js."\n"; ?>
     });
   // ]]>
