@@ -85,6 +85,7 @@ function buildRelease($name = null, $version = null)
     './'. $cfg_path,
     './coding_standards.php',
     './lang_scan.php',
+    './files',
   );
   // Addons die vorinstalliert sein sollen
   $preinstallAddons = array(
@@ -99,7 +100,6 @@ function buildRelease($name = null, $version = null)
   $use_lang = array(
     'de_de',
     'en_gb',
-    'da_dk',
     );
 
 
@@ -125,6 +125,9 @@ function buildRelease($name = null, $version = null)
   {
     $path = $cfg_path;
     $name = $systemName .'_'. $releaseConfig['name'];
+    if($releaseConfig['name'] == "default") {
+      $name = $systemName;
+    }
 
     if(substr($path, -1) != '/')
       $path .= '/';
@@ -180,6 +183,19 @@ function buildRelease($name = null, $version = null)
     foreach ($manual_dirs as $dir) {
       if(!file_exists($dir))
         mkdir($dir);
+    }
+
+    // Ordner die eine .redaxo Datei bekommen und
+    // somit dafür sorgen, dass dieser Ordner mit jedem
+    // Entpacker verwendet wird
+    $manual_dirs = array(
+      $dest .'/files',
+      $dest .'/redaxo/include/generated/articles',
+      $dest .'/redaxo/include/generated/templates',
+      $dest .'/redaxo/include/generated/files',
+    );
+    foreach ($manual_dirs as $dir) {
+      file_put_contents ( $dir.'/.redaxo' , '// Ordner für abgelegte Dateien von redaxo' );
     }
 
     echo PHP_EOL.'> fix master.inc.php'.PHP_EOL;
@@ -322,6 +338,13 @@ function buildRelease($name = null, $version = null)
 
     echo PHP_EOL.'>>> BUILD "'. $name .'" Finished'."\n\n";
   }
+
+  echo "\nDEST: $dest";
+  echo "\nName: $name";
+
+  $phar = new PharData('release/'.$name.'.zip');
+  $phar->buildFromDirectory(dirname(__FILE__) . '/'.$dest);
+
   echo PHP_EOL.'> FINISHED'.PHP_EOL;
 }
 

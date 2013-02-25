@@ -6,6 +6,12 @@
  * @version svn:$Id$
  */
 
+define('REX_MIN_PHP_VERSION', '5.3.0');
+
+if (version_compare(PHP_VERSION, REX_MIN_PHP_VERSION) < 0) {
+  trigger_error('PHP version >=' . REX_MIN_PHP_VERSION . ' needed!', E_USER_ERROR);
+}
+
 // -----------------
 
 if (!$REX['GG'])

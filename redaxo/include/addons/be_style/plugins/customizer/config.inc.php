@@ -90,7 +90,7 @@ if($REX["REDAXO"]) {
     global $REX;
 
     if ($REX['ADDON']['be_style']['plugin_customizer']['textarea'])
-      $params['subject']['class'][] = 'be-style-agk-skin-textarea';
+      $params['subject']['class'][] = 'be-style-customizer-textarea-big';
 
     if ($REX['ADDON']['be_style']['plugin_customizer']['liquid'])
       $params['subject']['class'][] = 'rex-layout-liquid';

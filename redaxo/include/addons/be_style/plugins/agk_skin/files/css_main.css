@@ -987,36 +987,3 @@ div#rex-footer {
   font-size: 12px;
   line-height: 17px;
 }
-
-
-
-.rex-form .CodeMirror {
-  left: -29px !important;
-  width: 486px !important;
-  height: 400px !important;
-  border: 1px solid #999;
-  border-left-color: #ddd;
-}
-
-.rex-form .CodeMirror pre,
-.rex-form .CodeMirror-linenumber {
-  font-size: 11px;
-  line-height: 14px;
-}
-.rex-form .CodeMirror-gutters {
-  border-right-color: #999;
-}
-
-.be-style-agk-skin-textarea .rex-form .CodeMirror {
-  left: 0 !important;
-  width: 100% !important;
-  height: 500px !important;
-  margin-bottom: 20px !important;
-  border-left: 0;
-  border-right: 0;
-}
-.be-style-agk-skin-textarea .rex-form .CodeMirror pre,
-.be-style-agk-skin-textarea .rex-form .CodeMirror-linenumber {
-  font-size: 12px;
-  line-height: 16px;
-}
