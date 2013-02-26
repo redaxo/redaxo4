@@ -111,8 +111,7 @@
       $btnName = $this->getInputName('save_btn');
 
       $content = '<div class="rex-form rex-dashboard-component-config">
-                    <form action="index.php" method="post">
-                      <input type="hidden" name="page" value="'. $REX['PAGE'] .'" />
+                    <form action="index.php?page='. $REX['PAGE'] .'" method="post">
                       '. $content .'
                       <p class="rex-form-col-a rex-form-submit">
                         <input type="submit" class="rex-form-submit" name="'. $btnName .'" value="'. $I18N->msg('dashboard_component_save_config') .'" />

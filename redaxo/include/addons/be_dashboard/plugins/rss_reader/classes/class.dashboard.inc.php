@@ -54,7 +54,7 @@ class rex_rss_reader_component_config extends rex_dashboard_component_config
   function rex_rss_reader_component_config()
   {
     $defaultSettings = array(
-      'urls' => array('http://www.redaxo.de/de/rss/news'),
+      'urls' => array('http://www.redaxo.de/de/rss/news/'),
     );
     parent::rex_dashboard_component_config($defaultSettings);
   }

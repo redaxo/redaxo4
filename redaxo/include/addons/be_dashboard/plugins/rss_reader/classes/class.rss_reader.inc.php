@@ -10,7 +10,7 @@
  * @version svn:$Id$
  */
 
-require_once dirname(__FILE__) .'/../libs/simplepie.inc.php';
+require_once dirname(__FILE__) .'/../vendor/simplepie.inc.php';
 
 /**
  * There are two ways that you can create a new rssReader object. The first
@@ -40,6 +40,10 @@ class rex_rssReader extends SimplePie
       $cache_location = $REX['GENERATED_PATH'] .'/files/';
     }
 
-    parent::SimplePie($feed_url, $cache_location, $cache_duration);
+    parent::__construct();
+    $this->set_feed_url($feed_url);
+    $this->set_cache_location($cache_location);
+    $this->set_cache_duration($cache_duration);
+    $this->init();
   }
 }

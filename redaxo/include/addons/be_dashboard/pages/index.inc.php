@@ -17,7 +17,7 @@ rex_title($I18N->msg('dashboard'), '');
 $contentFound = false;
 
 $component = new rex_notification_component();
-$content   =& $component->get();
+$content   = $component->get();
 if($content != '')
 {
   $contentFound = true;
@@ -78,7 +78,7 @@ foreach($components as $format => $componentBlocks)
 
       foreach($componentBlock as $component)
       {
-        $cnt =& $component->get();
+        $cnt = $component->get();
         if($cnt != '')
         {
           echo $cnt;
@@ -106,7 +106,7 @@ foreach($components as $format => $componentBlocks)
       echo '  <div class="rex-dashboard-column rex-dashboard-column-first">';
       foreach($componentBlock as $index => $component)
       {
-        $cnt =& $component->get();
+        $cnt = $component->get();
         if($cnt != '')
         {
           echo $cnt;
@@ -124,7 +124,7 @@ foreach($components as $format => $componentBlocks)
       echo '<div class="rex-dashboard-column">';
       foreach($componentBlock as $index => $component)
       {
-        $cnt =& $component->get();
+        $cnt = $component->get();
         if($cnt != '')
         {
           echo $cnt;
