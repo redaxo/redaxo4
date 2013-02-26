@@ -1,24 +1,24 @@
 jQuery(document).ready(function()
 {
   var cm_editor = {};
-  
-  cm = 0;
+  var cm = 0;
+
   jQuery("#rex-rex_cronjob_phpcode textarea, #rex-page-module #rex-wrapper textarea, #rex-page-template #rex-wrapper textarea, textarea.codemirror").each(function(){
 
-    t = jQuery(this);
+    var t = jQuery(this);
+    var id = t.attr("id");
 
-    id = t.attr("id");
     if(typeof id === "undefined") {
       cm++;
       id = 'codemirror-id-'+cm;
       t.attr("id",id);
     }
 
-    mode = "application/x-httpd-php";
-    theme = customizer_codemirror_defaulttheme;
+    var mode = "application/x-httpd-php";
+    var theme = customizer_codemirror_defaulttheme;
 
-    new_mode = t.attr("data-codemirror-mode");
-    new_theme = t.attr("data-codemirror-theme");
+    var new_mode = t.attr("data-codemirror-mode");
+    var new_theme = t.attr("data-codemirror-theme");
 
     if(typeof new_mode !== "undefined") {
       mode = new_mode;
@@ -49,10 +49,15 @@ jQuery(document).ready(function()
       .css("margin-bottom", t.css("margin-bottom"))
       .css("margin-right", t.css("margin-right"));
 
-    height = parseInt(t.height());
-    if(height < 150) height = 150;
-    width = parseInt(t.width());
-    if(width < 300) width = 300;
+    var height = parseInt(t.height());
+    var width = parseInt(t.width());
+
+    if(height < 150) {
+      height = 150;
+    }
+    if(width < 300) {
+      width = 300;
+    }
 
     cm_editor[cm].setSize(width, height);
     cm_editor[cm].refresh();
