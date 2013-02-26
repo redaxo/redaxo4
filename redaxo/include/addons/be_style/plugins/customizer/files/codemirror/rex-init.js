@@ -3,20 +3,22 @@ jQuery(document).ready(function()
   var cm_editor = {};
   
   cm = 0;
-  jQuery("#rex-page-cronjob textarea, #rex-page-module #rex-wrapper textarea, #rex-page-template #rex-wrapper textarea, textarea.codemirror").each(function(){
+  jQuery("#rex-rex_cronjob_phpcode textarea, #rex-page-module #rex-wrapper textarea, #rex-page-template #rex-wrapper textarea, textarea.codemirror").each(function(){
 
-    cm++;
-    id = jQuery(this).attr("id");
+    t = jQuery(this);
+
+    id = t.attr("id");
     if(typeof id === "undefined") {
+      cm++;
       id = 'codemirror-id-'+cm;
-      jQuery(this).attr("id",id);
+      t.attr("id",id);
     }
 
     mode = "application/x-httpd-php";
     theme = customizer_codemirror_defaulttheme;
 
-    new_mode = jQuery(this).attr("data-codemirror-mode");
-    new_theme = jQuery(this).attr("data-codemirror-theme");
+    new_mode = t.attr("data-codemirror-mode");
+    new_theme = t.attr("data-codemirror-theme");
 
     if(typeof new_mode !== "undefined") {
       mode = new_mode;
@@ -42,14 +44,17 @@ jQuery(document).ready(function()
     });
   
     jQuery(cm_editor[cm].getWrapperElement())
-      .css("margin-top", jQuery(this).css("margin-top"))
-      .css("margin-left", jQuery(this).css("margin-left"))
-      .css("margin-bottom", jQuery(this).css("margin-bottom"));
+      .css("margin-top", t.css("margin-top"))
+      .css("margin-left", t.css("margin-left"))
+      .css("margin-bottom", t.css("margin-bottom"))
+      .css("margin-right", t.css("margin-right"));
 
-    height = parseInt(jQuery(this).height());
+    height = parseInt(t.height());
     if(height < 150) height = 150;
+    width = parseInt(t.width());
+    if(width < 300) width = 300;
 
-    cm_editor[cm].setSize(jQuery(this).width(), height);
+    cm_editor[cm].setSize(width, height);
     cm_editor[cm].refresh();
 
   });
