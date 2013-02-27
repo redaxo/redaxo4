@@ -718,7 +718,13 @@ div.rex-addon-col-b {
 
 /*	Formulare ******************************************************************
 *******************************************************************************/
-/*	Struktur : Metainfo 
+
+#rex-rex_cronjob_phpcode textarea {
+  width: 456px;
+  height: 200px;
+}
+
+/*	Struktur : Metainfo
 *******************************************************************************/
 div#rex-form-structure-category tr.rex-metainfo-cat div.rex-form-checkboxes-wrapper p.rex-form-label-right label, 
 div#rex-form-structure-category tr.rex-metainfo-cat div.rex-form-radios-wrapper p.rex-form-label-right label {
