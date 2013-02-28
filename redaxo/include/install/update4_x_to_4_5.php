@@ -30,12 +30,15 @@ if ($eventType == REX_A1_IMPORT_EVENT_PRE)
   $update->setQuery("ALTER TABLE ". $REX['TABLE_PREFIX'] ."file ADD INDEX `re_file_id` (`re_file_id`), ADD INDEX `category_id` (`category_id`);");
   $update->setQuery("ALTER TABLE ". $REX['TABLE_PREFIX'] ."file_category DROP PRIMARY KEY, ADD PRIMARY KEY (`id`), ADD INDEX `re_id` (`re_id`);");
   $update->setQuery("ALTER TABLE ". $REX['TABLE_PREFIX'] ."module DROP PRIMARY KEY, ADD PRIMARY KEY (`id`), ADD INDEX `category_id` (`category_id`);");
-  $update->setQuery("ALTER TABLE ". $REX['TABLE_PREFIX'] ."user ADD UNIQUE INDEX `login` (`login`(50));");
 
-  $update->setQuery("UPDATE ". $REX['TABLE_PREFIX'] ."62_type set dbtype='text', dblength='0' where label='". $REX['TABLE_PREFIX'] ."MEDIALIST_BUTTON' or label='". $REX['TABLE_PREFIX'] ."LINKLIST_BUTTON'");
-
+  // metainfo addon
   $update->setQuery("ALTER TABLE `". $REX['TABLE_PREFIX'] ."62_params` CHANGE `validate` `validate` TEXT DEFAULT NULL");
   $update->setQuery("ALTER TABLE `". $REX['TABLE_PREFIX'] ."62_params` ADD `restrictions` TEXT NOT NULL AFTER `validate`");
+  $update->setQuery("UPDATE ". $REX['TABLE_PREFIX'] ."62_type set dbtype='text', dblength='0' where label='". $REX['TABLE_PREFIX'] ."MEDIALIST_BUTTON' or label='". $REX['TABLE_PREFIX'] ."LINKLIST_BUTTON' or label='text' or label='date' or label='datetime'");
+
+  $update->setQuery("INSERT INTO `". $REX['TABLE_PREFIX'] ."62_type` (`id`, `label`, `dbtype`, `dblength`) VALUES (12, 'legend', 'text', 0)");
+  $update->setQuery("INSERT INTO `". $REX['TABLE_PREFIX'] ."62_type` (`id`, `label`, `dbtype`, `dblength`) VALUES (13, 'time', 'text', 0)");
+
   // $update->setQuery("");
 
 }
