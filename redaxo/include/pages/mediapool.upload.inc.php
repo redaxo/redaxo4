@@ -20,25 +20,27 @@ if ($media_method == 'add_file')
       else
       {
         $FILEINFOS['title'] = rex_request('ftitle', 'string');
-  
+
         if (!$PERMALL && !$REX['USER']->hasPerm("media[$rex_file_category]"))
           $rex_file_category = 0;
-  
+
         // function in function.rex_mediapool.inc.php
         $return = rex_mediapool_saveMedia($_FILES['file_new'],$rex_file_category,$FILEINFOS,$REX['USER']->getValue("login"));
-        $info = $return['msg'];
-        $subpage = "";
-  
+        if ($return['ok']) {
+          $info = $return['msg'];
+          $subpage = "";
+        }
+
         // ----- EXTENSION POINT
         if ($return['ok'] == 1)
           rex_register_extension_point('MEDIA_ADDED','',$return);
-  
+
         if (rex_post('saveandexit', 'boolean') && $return['ok'] == 1)
         {
           $file_name = $return['filename'];
           $ffiletype = $return['type'];
           $title = $return['title'];
-  
+
           if($opener_input_field == 'TINYIMG')
           {
             if (OOMedia::_isImage($file_name))
@@ -62,7 +64,7 @@ if ($media_method == 'add_file')
               $js = "selectMedia('".$file_name."');";
             }
           }
-  
+
           echo "<script language=javascript>\n";
           echo $js;
           // echo "\nself.close();\n";
