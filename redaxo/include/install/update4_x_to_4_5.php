@@ -30,6 +30,7 @@ if ($eventType == REX_A1_IMPORT_EVENT_PRE)
   $update->setQuery("ALTER TABLE ". $REX['TABLE_PREFIX'] ."file ADD INDEX `re_file_id` (`re_file_id`), ADD INDEX `category_id` (`category_id`);");
   $update->setQuery("ALTER TABLE ". $REX['TABLE_PREFIX'] ."file_category DROP PRIMARY KEY, ADD PRIMARY KEY (`id`), ADD INDEX `re_id` (`re_id`);");
   $update->setQuery("ALTER TABLE ". $REX['TABLE_PREFIX'] ."module DROP PRIMARY KEY, ADD PRIMARY KEY (`id`), ADD INDEX `category_id` (`category_id`);");
+  $update->setQuery("ALTER TABLE ". $REX['TABLE_PREFIX'] ."user ADD UNIQUE INDEX `login` (`login`(50));");
 
   // metainfo addon
   $update->setQuery("ALTER TABLE `". $REX['TABLE_PREFIX'] ."62_params` CHANGE `validate` `validate` TEXT DEFAULT NULL");
