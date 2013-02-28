@@ -16,8 +16,17 @@ function rex_mediapool_filename($FILENAME, $doSubindexing = true)
   global $REX;
 
   // ----- neuer filename und extension holen
-  $NFILENAME = strtolower($FILENAME);
-  $NFILENAME = str_replace(array('ä','ö', 'ü', 'ß'),array('ae', 'oe', 'ue', 'ss'),$NFILENAME);
+  $NFILENAME = str_replace(
+    array('Ä',  'ä',  'Ö',  'ö',  'Ü',  'ü',  'ß'),
+    array('ae', 'ae', 'oe', 'oe', 'ue', 'ue', 'ss'),
+    $FILENAME
+  );
+  $NFILENAME = strtolower($NFILENAME);
+  $NFILENAME = str_replace(
+    array("a\xec\x88", "o\xec\x88", "u\xec\x88"),
+    array('ae', 'oe', 'ue'),
+    $NFILENAME
+  );
   $NFILENAME = preg_replace('/[^a-zA-Z0-9.\-\+]/','_',$NFILENAME);
   if (strrpos($NFILENAME,'.') != '')
   {
