@@ -11,9 +11,9 @@
 
 $error = '';
 
-$config_file = $REX['INCLUDE_PATH'] .'/addons/cronjob/config.inc.php';
+$nexttime_file = $REX['INCLUDE_PATH'] .'/addons/cronjob/nexttime';
 
-if(($state = rex_is_writable($config_file)) !== true)
+if(($state = rex_is_writable($nexttime_file)) !== true)
   $error .= $state;
 
 $log_folder = $REX['INCLUDE_PATH'] .'/addons/cronjob/logs/';

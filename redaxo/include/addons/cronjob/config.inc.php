@@ -62,8 +62,9 @@ if($REX['REDAXO'])
   $EP = 'ADDONS_INCLUDED';
 }
 
-define('REX_CRONJOB_LOG_FOLDER', $REX['INCLUDE_PATH'] .'/addons/cronjob/logs/');
-define('REX_CRONJOB_TABLE'     , $REX['TABLE_PREFIX'] .'630_cronjobs');
+define('REX_CRONJOB_LOG_FOLDER',    $REX['INCLUDE_PATH'] .'/addons/cronjob/logs/');
+define('REX_CRONJOB_NEXTTIME_FILE', $REX['INCLUDE_PATH'] .'/addons/cronjob/nexttime');
+define('REX_CRONJOB_TABLE',         $REX['TABLE_PREFIX'] .'630_cronjobs');
 
 require_once dirname(__FILE__) .'/classes/class.manager.inc.php';
 require_once dirname(__FILE__) .'/classes/class.log.inc.php';
@@ -72,9 +73,13 @@ require_once dirname(__FILE__) .'/classes/types/class.phpcode.inc.php';
 require_once dirname(__FILE__) .'/classes/types/class.phpcallback.inc.php';
 require_once dirname(__FILE__) .'/classes/types/class.urlrequest.inc.php';
 
-// --- DYN
-$REX['ADDON']['nexttime']['cronjob'] = "0";
-// --- /DYN
+$REX['ADDON']['nexttime']['cronjob'] = 1;
+if (file_exists(REX_CRONJOB_NEXTTIME_FILE)) {
+  $nexttime = trim(file_get_contents(REX_CRONJOB_NEXTTIME_FILE));
+  if ($nexttime !== '') {
+    $REX['ADDON']['nexttime']['cronjob'] = (int) $nexttime;
+  }
+}
 
 if (isset($REX['ADDON']['nexttime'][$mypage])
   && $REX['ADDON']['nexttime'][$mypage] != 0

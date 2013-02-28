@@ -108,15 +108,10 @@ class rex_cronjob_manager
       $nexttime = 0;
     else
       $nexttime = max(1, $nexttime);
-    if ($nexttime != $REX['ADDON']['nexttime']['cronjob'])
+    if ($nexttime != $REX['ADDON']['nexttime']['cronjob'] && rex_put_file_contents(REX_CRONJOB_NEXTTIME_FILE, $nexttime))
     {
-      $content = '$REX[\'ADDON\'][\'nexttime\'][\'cronjob\'] = "'. addslashes($nexttime) .'";';
-      $file = $REX['INCLUDE_PATH'] .'/addons/cronjob/config.inc.php';
-      if (rex_replace_dynamic_contents($file, $content))
-      {
-        $REX['ADDON']['nexttime']['cronjob'] = $nexttime;
-        return true;
-      }
+      $REX['ADDON']['nexttime']['cronjob'] = $nexttime;
+      return true;
     }
     return false;
   }
