@@ -263,6 +263,7 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {color: #f22;}
   border-right-color: #999;
 }
 
+#rex-page-cronjob.be-style-customizer-textarea-big .rex-form .CodeMirror,
 #rex-page-module.be-style-customizer-textarea-big .rex-form .CodeMirror,
 #rex-page-template.be-style-customizer-textarea-big .rex-form .CodeMirror {
   left: 0 !important;
@@ -273,9 +274,11 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {color: #f22;}
   border-right: 0;
 }
 
+#rex-page-cronjob.be-style-customizer-textarea-big #rex-wrapper textarea.CodeMirror pre,
+#rex-page-cronjob.be-style-customizer-textarea-big #rex-wrapper textarea.CodeMirror-linenumber,
 #rex-page-module.be-style-customizer-textarea-big #rex-wrapper textarea.CodeMirror pre,
-#rex-page-template.be-style-customizer-textarea-big #rex-wrapper textarea.CodeMirror pre,
 #rex-page-module.be-style-customizer-textarea-big #rex-wrapper textarea.CodeMirror-linenumber,
+#rex-page-template.be-style-customizer-textarea-big #rex-wrapper textarea.CodeMirror pre,
 #rex-page-template.be-style-customizer-textarea-big #rex-wrapper textarea.CodeMirror-linenumber {
   font-size: 13px;
   line-height: 16px;

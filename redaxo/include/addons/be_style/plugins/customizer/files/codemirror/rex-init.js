@@ -3,7 +3,7 @@ jQuery(document).ready(function()
   var cm_editor = {};
   
   cm = 0;
-  jQuery("#rex-page-module #rex-wrapper textarea, #rex-page-template #rex-wrapper textarea, textarea.codemirror").each(function(){
+  jQuery("#rex-page-cronjob textarea, #rex-page-module #rex-wrapper textarea, #rex-page-template #rex-wrapper textarea, textarea.codemirror").each(function(){
 
     cm++;
     id = jQuery(this).attr("id");
@@ -15,8 +15,8 @@ jQuery(document).ready(function()
     mode = "application/x-httpd-php";
     theme = customizer_codemirror_defaulttheme;
 
-    new_mode = jQuery(this).attr("codemirror-mode");
-    new_theme = jQuery(this).attr("codemirror-theme");
+    new_mode = jQuery(this).attr("data-codemirror-mode");
+    new_theme = jQuery(this).attr("data-codemirror-theme");
 
     if(typeof new_mode !== "undefined") {
       mode = new_mode;
@@ -45,8 +45,11 @@ jQuery(document).ready(function()
       .css("margin-top", jQuery(this).css("margin-top"))
       .css("margin-left", jQuery(this).css("margin-left"))
       .css("margin-bottom", jQuery(this).css("margin-bottom"));
-    
-    cm_editor[cm].setSize(jQuery(this).css("width"), jQuery(this).css("height"));
+
+    height = parseInt(jQuery(this).height());
+    if(height < 150) height = 150;
+
+    cm_editor[cm].setSize(jQuery(this).width(), height);
     cm_editor[cm].refresh();
 
   });
