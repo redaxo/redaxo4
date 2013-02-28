@@ -211,7 +211,7 @@ if ($func == '')
   $form->addFieldset($I18N->msg('cronjob_type_parameters'));
 
   $fieldContainer =& $form->addContainerField('parameters');
-  $fieldContainer->setAttribute('style', 'display: none');
+  $fieldContainer->setAttribute('class', 'rex-hidden');
   $fieldContainer->setMultiple(false);
   $fieldContainer->setActive($activeType);
 
@@ -336,10 +336,10 @@ if ($func == '')
     jQuery(function($){
       var currentShown = null;
       $("#<?php echo $typeFieldId ?>").change(function(){
-        if(currentShown) currentShown.hide();
+        if(currentShown) currentShown.addClass('rex-hidden');
         var typeId = "#rex-"+ $(this).val();
         currentShown = $(typeId);
-        currentShown.show();
+        currentShown.removeClass('rex-hidden');
       }).change();
       $('#<?php echo $typeFieldId ?>').change(function(){
         $('#<?php echo $envFieldId ?> option').prop('disabled',false);<?php echo $env_js; ?>
