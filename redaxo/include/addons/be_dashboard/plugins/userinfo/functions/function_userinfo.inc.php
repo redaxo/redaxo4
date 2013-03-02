@@ -31,7 +31,7 @@ function rex_a659_statistics()
     $stats['total_categories'] = 0;
   }
 
-  $result = $sql->getArray('SELECT COUNT(*) as count, updatedate FROM '. $REX['TABLE_PREFIX'] .'article WHERE clang=0 AND startpage=0 GROUP BY clang ORDER BY updatedate DESC');
+  $result = $sql->getArray('SELECT COUNT(*) as count, updatedate FROM '. $REX['TABLE_PREFIX'] .'article WHERE clang=0 GROUP BY clang ORDER BY updatedate DESC');
   if(count($result) > 0)
   {
     $stats['total_articles'] = $result[0]['count'];
