@@ -9,7 +9,8 @@ class rex_cronjob_export extends rex_cronjob
     include_once $REX['INCLUDE_PATH'] .'/addons/import_export/functions/function_import_export.inc.php';
     include_once $REX['INCLUDE_PATH'] .'/addons/import_export/functions/function_import_folder.inc.php';
 
-    $file = strtolower($_SERVER['HTTP_HOST']).'_rex'.$REX['VERSION'].$REX['SUBVERSION'].$REX['MINORVERSION'].'_'.$REX['LANG'].'_'.date("d.m.Y_H\hi");
+    $server = preg_replace('@^https?://|/.*|[^\w.-]@', '', $REX['SERVER']);
+    $file = strtolower($server).'_rex'.$REX['VERSION'].$REX['SUBVERSION'].$REX['MINORVERSION'].'_'.date("Ymd_Hi");
     $dir = getImportDir() .'/';
     $ext = '.sql';
     if (file_exists($dir . $file . $ext))
