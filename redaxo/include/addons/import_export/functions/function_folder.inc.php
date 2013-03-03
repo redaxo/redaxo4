@@ -1,5 +1,24 @@
 <?php
 
+if (!function_exists('createFolder')) {
+  function createFolder($dir, $recursive = true)
+  {
+    global $REX;
+    if (is_dir($dir))
+      return true;
+
+    $parent = dirname($dir);
+    if (!is_dir($parent) && (!$recursive || !createFolder($parent)))
+      return false;
+
+    if (mkdir($dir, $REX['DIRPERM'])) {
+      @chmod($dir, $REX['DIRPERM']);
+      return true;
+    }
+
+    return false;
+  }
+}
 
 /**
  * Returns the content of the given folder
@@ -8,19 +27,16 @@
  * @return Array Content of the folder or false on error
  * @author Markus Staab <staab@public-4u.de>
  */
-if (!function_exists('readFolder'))
-{
+if (!function_exists('readFolder')) {
    function readFolder($dir)
    {
-      if (!is_dir($dir))
-      {
-         trigger_error('Folder "'.$dir.'" is not available or not a directory');
+      if (!is_dir($dir)) {
+         trigger_error('Folder "' . $dir . '" is not available or not a directory');
          return false;
       }
       $hdl = opendir($dir);
-      $folder = array ();
-      while (false !== ($file = readdir($hdl)))
-      {
+      $folder = array();
+      while (false !== ($file = readdir($hdl))) {
          $folder[] = $file;
       }
 
@@ -38,22 +54,18 @@ if (!function_exists('readFolder'))
  * @author Markus Staab <staab@public-4u.de>
  */
 
-if (!function_exists('readFilteredFolder'))
-{
+if (!function_exists('readFilteredFolder')) {
    function readFilteredFolder($dir, $fileprefix)
    {
-      $filtered = array ();
+      $filtered = array();
       $folder = readFolder($dir);
 
-      if (!$folder)
-      {
+      if (!$folder) {
          return false;
       }
 
-      foreach ($folder as $file)
-      {
-         if (endsWith($file, $fileprefix))
-         {
+      foreach ($folder as $file) {
+         if (endsWith($file, $fileprefix)) {
             $filtered[] = $file;
          }
       }
@@ -69,22 +81,18 @@ if (!function_exists('readFilteredFolder'))
  * @return Array Files of the folder or false on error
  * @author Markus Staab <staab@public-4u.de>
  */
-if (!function_exists('readFolderFiles'))
-{
+if (!function_exists('readFolderFiles')) {
    function readFolderFiles($dir)
    {
       $folder = readFolder($dir);
-      $files = array ();
+      $files = array();
 
-      if (!$folder)
-      {
+      if (!$folder) {
          return false;
       }
 
-      foreach ($folder as $file)
-      {
-         if (is_file($dir.'/'.$file))
-         {
+      foreach ($folder as $file) {
+         if (is_file($dir . '/' . $file)) {
             $files[] = $file;
          }
       }
@@ -101,26 +109,21 @@ if (!function_exists('readFolderFiles'))
  * @return Array Subfolders of the folder or false on error
  * @author Markus Staab <staab@public-4u.de>
  */
-if (!function_exists('readSubFolders'))
-{
+if (!function_exists('readSubFolders')) {
    function readSubFolders($dir, $ignore_dots = true)
    {
       $folder = readFolder($dir);
-      $folders = array ();
+      $folders = array();
 
-      if (!$folder)
-      {
+      if (!$folder) {
          return false;
       }
 
-      foreach ($folder as $file)
-      {
-         if ($ignore_dots && ($file == '.' || $file == '..'))
-         {
+      foreach ($folder as $file) {
+         if ($ignore_dots && ($file == '.' || $file == '..')) {
             continue;
          }
-         if (is_dir($dir.'/'.$file))
-         {
+         if (is_dir($dir . '/' . $file)) {
             $folders[] = $file;
          }
       }

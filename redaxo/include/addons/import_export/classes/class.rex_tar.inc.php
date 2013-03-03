@@ -265,30 +265,22 @@ class rex_tar extends tar
 
   function extractTar()
   {
-    // kills: Warnung verhindern
-    if(is_array($this->files))
-    {
-      foreach ($this->files as $item)
-      {
-        // jan: wenn probleme mit der ordnergenerierung -> ordner manuell einstellen
+    global $REX;
 
-        if (!file_exists(dirname($item['name'])))
-        {
+    if(is_array($this->files)) {
+      foreach ($this->files as $item) {
+        if (!file_exists(dirname($item['name'])) ) {
+          createFolder(dirname($item['name']),true);
+        }
+
+        if ($h = @ fopen($item['name'], "w+")) {
+          fwrite($h, $item['file'], $item['size']);
+          fclose($h);
+        } else {
           $this->message[] = dirname($item['name']);
+          return FALSE;
         }
-        else
-        {
-          if ($h = @ fopen($item['name'], "w+"))
-          {
-            fwrite($h, $item['file'], $item['size']);
-            fclose($h);
-          }
-          else
-          {
-            $this->message[] = dirname($item['name']);
-            return FALSE;
-          }
-        }
+
       }
     }
     if (count($this->message) > 0)
