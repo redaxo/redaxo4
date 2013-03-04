@@ -28,7 +28,7 @@ class rex_image_manager
       $set = $this->effectsFromType($type);
 
       // REGISTER EXTENSION POINT
-      $set   = rex_register_extension_point('IMAGE_MANAGER_FILTERSET',$set,array('rex_image_type'=>$type));
+      $set   = rex_register_extension_point('IMAGE_MANAGER_FILTERSET',$set,array('rex_image_type'=>$type,'img'=>$image));
 
       $image->prepare();
 

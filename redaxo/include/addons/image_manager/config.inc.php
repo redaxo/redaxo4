@@ -34,9 +34,6 @@ require_once (dirname(__FILE__). '/classes/class.rex_image_cacher.inc.php');
 require_once (dirname(__FILE__). '/classes/class.rex_image_manager.inc.php');
 require_once (dirname(__FILE__). '/classes/class.rex_effect_abstract.inc.php');
 
-//--- handle image request
-$rex_img_file = rex_get('rex_img_file', 'string');
-$rex_img_type = rex_get('rex_img_type', 'string');
 
 
 
@@ -49,16 +46,25 @@ if(!$REX['SETUP']){
 if(!function_exists('image_manager_init')){
   function image_manager_init()
   {
-    global $REX, $rex_img_file, $rex_img_type;
-  
+    global $REX;
+
+    //--- handle image request
+    $rex_img_file = rex_get('rex_img_file', 'string');
+    $rex_img_type = rex_get('rex_img_type', 'string');
+    $rex_img_init = false;
+    if($rex_img_file != '' && $rex_img_type != '')
+      $rex_img_init = true;
+
     $imagepath = $REX['HTDOCS_PATH'].$REX['MEDIA_DIR'].'/'.$rex_img_file;
     $cachepath = $REX['GENERATED_PATH'].'/files/';
   
     // REGISTER EXTENSION POINT
-    $subject = array('rex_img_type' => $rex_img_type,
-                     'rex_img_file' => $rex_img_file,
-                     'imagepath'    => $imagepath,
-                     'cachepath'    => $cachepath);
+    $subject = array(
+                'rex_img_type' => $rex_img_type,
+                'rex_img_file' => $rex_img_file,
+                'rex_img_init' => $rex_img_init,
+                'imagepath'    => $imagepath,
+                'cachepath'    => $cachepath);
     $subject   = rex_register_extension_point('IMAGE_MANAGER_INIT',$subject);
 
     if(isset($subject['rex_img_file'])) $rex_img_file = $subject['rex_img_file'];
@@ -66,7 +72,7 @@ if(!function_exists('image_manager_init')){
     if(isset($subject['imagepath']))    $imagepath    = $subject['imagepath'];
     if(isset($subject['cachepath']))    $cachepath    = $subject['cachepath'];
 
-    if($rex_img_file != '' && $rex_img_type != '')
+    if($subject['rex_img_init'])
     {
       $image         = new rex_image($imagepath);
       $image_cacher  = new rex_image_cacher($cachepath);
