@@ -480,7 +480,7 @@ if($PERMALL && $media_method == 'delete_selectedmedia')
   {
     $warning = array();
     $info = array();
-
+    $countDeleted = 0;
     foreach($selectedmedia as $file_name)
     {
       $media = OOMedia::getMediaByFileName($file_name);
@@ -493,7 +493,7 @@ if($PERMALL && $media_method == 'delete_selectedmedia')
          {
            if($media->delete() !== FALSE)
            {
-             $info[] = $I18N->msg('pool_file_deleted');
+             $countDeleted++;
            }else
            {
              $warning[] = $I18N->msg('pool_file_delete_error_1', $file_name);
@@ -517,6 +517,9 @@ if($PERMALL && $media_method == 'delete_selectedmedia')
       {
        $warning[] = $I18N->msg('pool_file_not_found');
       }
+    }
+    if ($countDeleted) {
+        $info[] = $I18N->msg('pool_files_deleted', $countDeleted);
     }
   }
   else
