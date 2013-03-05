@@ -993,7 +993,7 @@ class rex_form
    */
   /*protected*/ function processPostValues()
   {
-    $saveElements =& $this->getSaveElements();
+    $saveElements = $this->getSaveElements();
     foreach($saveElements as $fieldsetName => $fieldsetElements)
     {
       foreach($fieldsetElements as $key => $element)
