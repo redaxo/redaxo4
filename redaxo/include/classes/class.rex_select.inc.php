@@ -255,7 +255,7 @@ class rex_select
     foreach ($this->options as $optgroup => $options) {
       $this->currentOptgroup = $optgroup;
       if ($optgroupLabel = isset($this->optgroups[$optgroup]) ? $this->optgroups[$optgroup] : null) {
-        $ausgabe .= '  <optgroup label="' . $optgroupLabel . '">' . "\n";
+        $ausgabe .= '  <optgroup label="' . htmlspecialchars($optgroupLabel) . '">' . "\n";
       }
       if (is_array($options)) {
         $ausgabe .= $this->_outGroup(0);
