@@ -50,6 +50,7 @@ Version 4.5.0 (2013-XX-XX)
   * Medienpool: Beim Syncen kam es zu Fehlern, wenn die Datei mit ihrem umgeschriebenen Namen bereits existierte
   * Image Manager: Probleme mit Transparenz bei PNGs beseitigt
   * Updateskript 4.x -> 4.5: Falscher Index entfernt, fehlende Einträge ergänzt
+  * Beim Anlegen neuer Artikel wurde das Template des Startartikels teilweise nicht vererbt
 
 
 Version 4.4.1 (2012-08-03)
