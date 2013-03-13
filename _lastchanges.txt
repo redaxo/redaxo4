@@ -45,7 +45,11 @@ Version 4.5.0 (2013-XX-XX)
 
   Bugfixes:
   * Cronjobs werden nicht mehr nach jedem Bearbeiten erneut ausgeführt
+  * Cronjobs: teilweise war die config.inc.php nach der Ausführung plötzlich leer
+  * Medienpool: Umlaute wurden nicht richtig ersetzt
+  * Medienpool: Beim Syncen kam es zu Fehlern, wenn die Datei mit ihrem umgeschriebenen Namen bereits existierte
   * Image Manager: Probleme mit Transparenz bei PNGs beseitigt
+  * Updateskript 4.x -> 4.5: Falscher Index entfernt, fehlende Einträge ergänzt
 
 
 Version 4.4.1 (2012-08-03)
