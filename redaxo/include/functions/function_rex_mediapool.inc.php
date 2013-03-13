@@ -47,7 +47,7 @@ function rex_mediapool_filename($FILENAME, $doSubindexing = true)
 
   $NFILENAME = $NFILE_NAME.$NFILE_EXT;
 
-  if($doSubindexing)
+  if($doSubindexing || $FILENAME != $NFILENAME)
   {
     // ----- datei schon vorhanden -> namen aendern -> _1 ..
     if (file_exists($REX['MEDIAFOLDER'].'/'.$NFILENAME))
