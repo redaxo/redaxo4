@@ -223,7 +223,7 @@ function rex_accesskey($title, $key)
 {
   global $REX;
 
-  if($REX['USER']->hasPerm('accesskeys[]'))
+  if($key && $REX['USER']->hasPerm('accesskeys[]'))
     return ' accesskey="'. $key .'" title="'. $title .' ['. $key .']"';
 
   return ' title="'. $title .'"';
