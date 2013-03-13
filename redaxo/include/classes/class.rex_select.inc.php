@@ -13,7 +13,8 @@ class rex_select
   var $attributes;
   var $options;
   var $option_selected;
-  var $optgroups = false;
+  var $currentOptgroup = 0;
+  var $optgroups = array();
 
   ################ Konstruktor
   /*public*/ function rex_select()
@@ -142,14 +143,10 @@ class rex_select
     $this->option_selected = array ();
   }
 
-  /*public*/ function useOptgroups($optgroups = true)
+  /*public*/ function addOptgroup($label)
   {
-    $this->optgroups = $optgroups;
-  }
-
-  /*public*/ function addOptgroup($name, $id)
-  {
-    $this->options[0][] = array($name, null, $id, array());
+    $this->currentOptgroup++;
+    $this->optgroups[$this->currentOptgroup] = $label;
   }
 
   /**
@@ -157,7 +154,7 @@ class rex_select
    */
   /*public*/ function addOption($name, $value, $id = 0, $re_id = 0, $attributes = array())
   {
-    $this->options[$re_id][] = array ($name, $value, $id, $attributes);
+    $this->options[$this->currentOptgroup][$re_id][] = array($name, $value, $id, $attributes);
   }
 
   /**
@@ -255,8 +252,18 @@ class rex_select
     $ausgabe = "\n";
     $ausgabe .= '<select'.$attr.'>'."\n";
 
-    if (is_array($this->options))
-      $ausgabe .= $this->_outGroup(0, $this->optgroups ? -1 : 0, $this->optgroups);
+    foreach ($this->options as $optgroup => $options) {
+      $this->currentOptgroup = $optgroup;
+      if ($optgroupLabel = isset($this->optgroups[$optgroup]) ? $this->optgroups[$optgroup] : null) {
+        $ausgabe .= '  <optgroup label="' . $optgroupLabel . '">' . "\n";
+      }
+      if (is_array($options)) {
+        $ausgabe .= $this->_outGroup(0);
+      }
+      if ($optgroupLabel) {
+        $ausgabe .= '  </optgroup>' . "\n";
+      }
+    }
 
     $ausgabe .= '</select>'. "\n";
     return $ausgabe;
@@ -268,7 +275,7 @@ class rex_select
     echo $this->get();
   }
 
-  /*protected*/ function _outGroup($re_id, $level = 0, $optgroups = false)
+  /*protected*/ function _outGroup($re_id, $level = 0)
   {
 
     if ($level > 100)
@@ -285,23 +292,15 @@ class rex_select
       $name = $option[0];
       $value = $option[1];
       $id = $option[2];
-      if ($optgroups) {
-        $ausgabe .= '  <optgroup label="' . $name . '">' . "\n";
-      } else {
-        $attributes = array();
-        if (isset($option[3]) && is_array($option[3]))
-          $attributes = $option[3];
-        $ausgabe .= $this->_outOption($name, $value, $level, $attributes);
-      }
+      $attributes = array();
+      if (isset($option[3]) && is_array($option[3]))
+        $attributes = $option[3];
+      $ausgabe .= $this->_outOption($name, $value, $level, $attributes);
 
       $subgroup = $this->_getGroup($id, true);
       if ($subgroup !== false)
       {
         $ausgabe .= $this->_outGroup($id, $level +1);
-      }
-
-      if ($optgroups) {
-        $ausgabe .= '  </optgroup>' . "\n";
       }
     }
     return $ausgabe;
@@ -336,12 +335,8 @@ class rex_select
       return false;
     }
 
-    foreach ($this->options as $gname => $group)
-    {
-      if ($gname == $re_id)
-      {
-        return $group;
-      }
+    if (isset($this->options[$this->currentOptgroup][$re_id])) {
+      return $this->options[$this->currentOptgroup][$re_id];
     }
 
     return false;
