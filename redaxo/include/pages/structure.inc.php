@@ -566,17 +566,20 @@ if ($category_id > 0 || ($category_id == 0 && !$REX["USER"]->hasMountpoints()))
   // --------------------- ARTIKEL ADD FORM
   if ($function == 'add_art' && $KATPERM && !$REX['USER']->hasPerm('editContentOnly[]'))
   {
-    if($REX['DEFAULT_TEMPLATE_ID'] > 0 && isset($TEMPLATE_NAME[$REX['DEFAULT_TEMPLATE_ID']]))
-    {
-      $template_select->setSelected($REX['DEFAULT_TEMPLATE_ID']);
-
-    }else
-    {
+    $selectedTemplate = 0;
+    if ($category_id) {
       // template_id vom Startartikel erben
       $sql2 = rex_sql::factory();
       $sql2->setQuery('SELECT template_id FROM '.$REX['TABLE_PREFIX'].'article WHERE id='. $category_id .' AND clang='. $clang .' AND startpage=1');
-      if ($sql2->getRows() == 1)
-        $template_select->setSelected($sql2->getValue('template_id'));
+      if ($sql2->getRows() == 1) {
+        $selectedTemplate = $sql2->getValue('template_id');
+      }
+    }
+    if (!$selectedTemplate || !isset($TEMPLATE_NAME[$selectedTemplate])) {
+      $selectedTemplate = $REX['DEFAULT_TEMPLATE_ID'];
+    }
+    if ($selectedTemplate && isset($TEMPLATE_NAME[$selectedTemplate])) {
+      $template_select->setSelected($selectedTemplate);
     }
 
     $add_td = '';
