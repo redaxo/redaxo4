@@ -1,14 +1,14 @@
 # addon:import/export de_de
 im_export_importexport = Im-/Export
 im_export_file_deleted = Datei wurde gelöscht
-im_export_no_import_file_chosen_or_wrong_version = Keine Importdatei ausgewählt oder Version falsch
+im_export_no_import_file_chosen_or_wrong_version = Keine Importdatei ausgewählt, Datei zu groß, oder Version falsch!
 im_export_no_valid_import_file = Das ist keine korrekte Importdatei
 im_export_no_valid_charset = Kein passender Zeichensatz.
 im_export_database_imported = Datenbankimport erfolgreich importiert
 im_export_entry_count = ({0} Eintraege)
 im_export_file_could_not_be_uploaded = Datei konnte nicht hochgeladen werden.
 im_export_you_have_no_write_permission_in = Sie haben keine Schreibrechte auf diesen Ordner {0}.
-im_export_no_import_file_chosen = Keine Importdatei ausgewählt.
+im_export_no_import_file_chosen = Keine Importdatei ausgewählt, oder Datei zu groß.
 im_export_problem_when_extracting = Es gab Probleme beim Extrahieren der Datei.
 im_export_create_dirs_manually = Erstellen Sie bitte folgende Ordner manuell und setzen Sie die Schreibrechte auf diese Ordner(&uuml;ber ftp).
 im_export_file_imported = Die Datei wurde erfolgreich importiert.
