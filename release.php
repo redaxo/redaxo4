@@ -67,6 +67,8 @@ function buildRelease($name = null, $version = null)
     '.settings',
     '.svn',
     '.project',
+    '.buildpath',
+    '.idea',
     '.DS_Store',
     '.git'
   );
