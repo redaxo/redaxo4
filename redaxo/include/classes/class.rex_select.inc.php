@@ -10,8 +10,8 @@
 ################ Class Select
 class rex_select
 {
-  var $attributes;
-  var $options;
+  var $attributes = array();
+  var $options = array();
   var $option_selected;
   var $currentOptgroup = 0;
   var $optgroups = array();
