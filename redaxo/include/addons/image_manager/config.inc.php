@@ -40,7 +40,7 @@ require_once (dirname(__FILE__). '/classes/class.rex_effect_abstract.inc.php');
 // RUN ON EP ADDONS_INCLUDED
 ////////////////////////////////////////////////////////////////////////////////
 if(!$REX['SETUP']){
-  rex_register_extension('ADDONS_INCLUDED','image_manager_init');
+  rex_register_extension('ADDONS_INCLUDED','image_manager_init', array(), REX_EXTENSION_EARLY);
 }
 
 if(!function_exists('image_manager_init')){
@@ -57,7 +57,7 @@ if(!function_exists('image_manager_init')){
 
     $imagepath = $REX['HTDOCS_PATH'].$REX['MEDIA_DIR'].'/'.$rex_img_file;
     $cachepath = $REX['GENERATED_PATH'].'/files/';
-  
+
     // REGISTER EXTENSION POINT
     $subject = array(
                 'rex_img_type' => $rex_img_type,
@@ -77,7 +77,7 @@ if(!function_exists('image_manager_init')){
       $image         = new rex_image($imagepath);
       $image_cacher  = new rex_image_cacher($cachepath);
       $image_manager = new rex_image_manager($image_cacher);
-    
+
       $image = $image_manager->applyEffects($image, $rex_img_type);
       $image_manager->sendImage($image, $rex_img_type);
       exit();
