@@ -771,7 +771,7 @@ function rex_deleteDir($file, $delete_folders = FALSE)
         return FALSE;
       }
 
-      while ($filename = readdir($handle))
+      while (false !== $filename = readdir($handle))
       {
         if ($filename == '.' || $filename == '..')
         {
@@ -857,7 +857,7 @@ function rex_deleteFiles($file)
         return FALSE;
       }
 
-      while ($filename = readdir($handle))
+      while (false !== $filename = readdir($handle))
       {
         if ($filename == '.' || $filename == '..')
         {
@@ -927,7 +927,7 @@ function rex_copyDir($srcdir, $dstdir, $startdir = "")
 
   if($curdir = opendir($srcdir))
   {
-    while($file = readdir($curdir))
+    while(false !== $file = readdir($curdir))
     {
       if($file != '.' && $file != '..' && $file != '.svn')
       {
