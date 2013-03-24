@@ -34,6 +34,7 @@ $body_attr["onunload"] = array('closeAll();');
   <title><?php echo htmlspecialchars($page_title) ?></title>
   <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $I18N->msg('htmlcharset'); ?>" />
   <meta http-equiv="Content-Language" content="<?php echo $I18N->msg('htmllang'); ?>" />
+  <meta name="robots" content="noindex, nofollow, noarchive" />
   <link rel="shortcut icon" href="media/favicon.ico" />
   <link rel="stylesheet" type="text/css" href="media/css_import.css" media="screen, projection, print" />
   <!--[if lte IE 7]>
