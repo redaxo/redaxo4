@@ -164,7 +164,7 @@ class i18n
       $this->locales = array ();
 
       $handle = opendir($searchpath);
-      while ($file = readdir($handle))
+      while (false !== $file = readdir($handle))
       {
         if ($file != "." && $file != "..")
         {

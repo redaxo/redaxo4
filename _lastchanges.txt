@@ -52,6 +52,7 @@ Version 4.5.0 (2013-XX-XX)
   * Image Manager: Probleme mit Transparenz bei PNGs beseitigt
   * Updateskript 4.x -> 4.5: Falscher Index entfernt, fehlende Einträge ergänzt
   * Beim Anlegen neuer Artikel wurde das Template des Startartikels teilweise nicht vererbt
+  * Beim Löschen von Ordnern wurde abgebrochen sobald ein Dateiname zu false evaluiert (z. B. "0")
 
 
 Version 4.4.1 (2012-08-03)
