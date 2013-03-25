@@ -496,13 +496,13 @@ if($PERMALL && $media_method == 'delete_selectedmedia')
              $countDeleted++;
            }else
            {
-             $warning[] = $I18N->msg('pool_file_delete_error_1', $file_name);
+             $warning[] = '<b>' . $I18N->msg('pool_file_delete_error_1', $file_name) . '</b>';
            }
            $subpage = "";
          }else
          {
-           $tmp = '<strong>'.$I18N->msg('pool_file_delete_error_1', $file_name).' '.
-                  $I18N->msg('pool_file_delete_error_2').'</strong><br />';
+           $tmp = '<b>'.$I18N->msg('pool_file_delete_error_1', $file_name).' '.
+                  $I18N->msg('pool_file_delete_error_2').'</b><br />';
            foreach($uses as $use)
            {
              $tmp .= '<br />'.$use;
@@ -511,20 +511,20 @@ if($PERMALL && $media_method == 'delete_selectedmedia')
          }
        }else
        {
-         $warning[] = $I18N->msg('no_permission');
+         $warning[] = '<b>' . $I18N->msg('no_permission') . '</b>';
        }
       }else
       {
-       $warning[] = $I18N->msg('pool_file_not_found');
+       $warning[] = '<b>' . $I18N->msg('pool_file_not_found') . '</b>';
       }
     }
     if ($countDeleted) {
-        $info[] = $I18N->msg('pool_files_deleted', $countDeleted);
+        $info[] = '<b>' . $I18N->msg('pool_files_deleted', $countDeleted) . '</b>';
     }
   }
   else
   {
-    $warning = $I18N->msg('pool_selectedmedia_error');
+    $warning = '<b>' . $I18N->msg('pool_selectedmedia_error') . '</b>';
   }
 }
 
@@ -543,25 +543,19 @@ if ($subpage == '')
 
   echo $cat_out;
 
-  if(is_array($warning))
-  {
-    if(count($warning)>0)
-      echo rex_warning_block(implode('<br />', $warning));
-    $warning = '';
-  }else if($warning != '')
-  {
-    echo rex_warning($warning);
-    $warning = '';
+  if(is_array($warning) && count($warning)>0) {
+      $warning = implode('<br />', $warning);
   }
+    if(is_string($warning) && $warning != '') {
+        echo rex_warning_block($warning);
+        $warning = '';
+    }
 
-  if(is_array($info))
-  {
-    if(count($info)>0)
-      echo rex_info_block(implode('<br />', $info));
-    $info = '';
-  }else if($info != '')
-  {
-    echo rex_info($info);
+  if(is_array($info) && count($info)>0) {
+      $info = implode('<br />', $info);
+  }
+  if(is_string($info) && $info != '') {
+    echo rex_info_block($info);
     $info = '';
   }
 

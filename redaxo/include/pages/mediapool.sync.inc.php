@@ -55,7 +55,7 @@ if($PERMALL)
         if($sync_result['ok'] == 1)
         {
           unset($diff_files[$key]);
-          $info[0] = $I18N->msg('pool_sync_files_synced');
+          $info[0] = '<b>' . $I18N->msg('pool_sync_files_synced') . '</b>';
           if($sync_result['filename'] != $sync_result['old_filename']){
             $info[] = $I18N->msg("pool_file_renamed",$sync_result['old_filename'],$sync_result['filename']);
           }

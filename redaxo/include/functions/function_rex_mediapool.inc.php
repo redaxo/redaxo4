@@ -104,7 +104,7 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
   {
     if(!@move_uploaded_file($FILE['tmp_name'],$dstFile))
     {
-      $message .= $I18N->msg("pool_file_movefailed");
+      $message .= '<b>' . $I18N->msg("pool_file_movefailed") . '</b>';
       $success = false;
     }
   }
@@ -112,7 +112,7 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
   {
     if(!@rename($srcFile,$dstFile))
     {
-      $message .= $I18N->msg("pool_file_movefailed");
+      $message .= '<b>' . $I18N->msg("pool_file_movefailed") . '</b>';
       $success = false;
     }
   }
@@ -146,7 +146,7 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
     $FILESQL->addGlobalUpdateFields($userlogin);
     $FILESQL->insert();
 
-    $message .= $I18N->msg("pool_file_added");
+    $message .= '<b>' . $I18N->msg("pool_file_added") . '</b>';
 
     if($NFILENAME!=$FILENAME){
       $message .= '<br />'.$I18N->msg("pool_file_renamed",$FILENAME,$NFILENAME);
@@ -374,18 +374,16 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
 
   if (isset($warning) and $warning != "")
   {
-    $s .= rex_warning($warning);
+    $s .= rex_warning_block($warning);
     $warning = "";
   }
 
-  if(is_array($info))
-  {
-    if(count($info)>0)
-      $s .= rex_info_block(implode('<br />', $info));
-    $info = '';
-  }else if($info != '')
-  {
-    $s .= rex_info($info);
+  if(is_array($info) && count($info)>0) {
+    $info = implode('<br />', $info);
+  }
+
+  if(is_string($info) && $info != '') {
+    $s .= rex_info_block($info);
     $info = '';
   }
 

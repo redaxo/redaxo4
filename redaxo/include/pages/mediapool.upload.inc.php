@@ -11,11 +11,11 @@ if ($media_method == 'add_file')
     {
       if(!rex_mediapool_isAllowedMediaType($_FILES['file_new']['name'],rex_post('args','array')))
       {
-        $warning = $I18N->msg('pool_file_mediatype_not_allowed').' <code>.'.OOMedia::_getExtension($_FILES['file_new']['name'].'</code>');
+        $warning = $I18N->msg('pool_file_mediatype_not_allowed').' <var>.'.OOMedia::_getExtension($_FILES['file_new']['name'].'</var>');
         $whitelist = rex_mediapool_getMediaTypeWhitelist(rex_post('args','array'));
         $warning .= count($whitelist)>0
-                  ? '<br />'.$I18N->msg('pool_file_allowed_mediatypes').' <code>'.rtrim(implode('</code> <code>',$whitelist),', ').'</code>'
-                  : '<br />'.$I18N->msg('pool_file_banned_mediatypes').' <code>'.rtrim(implode('</code> <code>',rex_mediapool_getMediaTypeBlacklist()),', ').'</code>';
+                  ? '<br />'.$I18N->msg('pool_file_allowed_mediatypes').' <var>'.rtrim(implode('</var> <var>',$whitelist),', ').'</var>'
+                  : '<br />'.$I18N->msg('pool_file_banned_mediatypes').' <var>'.rtrim(implode('</var> <var>',rex_mediapool_getMediaTypeBlacklist()),', ').'</var>';
       }
       else
       {
