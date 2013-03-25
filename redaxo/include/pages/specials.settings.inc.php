@@ -212,6 +212,7 @@ echo '
                   <p class="rex-form-col-a rex-form-text">
                     <label for="rex-form-servername" title="$REX[\'SERVERNAME\']">'.$I18N->msg("specials_settings_servername").'</label>
                     <input class="rex-form-text" type="text" id="rex-form-servername" name="neu_SERVERNAME" value="'. htmlspecialchars($REX['SERVERNAME']).'" />
+                    <span class="rex-form-notice">$REX["SERVERNAME"]</span>
                   </p>
                 </div>
 
@@ -219,6 +220,7 @@ echo '
                   <p class="rex-form-col-a rex-form-text">
                     <label for="rex-form-server" title="$REX[\'SERVER\']">'.$I18N->msg("specials_settings_server").'</label>
                     <input class="rex-form-text" type="text" id="rex-form-server" name="neu_SERVER" value="'. htmlspecialchars($REX['SERVER']).'" />
+                    <span class="rex-form-notice">$REX["SERVER"]</span>
                   </p>
                 </div>
               </div>
