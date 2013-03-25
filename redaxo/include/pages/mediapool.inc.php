@@ -109,12 +109,12 @@ rex_title($title, $subline);
 // -------------- Messages
 if ($info != '')
 {
-  echo rex_info($info);
+  echo rex_info_block($info);
   $info = '';
 }
 if ($warning != '')
 {
-  echo rex_warning($warning);
+  echo rex_warning_block($warning);
   $warning = '';
 }
 
