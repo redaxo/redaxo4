@@ -719,6 +719,18 @@ div.rex-addon-col-b {
 /*	Formulare ******************************************************************
 *******************************************************************************/
 
+.rex-form .rex-form-row label,
+.rex-form .rex-form-row .rex-form-read{
+    line-height: 1;
+}
+.rex-form .rex-form-row .rex-form-text label {
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+.rex-form-notice {
+    font-size: 92%;
+}
+
 #rex-rex_cronjob_phpcode textarea {
   width: 456px;
   height: 200px;
@@ -757,10 +769,26 @@ div#rex-form-mediapool-detail div.rex-form-row p select.rex-form-select-year {
 div#rex-form-system-setup .rex-area-col-2 .rex-area-col-a .rex-area-content {
   padding-right: 30px;
 }
-div#rex-form-system-setup div.rex-widget input {
-  width: 90px;
+div#rex-form-system-setup div.rex-form-row label {
+    width: 160px;
 }
-
+div#rex-form-system-setup p span.rex-form-notice,
+div#rex-form-system-setup fieldset.rex-form-col-1 div.rex-form-row p input.rex-form-submit{
+    margin-left: 165px;
+}
+div#rex-form-system-setup div.rex-widget {
+    margin-bottom: 0;
+}
+div#rex-form-system-setup div.rex-widget input {
+    width: 120px;
+}
+div#rex-form-system-setup fieldset.rex-form-col-1 div.rex-form-row p.rex-form-label-right label,
+div#rex-form-system-setup fieldset.rex-form-col-1 div.rex-form-row p.rex-form-read span,
+div#rex-form-system-setup fieldset.rex-form-col-1 div.rex-form-row p.rex-form-text input,
+div#rex-form-system-setup fieldset.rex-form-col-1 div.rex-form-row p select,
+div#rex-form-system-setup fieldset.rex-form-col-1 div.rex-form-row p textarea {
+    width: 50%;
+}
 
 /*	Mediapool ******************************************************************
 *******************************************************************************/
