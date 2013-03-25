@@ -13,7 +13,6 @@
       <addon name="tinymce"></addon>
       <addon name="cronjob"></addon>
       <addon name="xform"></addon>
-      <addon name="community"></addon>
     </addons>
   </release>
 </releases>
