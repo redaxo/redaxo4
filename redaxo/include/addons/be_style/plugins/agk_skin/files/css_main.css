@@ -730,6 +730,9 @@ div.rex-addon-col-b {
 .rex-form-notice {
     font-size: 92%;
 }
+.rex-form-notice-normal {
+    font-size: 100%;
+}
 
 #rex-rex_cronjob_phpcode textarea {
   width: 456px;
