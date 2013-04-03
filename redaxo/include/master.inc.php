@@ -26,15 +26,12 @@ $REX['SERVERNAME'] = $_SERVER['HTTP_HOST'];
 $REX['VERSION'] = "4";
 $REX['SUBVERSION'] = "5";
 $REX['MINORVERSION'] = "0";
-$REX['ERROR_EMAIL'] = "";
-$REX['SUBVERSION'] = "4";
-$REX['MINORVERSION'] = "1";
 $REX['ERROR_EMAIL'] = "info@".$_SERVER['HTTP_HOST'];
 $REX['FILEPERM'] = octdec(664); // oktaler wert
 $REX['DIRPERM'] = octdec(775); // oktaler wert
-$REX['INSTNAME'] = "rex20120626100101";
+$REX['INSTNAME'] = "rex20130403120000";
 $REX['RELEASE'] = '';
-$REX['SESSION_DURATION'] = 3000;
+$REX['SESSION_DURATION'] = 7200;
 
 // Is set first time SQL Object ist initialised
 $REX['MYSQL_VERSION'] = "";
