@@ -9,7 +9,9 @@
 define('REX_MIN_PHP_VERSION', '5.3.0');
 
 if (version_compare(PHP_VERSION, REX_MIN_PHP_VERSION) < 0) {
-  trigger_error('PHP version >=' . REX_MIN_PHP_VERSION . ' needed!', E_USER_ERROR);
+  // out the error directly instead of trigger_error() to be 100% sure it is displayed and not hidden within any logfile
+  echo 'PHP version >=' . REX_MIN_PHP_VERSION . ' needed!';
+  exit();
 }
 
 // -----------------
