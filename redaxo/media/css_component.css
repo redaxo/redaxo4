@@ -504,9 +504,19 @@ div.rex-toolbar-has-form div.rex-toolbar-content {
 /*	Contentblock ***************************************************************
 *******************************************************************************/
 div.rex-content-block {
-	position: relative;
-	margin-bottom: 10px;
+    clear: both;
+    position: relative;
+    margin-bottom: 10px;
 }
+div.rex-content-block:after {
+    clear: both;
+    content: '.';
+    display: block;
+    height: 0;
+    visibility: hidden;
+    font-size: 0px;
+    line-height: 0;
+ }
 div.rex-content-block-content {
 	padding: 10px 5px;
 }
