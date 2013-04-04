@@ -49,3 +49,12 @@
 [submodule "redaxo/include/addons/be_style/plugins/rex_select2"]
 	path = redaxo/include/addons/be_style/plugins/rex_select2
 url=git://github.com/jdlx/rex_select2.git
+[submodule "redaxo/include/addons/addcode"]
+	path = redaxo/include/addons/addcode
+	url = git://github.com/joachimdoerr/addcode.git
+[submodule "redaxo/include/addons/mform"]
+	path = redaxo/include/addons/mform
+	url = git://github.com/joachimdoerr/mform.git
+[submodule "redaxo/include/addons/be_style/plugins/navigation_blocks"]
+	path = redaxo/include/addons/be_style/plugins/navigation_blocks
+	url = git://github.com/jdlx/navigation_blocks.git
