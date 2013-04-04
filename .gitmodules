@@ -55,9 +55,9 @@ url=git://github.com/jdlx/rex_select2.git
 [submodule "redaxo/include/addons/mform"]
 	path = redaxo/include/addons/mform
 	url = git://github.com/joachimdoerr/mform.git
-[submodule "redaxo/include/addons/be_style/plugins/navigation_blocks"]
-	path = redaxo/include/addons/be_style/plugins/navigation_blocks
-	url = git://github.com/jdlx/navigation_blocks.git
 [submodule "redaxo/include/addons/textile"]
 	path = redaxo/include/addons/textile
 	url = git://github.com/jdlx/textile_addon.git
+[submodule "redaxo/include/addons/be_style/plugins/navigation_blocks"]
+	path = redaxo/include/addons/be_style/plugins/navigation_blocks
+	url = git://github.com/jdlx/navigation_blocks.git
