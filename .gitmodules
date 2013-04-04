@@ -46,9 +46,6 @@
 [submodule "redaxo/include/addons/slice_status"]
 	path = redaxo/include/addons/slice_status
 	url = git://github.com/RexDude/slice_status.git
-[submodule "redaxo/include/addons/textile/vendor"]
-	path = redaxo/include/addons/textile/vendor
-	url = git://github.com/netcarver/textile.git
 [submodule "redaxo/include/addons/be_style/plugins/rex_select2"]
 	path = redaxo/include/addons/be_style/plugins/rex_select2
 url=git://github.com/jdlx/rex_select2.git
