@@ -320,7 +320,7 @@ class OOMediaCategory
         if (isset($REX['MEDIA']['MEDIA_CAT_ID'][$id]) && is_array($REX['MEDIA']['MEDIA_CAT_ID'][$id]))
         {
           foreach($REX['MEDIA']['MEDIA_CAT_ID'][$id] as $filename)
-            $this->_files[] = & OOMedia :: getMediaByFileName($filename);
+            $this->_files[] = OOMedia :: getMediaByFileName($filename);
         }
       }
     }
