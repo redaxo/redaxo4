@@ -1,10 +1,10 @@
 h2. Bugfix and beyond..™
 
-Aktuelle REX Version (4.4.1) mit Addons die man typischerweise will/braucht, plus dem ein oder anderen tweak..
+Aktuelle REX Version (4.5.0) mit Addons die man typischerweise will/braucht, plus dem ein oder anderen tweak..
 
-h2. Download: "release.zip":http://rexdev.de/rex_package/release.zip
+h2. Download: "release.zip":http://rexdev.de/rex_package/4.5/release.zip
 
-Releases werden alle 3 Stunden frisch erstellt und können als ZIP heruntergeladen werden: "release.zip":http://rexdev.de/rex_package/release.zip
+Releases werden alle 3 Stunden frisch erstellt und können als ZIP heruntergeladen werden: "release.zip":http://rexdev.de/rex_package/4.5/release.zip
 *Hinweis:* Die Version des Releases wird in der zusätzliche Variable @$REX['RELEASE']@ gespeichert und entspricht dem hash des zugrundeliegenden commits - im backend unter "System" wird dieser angezeigt und ist mit dem commit bei Github verlinkt.
 
 h2. Addons/Plugins
