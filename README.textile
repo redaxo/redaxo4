@@ -10,23 +10,28 @@ Releases werden alle 3 Stunden frisch erstellt und können als ZIP heruntergelad
 h2. Addons/Plugins
 
 * "*__firephp*":https://github.com/jdlx/__firephp (jdlx)
+* "*addcode*":https://github.com/joachimdoerr/addcode (joachimdoerr)
+* -be_dashboard-
 * be_style
 ** "*harvesthq_chosen*":https://github.com/jdlx/harvesthq_chosen  (jdlx)
 ** "*jquery_ui*":https://github.com/joachimdoerr/jquery_ui_be_style_plugin (joachimdoerr)
+** "*navigation_blocks*":https://github.com/jdlx/navigation_blocks  (jdlx)
 ** "*rex_codemirror*":https://github.com/jdlx/rex_codemirror (jdlx)
 ** "*rex_select2*":https://github.com/jdlx/rex_select2 (jdlx)
 * "*developer*":https://github.com/gharlan/redaxo_developer (gharlan)
 * "*dev_panel*":https://github.com/jdlx/dev_panel (jdlx)
-* -image_manager- -> "*image_manager EP*":https://github.com/jdlx/image_manager_ep (jdlx fork - compat zu orig. plus EPs)
+* -image_manager- -> "*image_manager XT*":https://github.com/jdlx/image_manager_ep (jdlx fork)
 * "*markitup*":https://github.com/gn2netwerk/rexseo (gn2netwerk)
 * metainfo
 ** "*metafix*":https://github.com/jdlx/metafix (jdlx)
+* "*mform*":https://github.com/joachimdoerr/mform (joachimdoerr)
 * "*mysql_tools*":https://github.com/jdlx/mysql_tools (jdlx)
 * -url_rewrite- -> "*rexseo*":https://github.com/gn2netwerk/rexseo (gn2netwerk)
 * "*rex_multiupload*":https://github.com/nightstomp/redaxo_multiupload (nightstomp)
 * "*rexsearch*":https://github.com/xong/rexsearch (xong)
 * "*slice_status*":https://github.com/RexDude/slice_status (RexDude)
-* "*xform*":https://github.com/jdlx/redaxo4_xform (jdlx fork - compat zu dergel, aber evtl. kleinere tweaks)
+* -textile- -> "*textile XT*":https://github.com/jdlx/textile_addon (jdlx fork)
+* "*xform*":https://github.com/jdlx/redaxo4_xform (jdlx fork)
 ** "*column_edit*":https://github.com/jdlx/column_edit (jdlx)
 * "*xoutputfilter*":https://github.com/aeberhard/xoutputfilter (aeberhard)
 
@@ -45,3 +50,5 @@ h2. Tweaks
 ** Anzeige von @$REX['RELEASE']@ mit Verlinkung zum commit auf Github
 * redaxo/"*index.php*":https://github.com/gn2netwerk/redaxo4/blob/master/redaxo/index.inc.php
 ** "re-Login patch":https://github.com/redaxo/redaxo4/pull/51 : ruft - wenn man wg. abgelaufener Session ins login geworfen wird - wieder die vorher aufgerufene page auf.
+* Version Addon
+** patch: default Version für Admins ist "live" und nicht "working"
