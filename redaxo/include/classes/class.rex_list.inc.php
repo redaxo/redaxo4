@@ -101,6 +101,7 @@ class rex_list
     $this->rows = 0;
     $this->params = array();
     $this->tableAttributes = array();
+    $this->addTableAttribute('class', 'rex-table');
     $this->noRowsMessage = $I18N->msg('list_no_rows');
 
     // --------- Form Attributes
@@ -1007,7 +1008,6 @@ class rex_list
     // Table vars
     $caption = $this->getCaption();
     $tableColumnGroups = $this->getTableColumnGroups();
-    $this->addTableAttribute('class', 'rex-table');
 
     // Columns vars
     $columnFormates = array();
