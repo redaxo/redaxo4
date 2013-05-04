@@ -236,7 +236,6 @@ class rex_a62_tableExpander extends rex_form
       global $REX, $I18N;
 
       $this->organizePriorities($this->elementPostValue($this->getFieldsetName(), 'prior'), $fieldOldPrior);
-      rex_generateAll();
 
       $fieldName = $this->addPrefix($fieldName);
       $fieldType = $this->elementPostValue($this->getFieldsetName(), 'type');
@@ -262,6 +261,7 @@ class rex_a62_tableExpander extends rex_form
         // Spalte in der Tabelle anlegen
         $tmRes = $this->tableManager->addColumn($fieldName, $fieldDbType, $fieldDbLength, $fieldDefault);
       }
+      rex_generateAll();
 
       if($tmRes)
       {
