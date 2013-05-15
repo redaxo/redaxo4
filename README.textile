@@ -4,7 +4,7 @@ Aktuelle REX Version (4.5.0) mit Addons die man typischerweise will/braucht, plu
 
 h2. Download: "release.zip":http://rexdev.de/rex_package/4.5/release.zip
 
-Releases werden alle 3 Stunden frisch erstellt und können als ZIP heruntergeladen werden: "release.zip":http://rexdev.de/rex_package/4.5/release.zip
+Releases werden regelmäßig frisch erstellt und können als ZIP heruntergeladen werden: "release.zip":http://rexdev.de/rex_package/4.5/release.zip
 *Hinweis:* Die Version des Releases wird in der zusätzliche Variable @$REX['RELEASE']@ gespeichert und entspricht dem hash des zugrundeliegenden commits - im backend unter "System" wird dieser angezeigt und ist mit dem commit bei Github verlinkt.
 
 h2. Addons/Plugins
@@ -52,3 +52,4 @@ h2. Tweaks
 ** "re-Login patch":https://github.com/redaxo/redaxo4/pull/51 : ruft - wenn man wg. abgelaufener Session ins login geworfen wird - wieder die vorher aufgerufene page auf.
 * Version Addon
 ** patch: default Version für Admins ist "live" und nicht "working"
+** patch: farbiges ribbon (ala Github fork me badge) oben rechts im viewport zeigt unabhängig von der scroll position den aktuellen Modus an.
