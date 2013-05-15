@@ -126,6 +126,54 @@ function rex_version_header($params)
 
   $link = 'index.php?page='.$params['page'].'&amp;article_id='.$params['article_id'].'&amp;clang='.$params['clang'].'&amp;mode='.$params['mode'];
 
+
+  // RIBBON
+  //////////////////////////////////////////////////////////////////////////////
+  $ribbon_state = $version_id == 0 ? 'live' : 'working';
+  $return .= '
+    <!-- ribbon-patch -->
+    <style>
+    .ribbon-wrapper {
+      width: 85px;
+      height: 88px;
+      overflow: hidden;
+      position: fixed;
+      top: 0;
+      right: 0;
+      z-index:999;
+    }
+    .ribbon {
+      font: bold 15px Sans-Serif;
+      color: #333;
+      text-align: center;
+      text-shadow: rgba(255,255,255,0.5) 0px 1px 0px;
+      -webkit-transform: rotate(45deg);
+      -moz-transform:    rotate(45deg);
+      -ms-transform:     rotate(45deg);
+      -o-transform:      rotate(45deg);
+      position: relative;
+      padding: 7px 0;
+      left: -5px;
+      top: 15px;
+      width: 120px;
+      color: #6a6340;
+      -webkit-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.7);
+      -moz-box-shadow:    0px 0px 8px rgba(0, 0, 0, 0.7);
+      box-shadow:         0px 0px 8px rgba(0, 0, 0, 0.7);
+    }
+    .ribbon.live {
+      background-color: #AEDE94;
+    }
+    .ribbon.working {
+      background-color: #EDE7B8;
+    }
+    </style>
+    <div class="ribbon-wrapper"><div class="ribbon '.$ribbon_state.'">'.$ribbon_state.'</div></div>
+    <!-- /ribbon-patch -->
+    ';
+
+
+
   $return .= '
     <div id="rex-version-header" class="rex-toolbar rex-toolbar-has-form rex-version-revision-'.$rex_version_article[$params['article_id']].'">
         <div class="rex-toolbar-content rex-version-header">
