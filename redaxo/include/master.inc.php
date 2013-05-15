@@ -142,7 +142,7 @@ $REX['ACKEY']['DELETE'] = 'd';
 $REX['ACKEY']['ADD']    = 'a';
 // Wenn 2 Add Aktionen auf einer Seite sind (z.b. Struktur)
 $REX['ACKEY']['ADD_2']  = 'y';
-$REX['ACKEY']['LOGOUT'] = 'l';
+$REX['ACKEY']['LOGOUT'] = '';
 
 // ------ Accesskeys for Addons
 // $REX['ACKEY']['ADDON']['metainfo'] = 'm';
