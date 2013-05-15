@@ -77,6 +77,11 @@ function rex_version_header($params)
 
   $version_id = rex_request("rex_set_version","int","-1");
 
+  // IF NO REVISION SET, ADMINS SEE LIVE VERSION PER DEFAULT
+  $version_id = ( $version_id == -1 && isset($REX['USER']) && $REX['USER']->isAdmin() )
+              ? 0
+              : $version_id;
+
   if($version_id === 0)
   {
       $rex_version_article[$params['article_id']] = 0;
