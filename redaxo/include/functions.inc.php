@@ -1,6 +1,6 @@
 <?php
 /**
- * Bindet nötige Klassen/Funktionen ein
+ * Bindet nï¿½tige Klassen/Funktionen ein
  * @package redaxo4
  * @version svn:$Id$
  */
@@ -39,6 +39,7 @@ include_once $REX['INCLUDE_PATH'].'/classes/class.oomediacategory.inc.php';
 include_once $REX['INCLUDE_PATH'].'/classes/class.oomedia.inc.php';
 include_once $REX['INCLUDE_PATH'].'/classes/class.ooaddon.inc.php';
 include_once $REX['INCLUDE_PATH'].'/classes/class.ooplugin.inc.php';
+include_once $REX['INCLUDE_PATH'].'/classes/class.rex_security.inc.php';
 
 if ($REX['REDAXO'])
 {
