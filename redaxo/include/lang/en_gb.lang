@@ -656,3 +656,10 @@ var_medialist_move_top = Move selected media to top
 var_medialist_move_up = move selected media up
 var_medialist_move_down = move selected media down
 var_medialist_move_bottom  = move selected media to bottom
+
+# redaxo\include\classes\class.rex_security.inc.php
+csrf_post = It was not a token sent via POST.
+csrf_not_correct = The token is not correct!
+csrf_cookie_error = It could not be generated for the token cookie!
+csrf_cookie = Cookie is generated.
+
