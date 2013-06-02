@@ -6,7 +6,7 @@
  * @version svn:$Id$
  */
 
-// ----- caching start für output filter
+// ----- caching start fï¿½r output filter
 ob_start();
 ob_implicit_flush(0);
 
@@ -18,7 +18,7 @@ unset($REX);
 
 // Flag ob Inhalte mit Redaxo aufgerufen oder
 // von der Webseite aus
-// Kann wichtig für die Darstellung sein
+// Kann wichtig fï¿½r die Darstellung sein
 // Sollte immer true bleiben
 
 $REX['REDAXO'] = true;
@@ -294,6 +294,17 @@ $REX['PAGE_NO_NAVI'] = !$page->hasNavigation();
 // page variable validated
 rex_register_extension_point( 'PAGE_CHECKED', $REX['PAGE'], array('pages' => $REX['PAGES']));
 
+//------------------ SECURITY
+if($REX['PAGE'] != 'login'){
+  new rex_security();
+	rex_security::csrfVerify();
+	$inputCRSF = rex_security::getHiddenInput();  		
+	rex_register_extension('OUTPUT_FILTER', 'rex_paramsCrsf');	
+}else{
+	$csrf_message = rex_get('csrf_message' , 'string');
+	if(!empty($csrf_message))
+		$rex_user_loginmessage = $csrf_message;
+}
 
 if($page->hasPath())
 {
@@ -311,7 +322,7 @@ if($page->hasPath())
   // Addon Page
   require $REX['INCLUDE_PATH'].'/addons/'. $REX['PAGE'] .'/pages/index.inc.php';
 }
-// ----- caching end für output filter
+// ----- caching end fï¿½r output filter
 $CONTENT = ob_get_contents();
 ob_end_clean();
 
