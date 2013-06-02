@@ -26,6 +26,13 @@ $REX['DIRPERM'] = octdec(775); // oktaler wert
 $REX['INSTNAME'] = "rex20100101100101";
 $REX['SESSION_DURATION'] = 3000;
 
+
+//Security CRSF
+$REX['CSRF']['status'] = true;
+$REX['CSRF']['EXPIRE'] = '360';
+$REX['CSRF']['TOKEN_NAME'] = 'csrf_token';
+$REX['CSRF']['COOKIE_NAME'] = 'csrf_token';
+
 // Is set first time SQL Object ist initialised
 $REX['MYSQL_VERSION'] = "";
 
@@ -76,7 +83,7 @@ $REX['TEMP_PREFIX']   = 'tmp_';
 // Frontenddatei
 $REX['FRONTEND_FILE']	= 'index.php';
 
-// Passwortverschlüsselung, z.B: md5 / mcrypt ...
+// Passwortverschlï¿½sselung, z.B: md5 / mcrypt ...
 $REX['PSWFUNC'] = "";
 
 // bei fehllogin 5 sekunden kein relogin moeglich
