@@ -61,3 +61,6 @@ url=git://github.com/jdlx/rex_select2.git
 [submodule "redaxo/include/addons/be_style/plugins/navigation_blocks"]
 	path = redaxo/include/addons/be_style/plugins/navigation_blocks
 	url = git://github.com/jdlx/navigation_blocks.git
+[submodule "redaxo/include/addons/be_style/plugins/extended_corepages"]
+	path = redaxo/include/addons/be_style/plugins/extended_corepages
+	url = git://github.com/jdlx/extended_corepages.git
