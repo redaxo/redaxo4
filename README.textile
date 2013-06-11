@@ -13,6 +13,7 @@ h2. Addons/Plugins
 * "*addcode*":https://github.com/joachimdoerr/addcode (joachimdoerr)
 * -be_dashboard-
 * be_style
+** "*extended_corepages*":https://github.com/jdlx/extended_corepages  (jdlx)
 ** "*harvesthq_chosen*":https://github.com/jdlx/harvesthq_chosen  (jdlx)
 ** "*jquery_ui*":https://github.com/joachimdoerr/jquery_ui_be_style_plugin (joachimdoerr)
 ** "*navigation_blocks*":https://github.com/jdlx/navigation_blocks  (jdlx)
