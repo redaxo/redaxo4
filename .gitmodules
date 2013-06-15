@@ -3,7 +3,7 @@
 	url = git://github.com/gn2netwerk/rexseo.git
 [submodule "redaxo/include/addons/image_manager"]
 	path = redaxo/include/addons/image_manager
-	url = git://github.com/jdlx/image_manager_ep.git
+	url = git://github.com/jdlx/image_manager_xt.git
 [submodule "redaxo/include/addons/markitup"]
 	path = redaxo/include/addons/markitup
 	url = git://github.com/gn2netwerk/markitup.git
@@ -48,7 +48,7 @@
 	url = git://github.com/RexDude/slice_status.git
 [submodule "redaxo/include/addons/be_style/plugins/rex_select2"]
 	path = redaxo/include/addons/be_style/plugins/rex_select2
-url=git://github.com/jdlx/rex_select2.git
+	url = git://github.com/jdlx/rex_select2.git
 [submodule "redaxo/include/addons/addcode"]
 	path = redaxo/include/addons/addcode
 	url = git://github.com/joachimdoerr/addcode.git
