@@ -67,7 +67,7 @@ $REX['USE_ETAG'] = "frontend"; // String: "true"/"false"/"fronted"/"backend"
 
 // activate last-modified support
 // tag content with a last-modified timestamp to improve usage of client cache
-$REX['USE_LAST_MODIFIED'] = "frontend"; // String: "true"/"false"/"fronted"/"backend"
+$REX['USE_LAST_MODIFIED'] = "false"; // String: "true"/"false"/"fronted"/"backend"
 
 // activate md5 checksum support
 // allow client to validate content integrity
