@@ -64,3 +64,6 @@
 [submodule "redaxo/include/addons/be_style/plugins/extended_corepages"]
 	path = redaxo/include/addons/be_style/plugins/extended_corepages
 	url = git://github.com/jdlx/extended_corepages.git
+[submodule "redaxo/include/addons/be_style/plugins/rex_markitup"]
+	path = redaxo/include/addons/be_style/plugins/rex_markitup
+	url = git://github.com/jdlx/rex_markitup.git
