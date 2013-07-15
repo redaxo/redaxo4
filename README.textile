@@ -18,10 +18,11 @@ h2. Addons/Plugins
 ** "*jquery_ui*":https://github.com/joachimdoerr/jquery_ui_be_style_plugin (joachimdoerr)
 ** "*navigation_blocks*":https://github.com/jdlx/navigation_blocks  (jdlx)
 ** "*rex_codemirror*":https://github.com/jdlx/rex_codemirror (jdlx)
+** "*rex_markitup*":https://github.com/jdlx/rex_markitup (jdlx)
 ** "*rex_select2*":https://github.com/jdlx/rex_select2 (jdlx)
 * "*developer*":https://github.com/gharlan/redaxo_developer (gharlan)
 * "*dev_panel*":https://github.com/jdlx/dev_panel (jdlx)
-* -image_manager- -> "*image_manager XT*":https://github.com/jdlx/image_manager_ep (jdlx fork)
+* -image_manager- -> "*image_manager XT*":https://github.com/jdlx/image_manager_xt (jdlx fork)
 * "*markitup*":https://github.com/gn2netwerk/rexseo (gn2netwerk)
 * metainfo
 ** "*metafix*":https://github.com/jdlx/metafix (jdlx)
