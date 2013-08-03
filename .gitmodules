@@ -67,3 +67,6 @@
 [submodule "redaxo/include/addons/be_style/plugins/rex_markitup"]
 	path = redaxo/include/addons/be_style/plugins/rex_markitup
 	url = git://github.com/jdlx/rex_markitup.git
+[submodule "redaxo/include/addons/iw_assets"]
+	path = redaxo/include/addons/iw_assets
+	url = git://github.com/IngoWinter/iw_assets.git
