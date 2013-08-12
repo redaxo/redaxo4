@@ -11,6 +11,7 @@ Version 4.5.1 (2013-XX-XX)
 
   Bugfixes
   * Strict Messages beseitigt
+  * Blöcke konnten nicht gelöscht werden, wenn deren Modul nicht dem Template zugewiesen ist
 
 
 Version 4.5.0 (2013-04-03)
