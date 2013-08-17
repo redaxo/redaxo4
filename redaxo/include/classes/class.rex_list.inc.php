@@ -1007,7 +1007,13 @@ class rex_list
     // Table vars
     $caption = $this->getCaption();
     $tableColumnGroups = $this->getTableColumnGroups();
-    $this->addTableAttribute('class', 'rex-table');
+    // Check if class attribute exists
+    if(!isset($this->tableAttributes['class'])) {
+        $this->addTableAttribute('class', 'rex-table');
+    } elseif ($this->tableAttributes['class']=='') {
+        $this->addTableAttribute('class', 'rex-table');
+     }
+
 
     // Columns vars
     $columnFormates = array();
