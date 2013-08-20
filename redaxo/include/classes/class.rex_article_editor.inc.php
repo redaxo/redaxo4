@@ -406,7 +406,7 @@ class rex_article_editor extends rex_article
 
             <div class="rex-content-editmode-module-name">
               <h3 class="rex-hl4">
-                '. $I18N->msg("module") .': <span>'. htmlspecialchars($MOD->getValue("name")) .'</span>
+                '. $I18N->msg("module") .': <span>'. htmlspecialchars(rex_translate($MOD->getValue("name"))) .'</span>
               </h3>
             </div>
 

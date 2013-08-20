@@ -194,7 +194,7 @@ if ($function == "add" or $function == "edit")
     $m_sql = rex_sql::factory();
     $m_sql->setQuery('SELECT id, name FROM '.$REX['TABLE_PREFIX'].'module ORDER BY name');
     foreach($m_sql->getArray() as $m)
-      $modul_select->addOption($m["name"],$m["id"]);
+      $modul_select->addOption(rex_translate($m["name"]),$m["id"]);
 
     // Kategorien
     $cat_select = new rex_category_select(false, false, false, false);
