@@ -82,6 +82,11 @@ imanager_effect_crop_position = position
 
 imanager_effect_flip = direction
 
+imanager_effect_rounded_corners_topleft = top left
+imanager_effect_rounded_corners_topright = top right
+imanager_effect_rounded_corners_bottomleft = bottom left
+imanager_effect_rounded_corners_bottomright = bottom right
+
 imanager_error_type_name_not_unique = an image type with this name already exists!
 
 im_fx_mirror_height = refl. height (50 / 10%)
