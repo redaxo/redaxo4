@@ -561,12 +561,13 @@ if ($subpage == '') {
   }
 
 
+  $files = rex_sql::factory();
 
   $where = 'f.category_id=' . $rex_file_category;
   if (isset($args['types'])) {
     $types = array();
     foreach (explode(',', $args['types']) as $type) {
-      $types[] = ' f.filename LIKE "%.'.mysql_real_escape_string($type).'"';
+      $types[] = ' f.filename LIKE "%.'.$files->escape($type).'"';
     }
     $where .= ' AND (' . implode(' OR ', $types) . ')';
   }
@@ -578,7 +579,6 @@ if ($subpage == '') {
       'category_id' => $rex_file_category
     )
   );
-  $files = rex_sql::factory();
 //   $files->debugsql = 1;
   $files->setQuery($qry);
 
