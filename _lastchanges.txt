@@ -12,7 +12,11 @@ Version 4.5.1 (2013-XX-XX)
   Bugfixes
   * Strict Messages beseitigt
   * Blöcke konnten nicht gelöscht werden, wenn deren Modul nicht dem Template zugewiesen ist
+  * Pfade für Medien und Medienmanager im und fürs Backend angepasst
+  * REX_FORM_CONTROL_FIElDS. Alias EP hinzugefügt: REX_FORM_CONTROL_FIELDS
 
+  Neu
+  * Imagemanager: Effekt rounded_corners aufgenommen
 
 Version 4.5.0 (2013-04-03)
 
