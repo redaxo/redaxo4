@@ -65,9 +65,6 @@ $body_attr["onunload"] = array('closeAll();');
   //-->
   </script>
 <?php
-// INCLUDE IMG ON DEMAND SCRIPT @ MEDIAPOOL
-if(rex_request('page','string')=='mediapool')
-  echo '  <script src="media/jquery-image-ondemand.min.js" type="text/javascript"></script>';
 
 // ----- EXTENSION POINT
 echo rex_register_extension_point('PAGE_HEADER', '' );
