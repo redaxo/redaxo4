@@ -53,21 +53,28 @@ function rex_a256_search_mpool_query($params)
   $qry = $params['subject'];
   $category_id = $params['category_id'];
 
-  $where = " f.category_id = c.id AND (f.filename LIKE '%". $media_name ."%' OR f.title LIKE '%". $media_name ."%')";
-  switch(OOAddon::getProperty('be_search', 'searchmode', 'local'))
-  {
-    case 'local':
-    {
-      // Suche auf aktuellen Kontext eingrenzen
-      if($category_id != 0)
-        $where .=" AND (c.path LIKE '%|". $params['category_id'] ."|%' OR c.id=". $params['category_id'] .") ";
-      else
-        $qry = str_replace('f.category_id=0', '1=1', $qry);
-    }
-  }
+  $qry = str_replace('f.category_id='.$category_id, '1=1', $qry);
+  $where = " (f.filename LIKE '%". $media_name ."%' OR f.title LIKE '%". $media_name ."%')";
 
-  $qry = str_replace('FROM ', 'FROM '. $REX['TABLE_PREFIX'] .'file_category c,', $qry);
-  $qry = str_replace('WHERE ', 'WHERE '. $where .' AND ', $qry);
+  $searchmode = OOAddon::getProperty('be_search', 'searchmode', 'local');
+
+  // global search - all
+  if($searchmode == 'global') {
+    $qry = str_replace('WHERE ', 'WHERE '. $where .' AND ', $qry);
+    return $qry;
+
+  // local search - all categories and with no category
+  } else if ($category_id == 0) {
+    $qry = str_replace('WHERE ', 'WHERE '. $where .' AND ', $qry);
+
+    // local search - categorie and subcategories
+  } else {
+    $where .= " AND f.category_id = c.id  ";
+    $where .= " AND (c.path LIKE '%|". $params['category_id'] ."|%' OR c.id=". $params['category_id'] .") ";
+    $qry = str_replace('FROM ', 'FROM '. $REX['TABLE_PREFIX'] .'file_category c,', $qry);
+    $qry = str_replace('WHERE ', 'WHERE '. $where .' AND ', $qry);
+
+  }
 
   return $qry;
 }

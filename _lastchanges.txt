@@ -16,6 +16,8 @@ Version 4.5.1 (2013-XX-XX)
   * REX_FORM_CONTROL_FIElDS. Alias EP hinzugefügt: REX_FORM_CONTROL_FIELDS
   * Fehlende Übersetzungsfunktion für Modulbezeichnungen bei Templates und Content eingebaut
   * Typenfilter bei REX_MEDIA(LIST)_BUTTON funktionierte nicht bei Dateien wie z.B. "a.b.gif"
+  * be_search: keine Kategorie wurde nicht bei der Suche beachtet. Lokale Suche über Kategorien
+    und Unterkategorien funktionierten nicht
 
   Neu
   * Imagemanager: Effekt rounded_corners aufgenommen
