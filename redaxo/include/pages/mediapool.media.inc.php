@@ -566,7 +566,7 @@ if ($subpage == '') {
   if (isset($args['types'])) {
     $types = array();
     foreach (explode(',', $args['types']) as $type) {
-      $types[] = 'SUBSTRING(f.filename,LOCATE(".",f.filename)+1)="' . htmlspecialchars($type) . '"';
+      $types[] = ' f.filename LIKE "%.'.mysql_real_escape_string($type).'"';
     }
     $where .= ' AND (' . implode(' OR ', $types) . ')';
   }
