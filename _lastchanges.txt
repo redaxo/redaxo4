@@ -7,7 +7,14 @@ angehandelt.
 Änderungen im Detail:
 ---------------------------------------------------------------------------------
 
-Version 4.5.0 (2013-XX-XX)
+Version 4.5.1 (2013-XX-XX)
+
+  Bugfixes
+  * Strict Messages beseitigt
+  * Blöcke konnten nicht gelöscht werden, wenn deren Modul nicht dem Template zugewiesen ist
+
+
+Version 4.5.0 (2013-04-03)
 
   Neu
   * Mindestvoraussetzungen: PHP 5.3, MySQL 5
@@ -53,6 +60,7 @@ Version 4.5.0 (2013-XX-XX)
   * Updateskript 4.x -> 4.5: Falscher Index entfernt, fehlende Einträge ergänzt
   * Beim Anlegen neuer Artikel wurde das Template des Startartikels teilweise nicht vererbt
   * Beim Löschen von Ordnern wurde abgebrochen sobald ein Dateiname zu false evaluiert (z. B. "0")
+  * CSS Korrekturen bei rex_content_block()
 
 
 Version 4.4.1 (2012-08-03)

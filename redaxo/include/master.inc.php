@@ -9,7 +9,9 @@
 define('REX_MIN_PHP_VERSION', '5.3.0');
 
 if (version_compare(PHP_VERSION, REX_MIN_PHP_VERSION) < 0) {
-  trigger_error('PHP version >=' . REX_MIN_PHP_VERSION . ' needed!', E_USER_ERROR);
+  // out the error directly instead of trigger_error() to be 100% sure it is displayed and not hidden within any logfile
+  echo 'PHP version >=' . REX_MIN_PHP_VERSION . ' needed!';
+  exit();
 }
 
 // -----------------
@@ -29,7 +31,7 @@ $REX['MINORVERSION'] = "0";
 $REX['ERROR_EMAIL'] = "";
 $REX['FILEPERM'] = octdec(664); // oktaler wert
 $REX['DIRPERM'] = octdec(775); // oktaler wert
-$REX['INSTNAME'] = "rex20120626100101";
+$REX['INSTNAME'] = "rex20130403120000";
 $REX['SESSION_DURATION'] = 7200;
 
 // Is set first time SQL Object ist initialised
