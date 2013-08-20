@@ -82,6 +82,11 @@ imanager_effect_crop_position = referencepunkt
 
 imanager_effect_flip = retning
 
+imanager_effect_rounded_corners_topleft = øverst til venstre
+imanager_effect_rounded_corners_topright = øverst til højre
+imanager_effect_rounded_corners_bottomleft = nederste venstre
+imanager_effect_rounded_corners_bottomright = nederst til højre
+
 imanager_error_type_name_not_unique = Der findes allerede et billedtype ved dette navn!
 
 im_fx_mirror_height = refl. højde (50 / 10%)
