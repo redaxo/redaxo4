@@ -18,6 +18,7 @@ Version 4.5.1 (2013-XX-XX)
   * Typenfilter bei REX_MEDIA(LIST)_BUTTON funktionierte nicht bei Dateien wie z.B. "a.b.gif"
   * be_search: keine Kategorie wurde nicht bei der Suche beachtet. Lokale Suche über Kategorien
     und Unterkategorien funktionierten nicht
+  * image_manager: lazy loading entfernt, da kein vorteilhafter effekt
 
   Neu
   * Imagemanager: Effekt rounded_corners aufgenommen

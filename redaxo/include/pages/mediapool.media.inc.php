@@ -626,11 +626,11 @@ if ($subpage == '') {
       $thumbnail = '<img src="' . $icon_src . '" width="44" height="38" alt="' . $alt . '" title="' . $alt . '" />';
 
       if (OOMedia::_isImage($file_name) && $thumbs) {
-        $thumbnail = '<img src="media/loading.gif" class="img-ondemand" longdesc="' . $REX['HTDOCS_PATH'] . $REX['MEDIA_DIR'] . '/' . $file_name . '" width="80" alt="' . $alt . '" title="' . $alt . '" />';
+        $thumbnail = '<img src="' . $REX['HTDOCS_PATH'] . $REX['MEDIA_DIR'] . '/' . $file_name . '" width="80" alt="' . $alt . '" title="' . $alt . '" />';
         if ($image_manager) {
-          $thumbnail = '<img src="media/loading.gif" class="img-ondemand" longdesc="' . $REX['HTDOCS_PATH'] . 'redaxo/index.php?rex_img_type=rex_mediapool_preview&amp;rex_img_file=' . $encoded_file_name . '" alt="' . $alt . '" title="' . $alt . '" />';
+          $thumbnail = '<img src="' . $REX['HTDOCS_PATH'] . 'redaxo/index.php?rex_img_type=rex_mediapool_preview&amp;rex_img_file=' . $encoded_file_name . '" alt="' . $alt . '" title="' . $alt . '" />';
         } elseif ($image_resize) {
-          $thumbnail = '<img src="media/loading.gif" class="img-ondemand" longdesc="' . $REX['HTDOCS_PATH'] . 'redaxo/index.php?rex_resize=80a__' . $encoded_file_name . '" alt="' . $alt . '" title="' . $alt . '" />';
+          $thumbnail = '<img src="' . $REX['HTDOCS_PATH'] . 'redaxo/index.php?rex_resize=80a__' . $encoded_file_name . '" alt="' . $alt . '" title="' . $alt . '" />';
         }
       }
     }
