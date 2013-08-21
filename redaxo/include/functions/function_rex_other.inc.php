@@ -381,11 +381,11 @@ function rex_get_file_contents($path)
 
 function rex_replace_dynamic_contents($path, $content)
 {
-  if($fcontent = rex_get_file_contents($path))
+  if(file_exists($path) && $fcontent = rex_get_file_contents($path))
   {
     $content = "// --- DYN\n". trim($content) ."\n// --- /DYN";
-    $fcontent = preg_replace("@(\/\/.---.DYN.*\/\/.---.\/DYN)@s", $content, $fcontent);
-    return rex_put_file_contents($path, $fcontent);
+    $fcontent = preg_replace("@(\/\/.---.DYN.*\/\/.---.\/DYN)@s", $content, $fcontent, -1, $count);
+    return $count && rex_put_file_contents($path, $fcontent);
   }
   return false;
 }
