@@ -19,6 +19,7 @@ Version 4.5.1 (2013-XX-XX)
   * be_search: keine Kategorie wurde nicht bei der Suche beachtet. Lokale Suche über Kategorien
     und Unterkategorien funktionierten nicht
   * image_manager: lazy loading entfernt, da kein vorteilhafter effekt
+  * rex_replace_dynamic_contents: Es wird nur true zurückgegeben, wenn auch wirklich ersetzt wurde
 
   Neu
   * Imagemanager: Effekt rounded_corners aufgenommen
