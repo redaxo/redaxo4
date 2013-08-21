@@ -313,7 +313,7 @@ class rex_var
 
   static /*public*/ function toArray($value)
   {
-    $value = unserialize(htmlspecialchars_decode($value));
+    $value = unserialize(htmlspecialchars_decode($value, ENT_QUOTES));
     return is_array($value) ? $value : null;
   }
 
