@@ -21,6 +21,7 @@ Version 4.5.1 (2013-XX-XX)
   * image_manager: lazy loading entfernt, da kein vorteilhafter effekt
   * rex_replace_dynamic_contents: Es wird nur true zurückgegeben, wenn auch wirklich ersetzt wurde
   * REX_ARTICLE[prefix="<h1>"] prefix wurde vorher als htmlspecialchars ausgegeben.
+  * REX_MEDIALIST_BUTTON. Bei Klick auf Medienliste anzeigen, wurde die Detailansicht angezeigt.
 
   Neu
   * Imagemanager: Effekt rounded_corners aufgenommen
