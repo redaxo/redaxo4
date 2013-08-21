@@ -78,7 +78,7 @@ class rex_var_article extends rex_var
         {
           if(OOArticle::hasValue($field))
           {
-            $tpl = '<?php echo htmlspecialchars('. $this->handleGlobalVarParamsSerialized($var, $args, '$this->getValue(\''. addslashes($field) .'\')') .'); ?>';
+            $tpl = '<?php echo ('. $this->handleGlobalVarParamsSerialized($var, $args, 'htmlspecialchars($this->getValue(\''. addslashes($field) .'\'))') .'); ?>';
           }
         }
         // REX_ARTICLE[] keine id -> aktuellen artikel verwenden
