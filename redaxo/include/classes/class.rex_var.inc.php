@@ -310,12 +310,14 @@ class rex_var
     return rex_request('function', 'string') == 'delete';
   }
 
-
   static /*public*/ function toArray($value)
   {
-    $value = unserialize(htmlspecialchars_decode($value, ENT_QUOTES));
-    return is_array($value) ? $value : null;
+    $return = @unserialize($value);
+
+    if (!$return) {
+      $return = unserialize(htmlspecialchars_decode(str_replace('<br />', '', $value), ENT_QUOTES));
+    }
+
+    return is_array($return) ? $return : null;
   }
-
-
 }
