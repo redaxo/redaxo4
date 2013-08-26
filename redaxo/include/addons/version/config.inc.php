@@ -33,8 +33,7 @@ function rex_version_initArticle($params)
   if($version == "")
     return;
 
-  if(!isset($_SESSION))
-    session_start();
+  rex_login::startSession();
 
   $REX['LOGIN'] = new rex_backend_login($REX['TABLE_PREFIX'] .'user');
   if ($REX['PSWFUNC'] != '')

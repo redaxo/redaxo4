@@ -205,9 +205,26 @@ class rex_login
     $this->system_id = "default";
     $this->cache = false;
     $this->login_status = 0; // 0 = noch checken, 1 = ok, -1 = not ok
-    if (session_id() == "")
-      session_start();
+    
+    self::startSession();
   }
+  
+  /**
+   * starts a http-session if not already started
+   */
+  public function startSession() {
+    if (session_id() == '') {
+      if (@session_start()) {
+        $error = error_get_last();
+        if ($error) {
+          $message = $error['message'] .' in '. $error['file'] .' on line '. $error['line'];
+        } else {
+          $message = 'Unable to start session!';
+        }
+        trigger_error($message, E_USER_ERROR);
+      }
+    }
+  }    
 
   /**
    * Setzt, ob die Ergebnisse der Login-Abfrage
