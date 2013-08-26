@@ -212,9 +212,10 @@ class rex_login
   /**
    * starts a http-session if not already started
    */
-  public function startSession() {
+  public function startSession()
+  {
     if (session_id() == '') {
-      if (@session_start()) {
+      if (!@session_start()) {
         $error = error_get_last();
         if ($error) {
           $message = $error['message'] .' in '. $error['file'] .' on line '. $error['line'];
