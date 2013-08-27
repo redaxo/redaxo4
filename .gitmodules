@@ -4,9 +4,6 @@
 [submodule "redaxo/include/addons/image_manager"]
 	path = redaxo/include/addons/image_manager
 	url = git://github.com/jdlx/image_manager_xt.git
-[submodule "redaxo/include/addons/markitup"]
-	path = redaxo/include/addons/markitup
-	url = git://github.com/gn2netwerk/markitup.git
 [submodule "redaxo/include/addons/__firephp"]
 	path = redaxo/include/addons/__firephp
 	url = git://github.com/jdlx/__firephp.git
@@ -70,3 +67,6 @@
 [submodule "redaxo/include/addons/rex_markitup"]
 	path = redaxo/include/addons/rex_markitup
 	url = git://github.com/jdlx/rex_markitup.git
+[submodule "redaxo/include/addons/installer"]
+	path = redaxo/include/addons/installer
+	url = git://github.com/nightstomp/redaxo_installer.git
