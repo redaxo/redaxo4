@@ -75,7 +75,7 @@ class rex_image_cacher
     return $this->cache_path .'image_manager__'. $cacheParams .'_'. $filename;
   }
 
-  /*public*/ function sendImage(/*rex_image*/ $image, $cacheParams, $lastModified = null)
+  /*public*/ function sendImage(/*rex_image*/ $image, $cacheParams, $lastModified = null, $etag = null)
   {
     global $REX;
 
@@ -99,6 +99,19 @@ class rex_image_cacher
       {
         $image->prepare();
         $image->save($cacheFile);
+      }
+      else if(!is_null($lastModified) AND !is_null($etag))
+      {
+        // always send headers
+        header("Last-Modified: ".gmdate("D, d M Y H:i:s", $lastModified)." GMT");
+        header("Etag: $etag");
+        
+        // exit if not modified
+        if(strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) == $lastModified OR @trim($_SERVER['HTTP_IF_NONE_MATCH']) == $etag)
+        {
+          header("HTTP/1.1 304 Not Modified");
+          exit;
+        }
       }
 
     $tmp = $REX['USE_GZIP'];
