@@ -117,6 +117,18 @@ class rex_image_manager
 
   /*public*/ function sendImage(/*rex_image*/ $image, $type)
   {
-    $this->image_cacher->sendImage($image, $type);
+    global $REX;
+    
+    // generate lastmodified time
+    $image_cacher = new rex_image_cacher($REX['GENERATED_PATH'].'/files/');
+    $lastmodified = $etag = null;
+    
+    if($file = $image_cacher->getCacheFile($image, $type))
+    {
+      $lastmodified = filemtime($file);
+      $etag = md5_file($file);
+    }
+    
+    $this->image_cacher->sendImage($image, $type, $lastmodified, $etag);
   }
 }
