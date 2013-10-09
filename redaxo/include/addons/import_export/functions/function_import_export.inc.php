@@ -42,6 +42,11 @@ function rex_a1_import_db($filename)
 
   $conts = rex_get_file_contents($filename);
 
+  // Alle Importe die noch Type statt Engine haben ändern. Ab MySQL 5.4.4
+  if(version_compare($REX['MYSQL_VERSION'], '5.4.3', '>')) {
+    $conts = preg_replace('/\bTYPE\s*=\s*(MyISAM|InnoDB)\b/i', 'ENGINE=$1', $conts);
+  }
+
   // Versionsstempel prüfen
   // ## Redaxo Database Dump Version x.x
   $version = strpos($conts, '## Redaxo Database Dump Version '.$REX['VERSION']);
