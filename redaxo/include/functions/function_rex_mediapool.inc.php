@@ -27,7 +27,7 @@ function rex_mediapool_filename($FILENAME, $doSubindexing = true)
     array('ae', 'oe', 'ue'),
     $NFILENAME
   );
-  $NFILENAME = preg_replace('/[^a-zA-Z0-9.\-\+]/','_',$NFILENAME);
+  $NFILENAME = preg_replace('/[^a-zA-Z0-9.\-]/','_',$NFILENAME);
   if (strrpos($NFILENAME,'.') != '')
   {
     $NFILE_NAME = substr($NFILENAME,0,strlen($NFILENAME)-(strlen($NFILENAME)-strrpos($NFILENAME,'.')));
