@@ -258,7 +258,7 @@ function _rex_cast_var($var, $vartype, $default, $mode)
       $var = (object)  $var;
       break;
     case 'array'  :
-      if(empty($var) && $var === '')
+      if($var === '')
         $var = array();
       else
         $var = (array) $var;
