@@ -23,6 +23,7 @@ Version 4.5.1 (2013-XX-XX)
   * REX_ARTICLE[prefix="<h1>"] prefix wurde vorher als htmlspecialchars ausgegeben.
   * REX_MEDIALIST_BUTTON. Bei Klick auf Medienliste anzeigen, wurde die Detailansicht angezeigt.
   * rex_var::toArray() funktioniert mit REX_VALUE[] und REX_HTML_VALUE[]
+  * Metainfos: Neue Felder fehlten teilweise im Artikelcache
 
   Neu
   * Imagemanager: Effekt rounded_corners aufgenommen

@@ -27,6 +27,8 @@
   var $_updateuser = '';
   var $_createuser = '';
 
+  static $vars = array();
+
   /*
    * Constructor
    */
@@ -100,13 +102,11 @@
    */
   static /*public*/ function getClassVars()
   {
-    static $vars = array ();
-
-    if (empty($vars))
+    if (empty(self::$vars))
     {
       global $REX;
 
-      $vars = array();
+      self::$vars = array();
 
       $file = $REX['GENERATED_PATH']. '/articles/'.  $REX['START_ARTICLE_ID'] .'.0.article';
       if($REX['GG'] && file_exists($file))
@@ -120,7 +120,7 @@
         unset($genVars['last_update_stamp']);
         foreach($genVars as $name => $value)
         {
-          $vars[] = $name;
+          self::$vars[] = $name;
         }
       }
       else
@@ -130,12 +130,12 @@
         $sql->setQuery('SELECT * FROM '. $REX['TABLE_PREFIX'] .'article LIMIT 0');
         foreach($sql->getFieldnames() as $field)
         {
-          $vars[] = $field;
+          self::$vars[] = $field;
         }
       }
     }
 
-    return $vars;
+    return self::$vars;
   }
 
   /*
