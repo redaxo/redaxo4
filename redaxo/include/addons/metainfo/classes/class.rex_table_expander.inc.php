@@ -261,6 +261,7 @@ class rex_a62_tableExpander extends rex_form
         // Spalte in der Tabelle anlegen
         $tmRes = $this->tableManager->addColumn($fieldName, $fieldDbType, $fieldDbLength, $fieldDefault);
       }
+      OORedaxo::$vars = array();
       rex_generateAll();
 
       if($tmRes)
