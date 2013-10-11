@@ -251,7 +251,7 @@ class OOCategory extends OORedaxo
     return null;
   }
 
-  /*public*/ function hasValue($value)
+  static /*public*/ function hasValue($value)
   {
     return parent::hasValueWithPrefixes($value, array('cat_'));
   }

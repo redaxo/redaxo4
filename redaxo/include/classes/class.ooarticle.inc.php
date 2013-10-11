@@ -192,7 +192,7 @@ class OOArticle extends OORedaxo
     return parent::getValue($value);
   }
 
-  /*public*/ function hasValue($value)
+  static /*public*/ function hasValue($value)
   {
     return parent::hasValueWithPrefixes($value, array('art_'));
   }

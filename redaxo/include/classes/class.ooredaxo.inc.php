@@ -76,7 +76,7 @@
     return null;
   }
 
-  protected function hasValueWithPrefixes($value, $prefixes = array())
+  static protected function hasValueWithPrefixes($value, $prefixes = array())
   {
     static $values = null;
 
