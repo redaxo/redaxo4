@@ -23,7 +23,7 @@ function rex_mediapool_filename($FILENAME, $doSubindexing = true)
   );
   $NFILENAME = strtolower($NFILENAME);
   $NFILENAME = str_replace(
-    array("a\xec\x88", "o\xec\x88", "u\xec\x88"),
+    array("a\xcc\x88", "o\xcc\x88", "u\xcc\x88"),
     array('ae', 'oe', 'ue'),
     $NFILENAME
   );
