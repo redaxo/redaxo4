@@ -92,6 +92,7 @@ if($REX['REDAXO'])
   if(!function_exists('rex_image_manager_ep_mediaupdated'))
   {
     rex_register_extension('MEDIA_UPDATED', 'rex_image_manager_ep_mediaupdated');
+    rex_register_extension('MEDIA_DELETED', 'rex_image_manager_ep_mediaupdated');
     function rex_image_manager_ep_mediaupdated($params){
       rex_image_cacher::deleteCache($params["filename"]);
     }

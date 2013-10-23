@@ -820,6 +820,13 @@ class OOMedia
       require_once ($REX['INCLUDE_PATH'].'/functions/function_rex_generate.inc.php');
       rex_deleteCacheMedia($this->getFileName());
 
+      // ----- EXTENSION POINT
+      rex_register_extension_point('MEDIA_DELETED', '',
+        array(
+          'filename' => $filename
+        )
+      );
+
       return $sql->getError();
     }
     return false;
