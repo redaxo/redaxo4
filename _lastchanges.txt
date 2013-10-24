@@ -24,9 +24,17 @@ Version 4.5.1 (2013-XX-XX)
   * REX_MEDIALIST_BUTTON. Bei Klick auf Medienliste anzeigen, wurde die Detailansicht angezeigt.
   * rex_var::toArray() funktioniert mit REX_VALUE[] und REX_HTML_VALUE[]
   * Metainfos: Neue Felder fehlten teilweise im Artikelcache
+  * Image Manager kann nun passende Caches löschen kann, da EP "MEDIA_DELETED" existiert
+  * array cast mit Zahl 0 geht nun
+  * "+" in Dateinamen wird nun in "_" umgewandelt. -> keine Probleme mehr bei URL aufrufen
+  * Beim Import von SQLDumps werden nun ältere Versionen angepasst. z.B. TYPE=MyIsam -> Engine=MyIsam
+  * Imagemanger. Blureffekt war sehr schwach und daher nicht wirklich gut nutzbar.
 
   Neu
   * Imagemanager: Effekt rounded_corners aufgenommen
+  * Imagemanager: Blureffekt verstärkt und umgebaut.
+  * EP "MEDIA_DELETED" ergänzt
+
 
 Version 4.5.0 (2013-04-03)
 
