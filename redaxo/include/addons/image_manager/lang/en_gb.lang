@@ -61,9 +61,9 @@ imanager_effect_brand_vpos = vertical position
 imanager_effect_brand_padding_x = padding x
 imanager_effect_brand_padding_y = padding y 
 
-imanager_effect_blur_amount = amount
-imanager_effect_blur_radius = radius
-imanager_effect_blur_threshold = threshold
+imanager_effect_blur_repeats = repeats
+imanager_effect_blur_type = blur type
+imanager_effect_blur_smoothit = smooth (negative values will sharpen the image)
 
 imanager_effect_sharpen_amount = amount
 imanager_effect_sharpen_radius = radius
