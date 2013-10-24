@@ -1145,7 +1145,7 @@ if ($article->getRows() == 1)
 
     }
 
-    if($mode == 'edit' || $mode == 'meta' || $mode = 'functions') {
+    if($mode == 'edit' || $mode == 'meta' || $mode == 'functions') {
       echo '
               </div>
               </div>
