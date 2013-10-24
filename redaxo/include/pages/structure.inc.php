@@ -537,7 +537,7 @@ if ($category_id > 0 || ($category_id == 0 && !$REX["USER"]->hasMountpoints()))
           '. $add_col .'
           <col width="*" />
           <col width="40" />
-          <col width="200" />
+          <col width="140" />
           <col width="115" />
           <col width="51" />
           <col width="50" />
