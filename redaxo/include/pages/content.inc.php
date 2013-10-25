@@ -874,7 +874,7 @@ if ($article->getRows() == 1)
       $out = '';
 
       $out .= '
-        <div class="rex-form" id="rex-form-content-metamode" class="rex-form-content-functions">
+        <div class="rex-form rex-form-content-functions" id="rex-form-content-metamode">
           <form action="index.php" method="post" enctype="multipart/form-data" id="REX_FORM">
             <div class="rex-form-section">
                 <input type="hidden" name="page" value="content" />
