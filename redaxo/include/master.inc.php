@@ -180,7 +180,7 @@ $REX['VARIABLES'][] = 'rex_var_value';
 $REX['VARIABLES'][] = 'rex_var_link';
 $REX['VARIABLES'][] = 'rex_var_media';
 
-// ----- default values
+// ----------------- default values
 if (!isset($REX['NOFUNCTIONS'])) $REX['NOFUNCTIONS'] = false;
 
 // ----------------- INCLUDE FUNCTIONS
@@ -188,17 +188,10 @@ if(!$REX['NOFUNCTIONS']) include_once ($REX['INCLUDE_PATH'].'/functions.inc.php'
 
 // ----- SET CLANG
 include_once $REX['INCLUDE_PATH'].'/clang.inc.php';
+
 $REX['CUR_CLANG']  = rex_request('clang','rex-clang-id', $REX['START_CLANG_ID']);
 
-// ----- SET ARTICLE_ID
 if(rex_request('article_id', 'int') == 0)
   $REX['ARTICLE_ID'] = $REX['START_ARTICLE_ID'];
 else
   $REX['ARTICLE_ID'] = rex_request('article_id','rex-article-id', $REX['NOTFOUND_ARTICLE_ID']);
-
-$REX['404_ERROR'] = false;
-if($REX['ARTICLE_ID'] == $REX['NOTFOUND_ARTICLE_ID'] &&
-$REX['ARTICLE_ID'] != $REX['START_ARTICLE_ID'])
-{
-  $REX['404_ERROR'] = true;
-}
