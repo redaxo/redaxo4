@@ -19,8 +19,8 @@ class rex_mailer extends PHPMailer
     global $REX;
 
 // --- DYN
-$this->From             = 'from@example.com';
-$this->FromName         = 'Mailer';
+$this->From             = '';
+$this->FromName         = '';
 $this->ConfirmReadingTo = '';
 $this->AdminBcc         = '';
 $this->Mailer           = 'mail';
