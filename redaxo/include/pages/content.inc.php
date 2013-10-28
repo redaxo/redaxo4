@@ -415,7 +415,7 @@ if ($article->getRows() == 1)
         {
           // ----- EXTENSION POINT
           $info = $I18N->msg('content_tostartarticle_ok');
-          header("Location:index.php?page=content&mode=meta&clang=$clang&ctype=$ctype&article_id=$article_id&info=".urlencode($info));
+          header("Location:index.php?page=content&mode=functions&clang=$clang&ctype=$ctype&article_id=$article_id&info=".urlencode($info));
           exit;
         }
         else
@@ -440,7 +440,7 @@ if ($article->getRows() == 1)
         {
           // ----- EXTENSION POINT
           $info = $I18N->msg('content_tocategory_ok');
-          header("Location:index.php?page=content&mode=meta&clang=$clang&ctype=$ctype&article_id=$article_id&info=".urlencode($info));
+          header("Location:index.php?page=content&mode=functions&clang=$clang&ctype=$ctype&article_id=$article_id&info=".urlencode($info));
           exit;
         }
         else
@@ -465,7 +465,7 @@ if ($article->getRows() == 1)
         {
           // ----- EXTENSION POINT
           $info = $I18N->msg('content_toarticle_ok');
-          header("Location:index.php?page=content&mode=meta&clang=$clang&ctype=$ctype&article_id=$article_id&info=".urlencode($info));
+          header("Location:index.php?page=content&mode=functions&clang=$clang&ctype=$ctype&article_id=$article_id&info=".urlencode($info));
           exit;
         }
         else
@@ -510,7 +510,7 @@ if ($article->getRows() == 1)
         {
           $info = $I18N->msg('content_articlemoved');
           ob_end_clean();
-          header('Location: index.php?page=content&article_id=' . $article_id . '&mode=meta&clang=' . $clang . '&ctype=' . $ctype . '&info=' . urlencode($info));
+          header('Location: index.php?page=content&article_id=' . $article_id . '&mode=functions&clang=' . $clang . '&ctype=' . $ctype . '&info=' . urlencode($info));
           exit;
         }
         else
@@ -535,7 +535,7 @@ if ($article->getRows() == 1)
         {
           $info = $I18N->msg('content_articlecopied');
           ob_end_clean();
-          header('Location: index.php?page=content&article_id=' . $new_id . '&mode=meta&clang=' . $clang . '&ctype=' . $ctype . '&info=' . urlencode($info));
+          header('Location: index.php?page=content&article_id=' . $new_id . '&mode=functions&clang=' . $clang . '&ctype=' . $ctype . '&info=' . urlencode($info));
           exit;
         }
         else
@@ -560,7 +560,7 @@ if ($article->getRows() == 1)
         {
           $info = $I18N->msg('category_moved');
           ob_end_clean();
-          header('Location: index.php?page=content&article_id=' . $category_id . '&mode=meta&clang=' . $clang . '&ctype=' . $ctype . '&info=' . urlencode($info));
+          header('Location: index.php?page=content&article_id=' . $category_id . '&mode=functions&clang=' . $clang . '&ctype=' . $ctype . '&info=' . urlencode($info));
           exit;
         }
         else
@@ -686,6 +686,14 @@ if ($article->getRows() == 1)
 
     }
 
+    if($mode == 'functions') {
+      $listElements[] = '<a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=functions&amp;clang=' . $clang . '&amp;ctype=' . $ctype . '" class="rex-active"'. rex_tabindex() .'>' . $I18N->msg('functions') . '</a>';
+
+    } else {
+      $listElements[] = '<a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=functions&amp;clang=' . $clang . '&amp;ctype=' . $ctype . '"'. rex_tabindex() .'>' . $I18N->msg('functions') . '</a>';
+
+    }
+
     $listElements[] = '<a href="../' . rex_getUrl($article_id,$clang) . '" onclick="window.open(this.href); return false;" '. rex_tabindex() .'>' . $I18N->msg('show') . '</a>';
 
     // ----- EXTENSION POINT
@@ -743,7 +751,7 @@ if ($article->getRows() == 1)
       $mode = "";
     }
     
-    if($mode == 'edit' || $mode == 'meta') {
+    if($mode == 'edit' || $mode == 'meta' || $mode == 'functions') {
 
         // ------------------------------------------ WARNING
         if($global_warning != '')
@@ -848,7 +856,8 @@ if ($article->getRows() == 1)
                   </div>
                   <div class="rex-clearer"></div>
                 </div>
-             </fieldset>';
+             </fieldset>
+           </div>';
 
       // ----- EXTENSION POINT
       echo rex_register_extension_point('ART_META_FORM_SECTION', '', array (
@@ -856,13 +865,26 @@ if ($article->getRows() == 1)
         'clang' => $clang
       ));
 
-      echo '</div>';
+      echo '</form>
+            </div>';
 
-      $isStartpage = $article->getValue('startpage') == 1;
-
-      // ------------------------------------------------------------- SONSTIGES START
+    } else if ($mode == 'functions')
+    {
 
       $out = '';
+
+      $out .= '
+        <div class="rex-form rex-form-content-functions" id="rex-form-content-metamode">
+          <form action="index.php" method="post" enctype="multipart/form-data" id="REX_FORM">
+            <div class="rex-form-section">
+                <input type="hidden" name="page" value="content" />
+                <input type="hidden" name="article_id" value="' . $article_id . '" />
+                <input type="hidden" name="mode" value="functions" />
+                <input type="hidden" name="save" value="1" />
+                <input type="hidden" name="clang" value="' . $clang . '" />
+                <input type="hidden" name="ctype" value="' . $ctype . '" />';
+
+      $isStartpage = $article->getValue('startpage') == 1;
 
       // --------------------------------------------------- ZUM STARTARTICLE MACHEN START
       if ($REX['USER']->isAdmin() || $REX['USER']->hasPerm('article2startpage[]'))
@@ -1110,9 +1132,8 @@ if ($article->getRows() == 1)
 
       if ($out != '')
       {
-        echo '<div class="rex-form-section">';
         echo $out;
-        echo '</div>';
+        echo '</div>'; // rex-form-section
       }
       // ------------------------------------------------------------- SONSTIGES ENDE
 
@@ -1124,7 +1145,7 @@ if ($article->getRows() == 1)
 
     }
 
-    if($mode == 'edit' || $mode == 'meta') {
+    if($mode == 'edit' || $mode == 'meta' || $mode == 'functions') {
       echo '
               </div>
               </div>
