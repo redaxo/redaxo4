@@ -34,6 +34,7 @@ Version 4.5.1 (2013-XX-XX)
   * Imagemanager: Effekt rounded_corners aufgenommen
   * Imagemanager: Blureffekt verstärkt und umgebaut.
   * EP "MEDIA_DELETED" ergänzt
+  * Textile Update -> 2.5.4
 
 
 Version 4.5.0 (2013-04-03)

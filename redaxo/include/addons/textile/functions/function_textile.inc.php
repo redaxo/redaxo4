@@ -22,9 +22,17 @@ function rex_a79_textile_instance($doctype='xhtml')
 
   if(!isset($instance[$doctype]))
   {
-    $instance[$doctype] = new Textile($doctype);
-    $instance[$doctype]->unrestricted_url_schemes[] = 'redaxo';
+    $instance[$doctype] = new rex_textile_parser($doctype);
   }
 
   return $instance[$doctype];
+}
+
+class rex_textile_parser extends Textile
+{
+    public function __construct($doctype = 'xhtml')
+    {
+        parent::__construct($doctype);
+        $this->unrestricted_url_schemes[] = 'redaxo';
+    }
 }
