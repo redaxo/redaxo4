@@ -21,19 +21,27 @@ $EXPDIR         = rex_post('EXPDIR', 'array');
 
 if ($impname != '')
 {
-  $impname = str_replace("/", "", $impname);
+  $impname = basename($impname);
 
-  if ($function == "dbimport" && substr($impname, -4, 4) != ".sql")
+  if ($function == "dbimport" && substr($impname, -4, 4) == ".sql") {
+
+  } else if ($function == "fileimport" && substr($impname, -7, 7) == ".tar.gz") {
+
+  } else if ($function == "delete" && (substr($impname, -4, 4) == ".sql" || substr($impname, -7, 7) == ".tar.gz") ) {
+
+  } else {
     $impname = "";
-  elseif ($function == "fileimport" && substr($impname, -7, 7) != ".tar.gz")
-    $impname = "";
+
+  }
+
 }
 
 if ($exportfilename == '')
   $exportfilename = 'rex_'.$REX['VERSION'].'_'.date("Ymd");
 
-if ($function == "delete")
+if ($function == "delete" && $impname != '')
 {
+
   // ------------------------------ FUNC DELETE
   if (unlink(getImportDir().'/'.$impname));
   $info = $I18N->msg("im_export_file_deleted");
