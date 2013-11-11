@@ -130,11 +130,11 @@ $sel_startpage->setId('userperm-startpage');
 $sel_startpage->addOption('default', '');
 
 $startpages = array();
-$startpages['structure'] = [$I18N->msg('structure'), ''];
-$startpages['profile'] = [$I18N->msg('profile'), ''];
+$startpages['structure'] = array($I18N->msg('structure'), '');
+$startpages['profile'] = array($I18N->msg('profile'), '');
 foreach ($REX['ADDON']['status'] as $k => $v) {
     if (isset($REX['ADDON']['perm'][$k]) && isset($REX['ADDON']['name'][$k])) {
-        $startpages[$k] = [$REX['ADDON']['name'][$k], $REX['ADDON']['perm'][$k]];
+        $startpages[$k] = array($REX['ADDON']['name'][$k], $REX['ADDON']['perm'][$k]);
     }
 }
 
@@ -965,20 +965,20 @@ if (isset($SHOW) and $SHOW) {
     $list = rex_list::factory('SELECT user_id, name, login, lasttrydate FROM ' . $REX['TABLE_PREFIX'] . 'user ORDER BY name');
     $list->setCaption($I18N->msg('user_caption'));
     $list->addTableAttribute('summary', $I18N->msg('user_summary'));
-    $list->addTableColumnGroup([40, '5%', '*', 153, 153, 153]);
+    $list->addTableColumnGroup(array(40, '5%', '*', 153, 153, 153));
 
     $tdIcon = '<span class="rex-i-element rex-i-user"><span class="rex-i-element-text">###name###</span></span>';
-    $thIcon = '<a class="rex-i-element rex-i-user-add" href="' . $list->getUrl(['FUNC_ADD' => '1']) . '"' . rex_accesskey($I18N->msg('create_user'), $REX['ACKEY']['ADD']) . '><span class="rex-i-element-text">' . $I18N->msg('create_user') . '</span></a>';
-    $list->addColumn($thIcon, $tdIcon, 0, ['<th class="rex-icon">###VALUE###</th>', '<td class="rex-icon">###VALUE###</td>']);
-    $list->setColumnParams($thIcon, ['user_id' => '###user_id###']);
+    $thIcon = '<a class="rex-i-element rex-i-user-add" href="' . $list->getUrl(array('FUNC_ADD' => '1')) . '"' . rex_accesskey($I18N->msg('create_user'), $REX['ACKEY']['ADD']) . '><span class="rex-i-element-text">' . $I18N->msg('create_user') . '</span></a>';
+    $list->addColumn($thIcon, $tdIcon, 0, array('<th class="rex-icon">###VALUE###</th>', '<td class="rex-icon">###VALUE###</td>'));
+    $list->setColumnParams($thIcon, array('user_id' => '###user_id###'));
 
     $list->setColumnLabel('user_id', 'ID');
-    $list->setColumnLayout('user_id', ['<th class="rex-small">###VALUE###</th>', '<td class="rex-small">###VALUE###</td>']);
+    $list->setColumnLayout('user_id', array('<th class="rex-small">###VALUE###</th>', '<td class="rex-small">###VALUE###</td>'));
 
     $list->setColumnLabel('login', $I18N->msg('login'));
 
     $list->setColumnLabel('name', $I18N->msg('name'));
-    $list->setColumnParams('name', ['user_id' => '###user_id###']);
+    $list->setColumnParams('name', array('user_id' => '###user_id###'));
     $list->setColumnFormat('name', 'custom',
         create_function(
             '$params',
@@ -992,7 +992,7 @@ if (isset($SHOW) and $SHOW) {
 
     $list->addColumn('funcs', $I18N->msg('user_delete'));
     $list->setColumnLabel('funcs', $I18N->msg('user_functions'));
-    $list->setColumnParams('funcs', ['FUNC_DELETE' => '1', 'user_id' => '###user_id###']);
+    $list->setColumnParams('funcs', array('FUNC_DELETE' => '1', 'user_id' => '###user_id###'));
     $list->setColumnFormat('funcs', 'custom',
         create_function(
             '$params',
