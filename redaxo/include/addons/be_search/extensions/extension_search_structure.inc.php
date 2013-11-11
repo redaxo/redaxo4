@@ -184,7 +184,7 @@ function rex_a256_search_structure($params)
       <form action="index.php" method="post">
       <fieldset>
         <input type="hidden" name="page" value="'. $page .'" />
-        <input type="hidden" name="mode" value="'. $mode .'" />
+        <input type="hidden" name="mode" value="'. htmlspecialchars(stripslashes($mode)) .'" />
         <input type="hidden" name="category_id" value="'. $category_id .'" />'. $article_id_input .'
         <input type="hidden" name="clang" value="'. $clang .'" />
         <input type="hidden" name="ctype" value="'. $ctype .'" />
