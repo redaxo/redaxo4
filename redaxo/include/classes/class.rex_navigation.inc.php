@@ -587,7 +587,7 @@ class rex_be_navigation
 
   static /*public*/ function getLoginPage()
   {
-    $page = new rex_be_page('login', 'system');
+    $page = new rex_be_page('Login', 'system');
     $page->setIsCorePage(true);
     $page->setHasNavigation(false);
     return $page;

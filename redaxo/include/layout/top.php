@@ -8,7 +8,7 @@
 
 $popups_arr = array('linkmap', 'mediapool');
 
-$page_title = $REX['SERVERNAME'];
+$page_title = $REX['SERVERNAME'] . ' - REDAXO CMS';
 
 if(!isset($page_name))
 {
@@ -17,7 +17,7 @@ if(!isset($page_name))
 }
 
 if ($page_name != '')
-  $page_title .= ' - ' . $page_name;
+  $page_title = $page_name . ' - ' . $page_title;
 
 $body_attr = array();
 $body_id = str_replace('_', '-', $REX["PAGE"]);
