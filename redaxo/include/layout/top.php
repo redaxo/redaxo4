@@ -37,6 +37,7 @@ $body_attr["onunload"] = array('closeAll();');
   <meta name="robots" content="noindex, nofollow, noarchive" />
   <link rel="shortcut icon" href="media/favicon.ico" />
   <link rel="stylesheet" type="text/css" href="media/css_import.css" media="screen, projection, print" />
+  <link rel="stylesheet" type="text/css" href="media/css_print.css" media="print" />
   <!--[if lte IE 7]>
     <link rel="stylesheet" href="media/css_ie_lte_7.css" type="text/css" media="screen, projection, print" />
   <![endif]-->

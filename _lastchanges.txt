@@ -35,6 +35,7 @@ Version 4.5.1 (2013-XX-XX)
   * Imagemanager: Blureffekt verstärkt und umgebaut.
   * EP "MEDIA_DELETED" ergänzt
   * Textile Update -> 2.5.4
+  * Print Stylesheet
 
 
 Version 4.5.0 (2013-04-03)

@@ -1,0 +1,42 @@
+* {
+	background: transparent !important;
+	color: #000 !important;
+	border-color: #000 !important;
+	text-shadow: none !important;
+	box-shadow: none !important;
+}
+
+html,
+body {
+	font-size: 12pt !important;
+	font-family: Arial, "Times New Roman", Times, serif !important;
+	height: 100% !important;
+}
+
+div#rex-website,
+div#rex-wrapper {
+	width: auto !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	float: none !important;
+}
+
+div#rex-navi-main,
+div#rex-navi-logout,
+div#rex-a256-searchbar,
+div#rex-form-mediapool-selectcategory,
+div#rex-clang {
+	display: none !important;
+}
+
+.rex-table {
+	width: 100% !important;
+}
+
+div#rex-footer {
+	border: 0 !important;
+}
+
+div#rex-title div.rex-title-row-sub {
+	border-top: 0 !important;
+}
