@@ -325,19 +325,19 @@ class OOMedia
     }
     elseif ($size < $mb)
     {
-      return round($size / $kb, 2)." KBytes";
+      return round($size / $kb, 2)." KB";
     }
     elseif ($size < $gb)
     {
-      return round($size / $mb, 2)." MBytes";
+      return round($size / $mb, 2)." MB";
     }
     elseif ($size < $tb)
     {
-      return round($size / $gb, 2)." GBytes";
+      return round($size / $gb, 2)." GB";
     }
     else
     {
-      return round($size / $tb, 2)." TBytes";
+      return round($size / $tb, 2)." TB";
     }
   }
 
