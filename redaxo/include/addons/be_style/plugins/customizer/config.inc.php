@@ -16,7 +16,7 @@ $REX['ADDON']['author'][$mypage] = 'Umsetzung: Jan Kristinus';
 $REX['ADDON']['supportpage'][$mypage] = 'www.redaxo.org/de/forum';
 
 // --- DYN
-$REX['ADDON']['be_style']['plugin_customizer']['labelcolor'] = '#090';
+$REX['ADDON']['be_style']['plugin_customizer']['labelcolor'] = '#47a1ce';
 $REX['ADDON']['be_style']['plugin_customizer']['codemirror_theme'] = 'eclipse';
 $REX['ADDON']['be_style']['plugin_customizer']['codemirror'] = 1;
 $REX['ADDON']['be_style']['plugin_customizer']['showlink'] = 1;
