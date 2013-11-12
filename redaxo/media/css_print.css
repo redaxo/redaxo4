@@ -24,6 +24,7 @@ div#rex-wrapper {
 div#rex-navi-main,
 div#rex-navi-logout,
 div#rex-a256-searchbar,
+div#rex-form-mediapool-selectcategory,
 div#rex-clang {
 	display: none !important;
 }
