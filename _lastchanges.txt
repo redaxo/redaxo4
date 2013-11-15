@@ -33,6 +33,7 @@ Version 4.5.1 (2013-XX-XX)
   Neu
   * Imagemanager: Effekt rounded_corners aufgenommen
   * Imagemanager: Blureffekt verstärkt und umgebaut.
+  * Imagemanager: PDF2IMG Plugin erstellt. Sofern es der Server unterstützt, kann der Image-Manager auch PDFs verwenden
   * EP "MEDIA_DELETED" ergänzt
   * Textile Update -> 2.5.4
   * Print Stylesheet
