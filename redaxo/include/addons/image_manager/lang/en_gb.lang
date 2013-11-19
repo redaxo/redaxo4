@@ -7,12 +7,12 @@ imanager_subpage_clear_cache = Delete cache
 
 imanager_cache_files_removed = {0} cache files deleted
 
-imanager_config_saved = configuration updated!
-imanager_config_not_saved = configuration could not be saved!
-imanager_config_not_writable = configuration file "{0}" can not be written!
+imanager_config_saved = Configuration updated!
+imanager_config_not_saved = Configuration could not be saved!
+imanager_config_not_writable = Cannot write to configuration file "{0}"!
 
-imanager_max_resizekb = Maximum size of a image in kilobyte, which can be used of image-manager
-imanager_max_resizepx = Maximum size of a image in pixel, which can be used of image-manager
+imanager_max_resizekb = Maximum file size of an image in kilobyte to be used by the image-manager
+imanager_max_resizepx = Maximum size of an image in pixels to be used by the image-manager
 imanager_jpg_quality = JPG/JPEG output-quality
 
 imanager_id = id
@@ -23,8 +23,8 @@ imanager_settings = settings
 imanager_yes = yes
 imanager_no = no
 
-imanager_error_name = please enter a name.
-imanager_error_settings = please check the settings.
+imanager_error_name = Please enter a name.
+imanager_error_settings = Please check the settings.
 
 imanager_type_caption = list of image types
 imanager_type_summary = list of image types
@@ -87,7 +87,7 @@ imanager_effect_rounded_corners_topright = top right
 imanager_effect_rounded_corners_bottomleft = bottom left
 imanager_effect_rounded_corners_bottomright = bottom right
 
-imanager_error_type_name_not_unique = an image type with this name already exists!
+imanager_error_type_name_not_unique = An image type with this name already exists!
 
 im_fx_mirror_height = refl. height (50 / 10%)
 im_fx_mirror_background_color = backgroundcolor
@@ -95,4 +95,4 @@ im_fx_mirror_background_r = background R (0-255)
 im_fx_mirror_background_g = background G (0-255)
 im_fx_mirror_background_b = background B (0-255)
 
-im_fx_workspace_pos = Position
+im_fx_workspace_pos = position
