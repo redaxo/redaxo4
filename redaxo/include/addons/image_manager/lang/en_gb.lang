@@ -41,14 +41,14 @@ imanager_type_cache_delete = delete cache
 imanager_type_system = system image type
 
 imanager_effect_list_header = effect of image type "{0}"
-imanager_effect_edit_header = image type "{0}": edit effect 
+imanager_effect_edit_header = image type "{0}": edit effect
 imanager_effect_create_header = image type "{0}": create effect
 imanager_effect_caption = list of effects of image type "{0}"
 imanager_effect_summary = list of effects of image type "{0}"
 imanager_effect_no_effects = no effect found
 imanager_effect_create = create effect
-imanager_effect_edit = edit effect 
-imanager_effect_delete = delete effect 
+imanager_effect_edit = edit effect
+imanager_effect_delete = delete effect
 imanager_effect_name = effect
 imanager_effect_prior = order
 imanager_effect_parameters = parameter
@@ -59,7 +59,7 @@ imanager_effect_brand_image = image
 imanager_effect_brand_hpos = horizontal position
 imanager_effect_brand_vpos = vertical position
 imanager_effect_brand_padding_x = padding x
-imanager_effect_brand_padding_y = padding y 
+imanager_effect_brand_padding_y = padding y
 
 imanager_effect_blur_repeats = repeats
 imanager_effect_blur_type = blur type
@@ -76,7 +76,7 @@ imanager_effect_resize_imgtosmall = if image is to small
 
 imanager_effect_crop_width = width
 imanager_effect_crop_height = height
-imanager_effect_crop_offset_width = offset width 
+imanager_effect_crop_offset_width = offset width
 imanager_effect_crop_offset_height = offset height
 imanager_effect_crop_position = position
 
@@ -96,6 +96,3 @@ im_fx_mirror_background_g = background G (0-255)
 im_fx_mirror_background_b = background B (0-255)
 
 im_fx_workspace_pos = Position
-
-form_field_first_prior = first position
-form_field_after_prior = after "{0}"

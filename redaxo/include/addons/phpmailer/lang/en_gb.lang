@@ -1,5 +1,3 @@
-# addon:phpmailer en_gb
-
 phpmailer_title = PHPMailer
 phpmailer_configuration = Configuration
 phpmailer_example = Example

@@ -1,0 +1,5 @@
+# addon: version_checker en_gb
+vchecker_dev_version = [missing_text] de:Sie verwenden eine REDAXO Entwicklerversion ({0}). Diese wird nicht für Produktivsysteme empfohlen!
+vchecker_old_version = [missing_text] de:Sie verwenden eine veraltete REDAXO Version ({0}). Es wird empfohlen ihr System auf die neuste Version ({1}) zu aktualisieren!
+vchecker_current_version = [missing_text] de:Sie verwenden die aktuellste REDAXO Version ({0}).
+vchecker_connection_error = [missing_text] de:Fehler beim Verbindungsaufbau zu www.redaxo.org.

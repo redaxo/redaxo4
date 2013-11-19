@@ -1,0 +1,23 @@
+# addon: userinfo en_gb
+userinfo_component_userinfo = [missing_text] de:{0}, am {1}
+userinfo_component_stats_title = [missing_text] de:Seitenstatistik
+
+userinfo_component_stats_actions = [missing_text] de:Aktionen
+userinfo_component_stats_categories = [missing_text] de:Kategorien
+userinfo_component_stats_articles = [missing_text] de:Artikel
+userinfo_component_stats_clangs = [missing_text] de:Sprachen
+userinfo_component_stats_date = [missing_text] de:Datum
+userinfo_component_stats_modules = [missing_text] de:Module
+userinfo_component_stats_slices = [missing_text] de:Blöcke
+userinfo_component_stats_templates = [missing_text] de:Templates
+userinfo_component_stats_user = [missing_text] de:Benutzer
+userinfo_component_stats_users = [missing_text] de:Benutzer
+
+userinfo_component_articles_title = [missing_text] de:Zuletzt bearbeitete Artikel
+userinfo_component_articles_caption = [missing_text] de:Liste der zuletzt bearbeiteten Artikel
+userinfo_component_articles_summary = [missing_text] de:Auflistung der zuletzt bearbeiteten Artikel
+
+userinfo_component_media_title = [missing_text] de:Zuletzt bearbeitete Medien
+
+userinfo_block_stats = [missing_text] de:Statistiken
+userinfo_block_latest_infos = [missing_text] de:Zuletzt bearbeitet
