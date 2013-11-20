@@ -55,6 +55,11 @@ if ($function == 'export')
   $exportfilename = stripslashes($exportfilename);
   $filename       = preg_replace('@[^\.a-z0-9_\-]@', '', $exportfilename);
 
+  // ---- multiple extension check
+  foreach($REX['MEDIAPOOL']['BLOCKED_EXTENSIONS'] as $ext){
+    $filename = str_replace($ext,'',$filename);
+  }
+
   if ($filename != $exportfilename)
   {
     $info = $I18N->msg('im_export_filename_updated');
