@@ -14,11 +14,10 @@ if($REX['REDAXO'] && is_object($REX["USER"]))
   $REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
 
   $REX['PERM'][] = 'import_export[export]';
-  $REX['PERM'][] = 'import_export[import]';
 
   $REX['ADDON']['pages'][$mypage] = array();
 
-  if($REX["USER"]->hasPerm('import_export[import]') || $REX["USER"]->isAdmin())
+  if($REX["USER"]->isAdmin())
   {
     $REX['ADDON']['pages'][$mypage][] = array ('import', $I18N->msg('im_export_import'));
   }
