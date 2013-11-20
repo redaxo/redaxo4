@@ -79,6 +79,11 @@ function rex_send_article($REX_ARTICLE, $content, $environment, $sendcharset = F
 {
   global $REX;
 
+  // Cachen erlauben, nach revalidierung
+  // see http://xhtmlforum.de/35221-php-session-etag-header.html#post257967
+  session_cache_limiter('none');
+  header('Cache-Control: must-revalidate, proxy-revalidate, private');
+
   // ----- EXTENSION POINT
   $content = rex_register_extension_point( 'OUTPUT_FILTER', $content, array('environment' => $environment,'sendcharset' => $sendcharset));
 
@@ -127,11 +132,6 @@ function rex_send_article($REX_ARTICLE, $content, $environment, $sendcharset = F
 function rex_send_content($content, $lastModified, $etag, $environment, $sendcharset = FALSE)
 {
   global $REX;
-
-  // Cachen erlauben, nach revalidierung
-  // see http://xhtmlforum.de/35221-php-session-etag-header.html#post257967
-  session_cache_limiter('none');
-  header('Cache-Control: must-revalidate, proxy-revalidate, private');
 
   if($sendcharset)
   {
