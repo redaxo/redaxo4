@@ -9,6 +9,9 @@ angehandelt.
 
 Version 4.5.1 (2013-XX-XX)
 
+  Wichtig: Eine Sicherheitslücke zum TinyMCE geschlossen.
+           Diverse unterschiedliche Sichheitsaspekte optimiert und gelöst (bei eingeloggten Usern)
+
   Bugfixes
   * Strict Messages beseitigt
   * Blöcke konnten nicht gelöscht werden, wenn deren Modul nicht dem Template zugewiesen ist
@@ -29,6 +32,15 @@ Version 4.5.1 (2013-XX-XX)
   * "+" in Dateinamen wird nun in "_" umgewandelt. -> keine Probleme mehr bei URL aufrufen
   * Beim Import von SQLDumps werden nun ältere Versionen angepasst. z.B. TYPE=MyIsam -> Engine=MyIsam
   * Imagemanger. Blureffekt war sehr schwach und daher nicht wirklich gut nutzbar.
+  * Englische Texte wurden komplett geprüft und überarbeitet (Danke Seven alias SigmaAlphaPi)
+  * TinyMCE wurde aktualisiert, Eine Sicherheitslücke geschlossen, englische Texte ergänzt
+  * Export. Multiple Extensions im Dateinamen sind nicht mehr möglich.
+  * Import. Dieses Recht kann nciht mehr an User vergeben werden. Nur noch eine Adminfunktion
+  * Diverse CSRF Möglichkeiten sind erschwert worden: Profile, Userverwaltung,
+  * Diverse XSS Möglickeiten sind entfernt worden: be_search, Structure/Mode, Tinymce Config
+  * Medienpool: Dateinamen werden besser überprüft, Multiples Extensionproblem ist beseitigt
+  * Unnötige Sprachfiles wurden entfernt. Es gibt nun ausschliesslich deutsch und englisch
+  * PageTitle wurde umgebaut um besser in Tabs erkennen zu können wo man sich befindet
 
   Neu
   * Imagemanager: Effekt rounded_corners aufgenommen
@@ -37,6 +49,7 @@ Version 4.5.1 (2013-XX-XX)
   * EP "MEDIA_DELETED" ergänzt
   * Textile Update -> 2.5.4
   * Print Stylesheet
+  * Sessiondauer wurde erhöht, Ajaxaufrufe über einen bestimmten Zeitraum verlängern die REDAXO Nutzung ohne erneutes einloggen
 
 
 Version 4.5.0 (2013-04-03)
