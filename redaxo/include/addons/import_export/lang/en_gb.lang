@@ -1,9 +1,9 @@
 # addon:import/export en_gb
 im_export_importexport = Import/Export
-im_export_file_deleted = File has been deleted
-im_export_no_import_file_chosen_or_wrong_version = No import file chosen or version is wrong
-im_export_no_valid_import_file = Not a valid import file
-im_export_no_valid_charset = No valid charset
+im_export_file_deleted = File has been deleted.
+im_export_no_import_file_chosen_or_wrong_version = No import file chosen or version is wrong.
+im_export_no_valid_import_file = Not a valid import file!
+im_export_no_valid_charset = No valid charset!
 im_export_database_imported = Database imported
 im_export_entry_count = ({0} entries)
 im_export_file_could_not_be_uploaded = File could not be uploaded.
@@ -17,13 +17,13 @@ im_export_export = Export
 im_export_db_import = Import
 im_export_db_export = Export
 im_export_filename_updated = File name updated because of unallowed characters. Please click again to export.
-im_export_please_choose_folder = Please choose the folders to be exported
-im_export_intro_import = Please take care when you import a database. <b>The current database will be deleted</b>.
+im_export_please_choose_folder = Please choose the folders to be exported.
+im_export_intro_import = Please take care when you import a database. <b>The current database will be deleted.</b>
 im_export_database = Database import
 im_export_filename = File name
 im_export_filesize = File size
 im_export_delete = Delete
-im_export_files = Fileimport
+im_export_files = File import
 im_export_intro_export = To backup the whole website please backup database AND files.
 im_export_database_export = Database export
 im_export_file_export = File export
@@ -38,8 +38,8 @@ im_export_download_file = Download file
 im_export_file_could_not_be_generated = File could not be generated.
 im_export_file_generated_in = File has been generated in
 
-im_export_proceed_db_import = Current data (articles, templates, modules,...) will be deleted. Are you sure ?
-im_export_proceed_file_import = Current files will be deleted. Are you sure ?
+im_export_proceed_db_import = Current data (articles, templates, modules, ...) will be deleted. Are you sure?
+im_export_proceed_file_import = Current files will be deleted. Are you sure?
 
 im_export_export_db_caption = Database exports
 im_export_export_file_caption = File exports
