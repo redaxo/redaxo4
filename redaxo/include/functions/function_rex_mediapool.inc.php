@@ -45,6 +45,11 @@ function rex_mediapool_filename($FILENAME, $doSubindexing = true)
     $NFILE_EXT = '.txt';
   }
 
+  // ---- multiple extension check
+  foreach($REX['MEDIAPOOL']['BLOCKED_EXTENSIONS'] as $ext){
+    $NFILE_NAME = str_replace($ext,$ext.'_',$NFILE_NAME);
+  }
+
   $NFILENAME = $NFILE_NAME.$NFILE_EXT;
 
   if($doSubindexing || $FILENAME != $NFILENAME)
