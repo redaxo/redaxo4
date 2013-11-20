@@ -28,6 +28,12 @@ function rex_mediapool_filename($FILENAME, $doSubindexing = true)
     $NFILENAME
   );
   $NFILENAME = preg_replace('/[^a-zA-Z0-9.\-]/','_',$NFILENAME);
+
+  // ---- multiple extension check
+  foreach($REX['MEDIAPOOL']['BLOCKED_EXTENSIONS'] as $ext){
+    $NFILENAME = str_replace($ext.'.',$ext.'_.',$NFILENAME);
+  }
+
   if (strrpos($NFILENAME,'.') != '')
   {
     $NFILE_NAME = substr($NFILENAME,0,strlen($NFILENAME)-(strlen($NFILENAME)-strrpos($NFILENAME,'.')));
@@ -43,11 +49,6 @@ function rex_mediapool_filename($FILENAME, $doSubindexing = true)
   {
     $NFILE_NAME .= $NFILE_EXT;
     $NFILE_EXT = '.txt';
-  }
-
-  // ---- multiple extension check
-  foreach($REX['MEDIAPOOL']['BLOCKED_EXTENSIONS'] as $ext){
-    $NFILE_NAME = str_replace($ext,$ext.'_',$NFILE_NAME);
   }
 
   $NFILENAME = $NFILE_NAME.$NFILE_EXT;
