@@ -1,12 +1,12 @@
 version = Version
 
-version_liveversion = Live version
-version_workingversion = Working version
+version_liveversion = LIVE version
+version_workingversion = DRAFT version
 version_working_to_live = Make to live version
 version_preview = Preview
-version_copy_live_to_workingversion = Copy to working version
-version_copy_from_liveversion = get live version
-version_confirm_copy_live_to_workingversion = [missing_text] de:Liveversion in Arbeitsversion kopieren? Alle bestehenden Inhalte der Arbeitsversion werden ¸berschrieben.
-version_info_working_version_to_live = Working version is now live
-version_info_live_version_to_working = Live version has been copied to working version
-version_warning_working_version_to_live = Working Version can not be copied, because it is empty
+version_copy_live_to_workingversion = Copy to DRAFT version
+version_copy_from_liveversion = get from LIVE version
+version_confirm_copy_live_to_workingversion = Copy LIVE version to DRAFT version? Content of existing DRAFT version will be lost.
+version_info_working_version_to_live = DRAFT version has been published to live version.
+version_info_live_version_to_working = LIVE version has been copied to DRAFT version.
+version_warning_working_version_to_live = DRAFT version can not be copied, because it is empty!
