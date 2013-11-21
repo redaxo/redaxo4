@@ -40,7 +40,7 @@ class rex_image_manager_pdf2img {
   {
     global $REX;
     $this->file_path = realpath($file_path);
-    $this->setImagePath($REX['INCLUDE_PATH'].'/generated/files/image_manager_pdf2img_'.md5($this->file_path).'.png');
+    $this->setImagePath($REX['GENERATED_PATH'].'/files/image_manager_pdf2img_'.md5($this->file_path).'.png');
     
   }
   
