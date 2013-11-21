@@ -7,7 +7,7 @@ angehandelt.
 Änderungen im Detail:
 ---------------------------------------------------------------------------------
 
-Version 4.5.1 (2013-XX-XX)
+Version 4.5.1 (2013-11-21)
 
   Wichtig: Eine Sicherheitslücke zum TinyMCE geschlossen.
            Diverse unterschiedliche Sichheitsaspekte optimiert und gelöst (bei eingeloggten Usern)
