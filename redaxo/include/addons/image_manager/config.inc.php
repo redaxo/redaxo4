@@ -12,11 +12,9 @@
 
 $mypage = 'image_manager';
 
-/* Addon Parameter */
-$REX['ADDON']['rxid'][$mypage] = '679';
 $REX['ADDON']['name'][$mypage] = 'Image Manager';
 $REX['ADDON']['perm'][$mypage] = 'image_manager[]';
-$REX['ADDON']['version'][$mypage] = '1.0';
+$REX['ADDON']['version'][$mypage] = '1.1';
 $REX['ADDON']['author'][$mypage] = 'Markus Staab, Jan Kristinus';
 $REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
 $REX['PERM'][] = 'image_manager[]';

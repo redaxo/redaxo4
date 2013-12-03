@@ -1,13 +1,13 @@
 <?php
 
 /**
- * ImageMagick pdf2img Plugin for "Image Manager"
+ * ImageMagick convert2img Plugin for "Image Manager"
  *
  * @package redaxo 4.4.x/4.5.x
  * @version 1.0
  */
 
-$myself = 'pdf2img';
+$myself = 'convert2img';
 
 if(!function_exists('exec')) {
   $REX['ADDON']['installmsg'][$myself] = '<br />PHP function <code>exec()</code> is disabled.';
