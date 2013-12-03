@@ -39,6 +39,7 @@ imanager_type_description = description
 imanager_type_functions = function
 imanager_type_cache_delete = delete cache
 imanager_type_system = system image type
+imanager_type_deleted = type deleted
 
 imanager_effect_list_header = effect of image type "{0}"
 imanager_effect_edit_header = image type "{0}": edit effect
