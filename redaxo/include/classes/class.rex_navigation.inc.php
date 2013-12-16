@@ -368,7 +368,7 @@ class rex_navigation
         if(($this->open ||
             $nav->getId() == $this->current_category_id ||
             in_array($nav->getId(),$this->path))
-           && ($this->max_depth > $depth || $this->max_depth < 0)) {
+           && ($this->max_depth >= $depth || $this->max_depth < 0)) {
           $l .= $this->_getNavigation($nav->getId(), $depth);
         }
         $depth--;
