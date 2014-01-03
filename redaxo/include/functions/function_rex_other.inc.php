@@ -442,31 +442,6 @@ function rex_lang_is_utf8()
 
 // ------------------------------------- Allgemeine PHP Functions
 
-/* PHP5 Functions */
-
-if (!function_exists("htmlspecialchars_decode"))
-{
-  function htmlspecialchars_decode($string, $quote_style = ENT_COMPAT) {
-    return strtr($string, array_flip(get_html_translation_table(HTML_SPECIALCHARS, $quote_style)));
-  }
-}
-
-if (!function_exists('file_put_contents'))
-{
-  function file_put_contents($path, $content)
-  {
-    $fp = @fopen($path, 'wb');
-    if ($fp)
-    {
-      $writtenBytes = fwrite($fp, $content, strlen($content));
-
-      if(fclose($fp))
-        return $writtenBytes;
-    }
-    return false;
-  }
-}
-
 function rex_highlight_string($string, $return = false)
 {
   $s = '<p class="rex-code">'. highlight_string($string, true) .'</p>';
@@ -485,15 +460,4 @@ function rex_highlight_file($filename, $return = false)
     return $s;
   }
   echo $s;
-}
-
-// make objectcloning work for php4
-// see http://acko.net/node/54
-// usage: $cloned = clone($yourObject);
-if (version_compare(phpversion(), '5.0') < 0 && !function_exists('clone')) {
-  eval('
-  function clone($object) {
-    return $object;
-  }
-  ');
 }
