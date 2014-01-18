@@ -750,6 +750,10 @@ if ($FUNC_ADD != '' || $user_id > 0) {
         $add_user_login = '<input class="rex-form-text" type="text" id="userlogin" name="userlogin" value="' . htmlspecialchars($userlogin) . '" />';
     }
 
+    if ($duplicate_user_id > 0) {
+        $userpsw = '';
+    }
+
     echo '
     <div class="rex-form" id="rex-form-user-editmode">
     <form action="index.php" method="post">
