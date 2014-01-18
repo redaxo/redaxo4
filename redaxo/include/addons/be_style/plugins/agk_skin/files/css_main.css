@@ -406,6 +406,9 @@ div#rex-form-structure-category p.rex-button-add a {
 .rex-i-user-add {
 	background-image: url(user_plus.gif);
 }
+.rex-i-user-duplicate {
+	background-image: url(user_duplicate.gif);
+}
 
 .rex-i-category, 
 .rex-i-mediapool-category {
