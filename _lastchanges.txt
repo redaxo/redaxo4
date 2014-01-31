@@ -12,6 +12,7 @@ Version 4.6.0 (2014-XX-XX)
   Neu
   * Utility-Klassen aus REDAXO 5 portiert: rex_dir, rex_file, rex_finder, rex_pager, rex_path, rex_socket, rex_string, rex_timer, rex_validator
   * rex_get/post(): Genauere Angabe der erwarteten Arraystruktur möglich, mit Defaultwerten für einzelne Keys etc.
+  * rex_form: Validierung der Felder möglich, ohne die Klasse abzuleiten
 
 Version 4.5.1 (2013-11-21)
 

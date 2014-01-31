@@ -27,16 +27,6 @@ class rex_cronjob_form extends rex_form
     return $field;
   }
 
-  /*protected*/ function validate()
-  {
-    global $I18N;
-    $el =& $this->getElement($this->mainFieldset,'name');
-    if ($el->getValue() == '') {
-      return $I18N->msg('cronjob_error_no_name');
-    }
-    return true;
-  }
-
   /*protected*/ function save()
   {
     if ($this->isEditMode()) {

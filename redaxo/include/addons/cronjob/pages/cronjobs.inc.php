@@ -173,6 +173,7 @@ if ($func == '')
 
   $field =& $form->addTextField('name');
   $field->setLabel($I18N->msg('cronjob_name'));
+  $field->getValidator()->add('notEmpty', $I18N->msg('cronjob_error_no_name'));
   $nameFieldId = $field->getAttribute('id');
 
   if ($func != 'add' && !in_array($activeType, $types))

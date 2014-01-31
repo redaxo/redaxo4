@@ -931,7 +931,22 @@ class rex_form
    */
   /*protected*/ function validate()
   {
-    return true;
+    $messages = array();
+    foreach ($this->getSaveElements() as $fieldsetName => $fieldsetElements) {
+      foreach ($fieldsetElements as $element) {
+        /** @var rex_form_element $element */
+        // read-only-fields
+        if (strpos($element->getAttribute('class'), 'rex-form-read') !== false) {
+          continue;
+        }
+
+        $validator = $element->getValidator();
+        if (!$validator->isValid($element->getSaveValue())) {
+          $messages[] = $validator->getMessage();
+        }
+      }
+    }
+    return empty($messages) ? true : implode('<br />', $messages);
   }
 
   /**
@@ -1225,6 +1240,8 @@ class rex_form_element
   var $suffix;
   var $notice;
   var $defaultSaveValue = '';
+  /** @var rex_validator */
+  protected $validator;
 
   function rex_form_element($tag, &$table, $attributes = array(), $separateEnding = false)
   {
@@ -1239,6 +1256,7 @@ class rex_form_element
     $this->setPrefix('');
     $this->setSuffix('');
     $this->fieldName = '';
+    $this->validator = rex_validator::factory();
   }
 
   // --------- Attribute setter/getters
@@ -1401,6 +1419,11 @@ function setValue($value)
   function hasSeparateEnding()
   {
     return $this->separateEnding;
+  }
+
+  public function getValidator()
+  {
+    return $this->validator;
   }
 
   // --------- Element Methods
