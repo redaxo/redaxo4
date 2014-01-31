@@ -18,25 +18,25 @@ include_once $REX['INCLUDE_PATH']."/functions/function_rex_addons.inc.php";
   <div class="rex-area-content">
 
   <p class="rex-tx1">
-    <b>Jan Kristinus</b>, jan.kristinus@redaxo.de<br />
+    <b>Jan Kristinus</b>, jan.kristinus@redaxo.org<br />
     Erfinder und Kernentwickler<br />
     Yakamara Media GmbH &amp; Co KG, <a href="http://www.yakamara.de" onclick="window.open(this.href); return false;">www.yakamara.de</a>
   </p>
 
   <p class="rex-tx1">
-    <b>Markus Staab</b>, markus.staab@redaxo.de<br />
+    <b>Markus Staab</b>, markus.staab@redaxo.org<br />
     Kernentwickler<br />
     REDAXO, <a href="http://www.redaxo.de" onclick="window.open(this.href); return false;">www.redaxo.de</a>
   </p>
 
   <p class="rex-tx1">
-    <b>Gregor Harlan</b>, gregor.harlan@redaxo.de<br />
+    <b>Gregor Harlan</b>, gregor.harlan@redaxo.org<br />
     Kernentwickler<br />
-    meyerharlan, <a href="http://meyerharlan.de" onclick="window.open(this.href); return false;">www.meyerharlan.de</a>
+    Yakamara Media GmbH &amp; Co KG, <a href="http://www.yakamara.de" onclick="window.open(this.href); return false;">www.yakamara.de</a>
   </p>
 
   <p class="rex-tx1">
-    <b>Thomas Blum</b>, thomas.blum@redaxo.de<br />
+    <b>Thomas Blum</b>, thomas.blum@redaxo.org<br />
     Layout/Design Entwickler<br />
     blumbeet - web.studio, <a href="http://www.blumbeet.com" onclick="window.open(this.href); return false;">www.blumbeet.com</a>
   </p>
