@@ -53,6 +53,19 @@ include_once $REX['INCLUDE_PATH'].'/classes/class.rex_form.inc.php';
 include_once $REX['INCLUDE_PATH'].'/classes/class.rex_list.inc.php';
 include_once $REX['INCLUDE_PATH'].'/classes/class.rex_select.inc.php';
 
+include_once $REX['INCLUDE_PATH'].'/classes/util/socket/socket.php';
+include_once $REX['INCLUDE_PATH'].'/classes/util/socket/socket_proxy.php';
+include_once $REX['INCLUDE_PATH'].'/classes/util/socket/socket_response.php';
+include_once $REX['INCLUDE_PATH'].'/classes/util/dir.php';
+include_once $REX['INCLUDE_PATH'].'/classes/util/file.php';
+include_once $REX['INCLUDE_PATH'].'/classes/util/finder.php';
+include_once $REX['INCLUDE_PATH'].'/classes/util/pager.php';
+include_once $REX['INCLUDE_PATH'].'/classes/util/path.php';
+include_once $REX['INCLUDE_PATH'].'/classes/util/sortable_iterator.php';
+include_once $REX['INCLUDE_PATH'].'/classes/util/string.php';
+include_once $REX['INCLUDE_PATH'].'/classes/util/timer.php';
+include_once $REX['INCLUDE_PATH'].'/classes/util/validator.php';
+
 include_once $REX['INCLUDE_PATH'].'/classes/class.rex_var.inc.php';
 foreach($REX['VARIABLES'] as $key => $value)
 {
