@@ -186,89 +186,139 @@ function _rex_array_key_cast($haystack, $needle, $vartype, $default = '')
  *
  * @access private
  */
-function _rex_cast_var($var, $vartype, $default, $mode)
+function _rex_cast_var($var, $vartype, $default = null, $mode = 'default')
 {
   global $REX;
 
-  if(!is_string($vartype))
-  {
-    trigger_error('String expected for $vartype in _rex_cast_var()!', E_USER_ERROR);
-    exit();
+  if (is_string($vartype)) {
+    $casted = true;
+    switch($vartype)
+    {
+      // ---------------- REDAXO types
+      case 'rex-article-id':
+        $var = (int) $var;
+        if($mode == 'found')
+        {
+          if(!OOArticle::isValid(OOArticle::getArticleById($var)))
+            $var = (int) $default;
+        }
+        break;
+      case 'rex-category-id':
+        $var = (int) $var;
+        if($mode == 'found')
+        {
+          if(!OOCategory::isValid(OOCategory::getCategoryById($var)))
+            $var = (int) $default;
+        }
+        break;
+      case 'rex-clang-id':
+        $var = (int) $var;
+        if($mode == 'found')
+        {
+          if(empty($REX['CLANG'][$var]))
+            $var = (int) $default;
+        }
+        break;
+      case 'rex-template-id':
+      case 'rex-ctype-id':
+      case 'rex-slice-id':
+      case 'rex-module-id':
+      case 'rex-action-id':
+      case 'rex-media-id':
+      case 'rex-mediacategory-id':
+      case 'rex-user-id':
+        // erstmal keine weitere validierung
+        $var = (int) $var;
+        break;
+
+      // ---------------- PHP types
+      case 'bool'   :
+      case 'boolean':
+        $var = (boolean) $var;
+        break;
+      case 'int'    :
+      case 'integer':
+        $var = (int)     $var;
+        break;
+      case 'double' :
+        $var = (double)  $var;
+        break;
+      case 'float'  :
+      case 'real'   :
+        $var = (float)   $var;
+        break;
+      case 'string' :
+        $var = (string)  $var;
+        break;
+      case 'object' :
+        $var = (object)  $var;
+        break;
+      case 'array'  :
+        if($var === '')
+          $var = array();
+        else
+          $var = (array) $var;
+        break;
+
+      // kein Cast, nichts tun
+      case ''       : break;
+
+      default:
+        // check for array with generic type
+        if (strpos($vartype, 'array[') === 0) {
+          if (empty($var)) {
+            $var = array();
+          } else {
+            $var = (array) $var;
+          }
+
+          // check if every element in the array is from the generic type
+          $matches = array();
+          if (preg_match('@array\[([^\]]*)\]@', $vartype, $matches)) {
+            foreach ($var as $key => $value) {
+              try {
+                $var[$key] = _rex_cast_var($value, $matches[1]);
+              } catch (InvalidArgumentException $e) {
+                // Evtl Typo im vartype, mit urspr. typ als fehler melden
+                throw new InvalidArgumentException('Unexpected vartype "' . $vartype . '" in _rex_cast_var()!');
+              }
+            }
+          } else {
+            throw new InvalidArgumentException('Unexpected vartype "' . $vartype . '" in _rex_cast_var()!');
+          }
+        } else {
+          $casted = false;
+        }
+    }
+    if ($casted) {
+      return $var;
+    }
   }
 
-  switch($vartype)
-  {
-    // ---------------- REDAXO types
-    case 'rex-article-id':
-      $var = (int) $var;
-      if($mode == 'found')
-      {
-        if(!OOArticle::isValid(OOArticle::getArticleById($var)))
-          $var = (int) $default;
+  if (is_callable($vartype)) {
+    $var = call_user_func($vartype, $var);
+  } elseif (is_array($vartype)) {
+    $var = _rex_cast_var($var, 'array');
+    $newVar = array();
+    foreach ($vartype as $cast) {
+      if (!is_array($cast) || !isset($cast[0])) {
+        throw new InvalidArgumentException('Unexpected vartype in _rex_cast_var()!');
       }
-      break;
-    case 'rex-category-id':
-      $var = (int) $var;
-      if($mode == 'found')
-      {
-        if(!OOCategory::isValid(OOCategory::getCategoryById($var)))
-          $var = (int) $default;
+      $key = $cast[0];
+      $innerVartype = isset($cast[1]) ? $cast[1] : '';
+      if (array_key_exists($key, $var)) {
+        $newVar[$key] = _rex_cast_var($var[$key], $innerVartype);
+      } elseif (!isset($cast[2])) {
+        $newVar[$key] = _rex_cast_var('', $innerVartype);
+      } else {
+        $newVar[$key] = $cast[2];
       }
-      break;
-    case 'rex-clang-id':
-      $var = (int) $var;
-      if($mode == 'found')
-      {
-        if(empty($REX['CLANG'][$var]))
-          $var = (int) $default;
-      }
-      break;
-    case 'rex-template-id':
-    case 'rex-ctype-id':
-    case 'rex-slice-id':
-    case 'rex-module-id':
-    case 'rex-action-id':
-    case 'rex-media-id':
-    case 'rex-mediacategory-id':
-    case 'rex-user-id':
-      // erstmal keine weitere validierung
-      $var = (int) $var;
-      break;
-
-    // ---------------- PHP types
-    case 'bool'   :
-    case 'boolean':
-      $var = (boolean) $var;
-      break;
-    case 'int'    :
-    case 'integer':
-      $var = (int)     $var;
-      break;
-    case 'double' :
-      $var = (double)  $var;
-      break;
-    case 'float'  :
-    case 'real'   :
-      $var = (float)   $var;
-      break;
-    case 'string' :
-      $var = (string)  $var;
-      break;
-    case 'object' :
-      $var = (object)  $var;
-      break;
-    case 'array'  :
-      if($var === '')
-        $var = array();
-      else
-        $var = (array) $var;
-      break;
-
-    // kein Cast, nichts tun
-    case ''       : break;
-
-    // Evtl Typo im vartype, deshalb hier fehlermeldung!
-    default: trigger_error('Unexpected vartype "'. $vartype .'" in _rex_cast_var()!', E_USER_ERROR); exit();
+    }
+    $var = $newVar;
+  } elseif (is_string($vartype)) {
+    throw new InvalidArgumentException('Unexpected vartype "' . $vartype . '" in _rex_cast_var()!');
+  } else {
+    throw new InvalidArgumentException('Unexpected vartype in _rex_cast_var()!');
   }
 
   return $var;
