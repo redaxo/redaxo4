@@ -20,7 +20,7 @@ class rex_path
     public static function base($file = '')
     {
         global $REX;
-        return self::normalize($REX['FRONTEND_PATH'] . $file);
+        return self::normalize($REX['FRONTEND_PATH'] . '/' . $file);
     }
 
     /**
