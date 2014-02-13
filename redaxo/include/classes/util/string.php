@@ -37,7 +37,7 @@ class rex_string
         $string = mb_strtolower($string);
 
         // replace UTF-8 NFC umlauts
-        $string = str_replace(array('ä', 'ö', 'ü', 'ß'), ['ae', 'oe', 'ue', 'ss'], $string);
+        $string = str_replace(array('ä', 'ö', 'ü', 'ß'), array('ae', 'oe', 'ue', 'ss'), $string);
 
         $string = preg_replace('/[^a-z\d' . preg_quote($allowedChars, '/') . ']+/ui', $replaceChar, $string);
         return trim($string, $replaceChar);
@@ -58,15 +58,15 @@ class rex_string
     {
         $string = trim($string);
         if (empty($string)) {
-            return [];
+            return array();
         }
-        $result = [];
+        $result = array();
         $spacer = '@@@REX_SPACER@@@';
-        $quoted = [];
+        $quoted = array();
 
         $pattern = '@(["\'])((?:.*[^\\\\])?(?:\\\\\\\\)*)\\1@Us';
         $callback = function ($match) use ($spacer, &$quoted) {
-            $quoted[] = str_replace(['\\' . $match[1], '\\\\'], [$match[1], '\\'], $match[2]);
+            $quoted[] = str_replace(array('\\' . $match[1], '\\\\'), array($match[1], '\\'), $match[2]);
             return $spacer;
         };
         $string = preg_replace_callback($pattern, $callback, $string);
