@@ -259,6 +259,7 @@ user_all = Allgemein
 user_save = Benutzer speichern
 user_apply = Benutzer übernehmen
 user_delete = Benutzer löschen
+user_duplicate = Benutzer duplizieren
 user_functions = Funktionen
 user_options = Optionen
 all_categories = Alle Kategorien
