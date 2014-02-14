@@ -971,7 +971,7 @@ if (isset($SHOW) and $SHOW) {
     $list = rex_list::factory('SELECT user_id, name, login, lasttrydate FROM ' . $REX['TABLE_PREFIX'] . 'user ORDER BY name');
     $list->setCaption($I18N->msg('user_caption'));
     $list->addTableAttribute('summary', $I18N->msg('user_summary'));
-    $list->addTableColumnGroup(array(40, '5%', '*', 153, 153, 153));
+    $list->addTableColumnGroup(array(40, '5%', '*', 153, 153, 70, 80));
 
     $tdIcon = '<span class="rex-i-element rex-i-user"><span class="rex-i-element-text">###name###</span></span>';
     $thIcon = '<a class="rex-i-element rex-i-user-add" href="' . $list->getUrl(array('FUNC_ADD' => '1')) . '"' . rex_accesskey($I18N->msg('create_user'), $REX['ACKEY']['ADD']) . '><span class="rex-i-element-text">' . $I18N->msg('create_user') . '</span></a>';
@@ -999,6 +999,7 @@ if (isset($SHOW) and $SHOW) {
     $list->addColumn('funcs', $I18N->msg('user_delete'));
     $list->setColumnLabel('funcs', $I18N->msg('user_functions'));
     $list->setColumnParams('funcs', array('FUNC_DELETE' => '1', 'user_id' => '###user_id###'));
+    $list->setColumnLayout('funcs', array('<th colspan="2">###VALUE###</th>', '<td>###VALUE###</td>'));
     $list->setColumnFormat('funcs', 'custom',
         create_function(
             '$params',
@@ -1014,16 +1015,8 @@ if (isset($SHOW) and $SHOW) {
     $list->addLinkAttribute('funcs', 'onclick', 'return confirm(\'' . $I18N->msg('delete') . ' ?\')');
 
 
-    $list->addColumn('extra', '', -1, array('<th class="rex-icon">###VALUE###</th>', '<td class="rex-icon">###VALUE###</td>'));
+    $list->addColumn('extra', $I18N->msg('user_duplicate'), -1, array('', '<td>###VALUE###</td>'));
     $list->setColumnLabel('extra', '');
     $list->setColumnParams('extra', array('FUNC_ADD' => '1', 'duplicate_user_id' => '###user_id###'));
-    $list->setColumnFormat('extra', 'custom',
-        create_function(
-            '$params',
-            'global $REX;
-             $list = $params["list"];
-             return $list->getColumnLink("extra","' . '<span class=\"rex-i-element rex-i-user-duplicate\"><span class=\"rex-i-element-text\">'. $I18N->msg('user_duplicate') . '</span></span>");'
-        )
-    );
     $list->show();
 }

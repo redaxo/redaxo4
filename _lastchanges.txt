@@ -15,6 +15,7 @@ Version 4.6.0 (2014-XX-XX)
   * rex_form: Validierung der Felder möglich, ohne die Klasse abzuleiten
   * Installer (Download, Update und Upload von Addons)
   * Data-Ordner für Addon-Konfigurationsdateien etc., damit die Einstellungen beim Update erhalten bleiben
+  * Benutzer können dupliziert werden
 
 Version 4.5.1 (2013-11-21)
 
