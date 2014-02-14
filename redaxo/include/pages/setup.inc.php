@@ -317,6 +317,7 @@ function rex_setup_dropREXtables()
     $REX['INCLUDE_PATH'].DIRECTORY_SEPARATOR.'addons.inc.php',
     $REX['INCLUDE_PATH'].DIRECTORY_SEPARATOR.'plugins.inc.php',
     $REX['INCLUDE_PATH'].DIRECTORY_SEPARATOR.'clang.inc.php',
+    $REX['INCLUDE_PATH'].DIRECTORY_SEPARATOR.'data',
     $REX['GENERATED_PATH'],
     $REX['GENERATED_PATH'].DIRECTORY_SEPARATOR.'articles',
     $REX['GENERATED_PATH'].DIRECTORY_SEPARATOR.'templates',
