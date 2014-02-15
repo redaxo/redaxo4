@@ -30,10 +30,16 @@ try {
 if ($addonkey && isset($addons[$addonkey])) {
 
     $addon = $addons[$addonkey];
-
+    
+    
     $content .= '
-        <h2>' . htmlspecialchars($addonkey) . '</h2>
+    <div class="rex-addon-output">
+        <h2 class="rex-hl2">' . htmlspecialchars($addonkey) . '</h2>
         <table id="rex-install-packages-information" class="rex-table">
+            <colgroup>
+              <col width="120" />
+              <col width="*" />
+            </colgroup>
             <tbody>
             <tr>
                 <th class="rex-term">' . $I18N->msg('install_name') . '</th>
@@ -52,16 +58,23 @@ if ($addonkey && isset($addons[$addonkey])) {
                 <td class="rex-description">' . nl2br(htmlspecialchars($addon['description'])) . '</td>
             </tr>
             </tbody>
-        </table>
+        </table></div>
 
-        <h3>' . $I18N->msg('install_files') . '</h3>
+    <div class="rex-addon-output">
+        <h3 class="rex-hl2">' . $I18N->msg('install_files') . '</h3>
         <table class="rex-table rex-install-packages-files">
+            <colgroup>
+              <col width="40" />
+              <col width="79" />
+              <col width="*" />
+              <col width="153" />
+            </colgroup>
             <thead>
             <tr>
                 <th class="rex-slim"></th>
                 <th class="rex-version">' . $I18N->msg('install_version') . '</th>
                 <th class="rex-description">' . $I18N->msg('install_description') . '</th>
-                <th class="rex-function"></th>
+                <th class="rex-function">' . $I18N->msg('install_header_function') . '</th>
             </tr>
             </thead>
             <tbody>';
@@ -76,13 +89,23 @@ if ($addonkey && isset($addons[$addonkey])) {
             </tr>';
     }
 
-    $content .= '</tbody></table>';
+    $content .= '</tbody></table></div>';
+    
+    $content .= rex_content_block('<a class="rex-back" href="index.php?page=install&amp;">' . $I18N->msg('install_back_to_overview') . '</a>');
 
 } else {
-    $content .= '
-        <h2>' . $I18N->msg('install_available_updates', count($addons)) . '</h2>
 
+    $content .= '
+    <div class="rex-addon-output">
+        <h2 class="rex-hl2">' . $I18N->msg('install_available_update' . (count($addons) >= 2 ? 's' : ''), count($addons)) . '</h2>
         <table id="rex-install-packages-addons" class="rex-table">
+            <colgroup>
+              <col width="40" />
+              <col width="153" />
+              <col width="*" />
+              <col width="153" />
+              <col width="153" />
+            </colgroup>
             <thead>
             <tr>
                 <th class="rex-slim"></th>
@@ -93,25 +116,34 @@ if ($addonkey && isset($addons[$addonkey])) {
             </tr>
             </thead>
             <tbody>';
-
-    foreach ($addons as $key => $addon) {
-        $availableVersions = array();
-        foreach ($addon['files'] as $file) {
-            $availableVersions[] = $file['version'];
+    
+    if (count($addons)) {
+    
+        foreach ($addons as $key => $addon) {
+            $availableVersions = array();
+            foreach ($addon['files'] as $file) {
+                $availableVersions[] = $file['version'];
+            }
+            $url = 'index.php?page=install&amp;addonkey=' . htmlspecialchars($key);
+    
+            $content .= '
+                <tr>
+                    <td class="rex-icon"><a href="' . $url . '"><span class="rex-i-element rex-i-addon"><span class="rex-i-element-text"></span></span></a></td>
+                    <td class="rex-key"><a href="' . $url . '">' . htmlspecialchars($key) . '</a></td>
+                    <td class="rex-name">' . htmlspecialchars($addon['name']) . '</td>
+                    <td class="rex-version">' . htmlspecialchars(OOAddon::getVersion($key)) . '</td>
+                    <td class="rex-version">' . htmlspecialchars(implode(', ', $availableVersions)) . '</td>
+                </tr>';
         }
-        $url = 'index.php?page=install&amp;addonkey=' . htmlspecialchars($key);
-
+    } else {
+    
         $content .= '
-            <tr>
-                <td class="rex-icon"><span class="rex-i-element rex-i-addon"><span class="rex-i-element-text"></span></span></td>
-                <td class="rex-key"><a href="' . $url . '">' . htmlspecialchars($key) . '</a></td>
-                <td class="rex-name">' . htmlspecialchars($addon['name']) . '</td>
-                <td class="rex-version">' . htmlspecialchars(OOAddon::getVersion($key)) . '</td>
-                <td class="rex-version">' . htmlspecialchars(implode(', ', $availableVersions)) . '</td>
+            <tr class="rex-table-no-results">
+                <td colspan="5">' . $I18N->msg('install_installed_addons_not_found') . '</td>
             </tr>';
     }
 
-    $content .= '</tbody></table>';
+    $content .= '</tbody></table></div>';
 
 }
 
