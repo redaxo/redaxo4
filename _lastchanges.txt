@@ -9,6 +9,9 @@ angehandelt.
 
 Version 4.6.0 (2014-XX-XX)
 
+  Bugfixes
+  * MetaInfo: Defaultwerte für Felder mit Mehrfachwerten (Checkbox, Multiple-Select) werden beim hinzufügen nicht vorbelegt.
+
   Neu
   * Utility-Klassen aus REDAXO 5 portiert: rex_dir, rex_file, rex_finder, rex_pager, rex_path, rex_socket, rex_string, rex_timer, rex_validator
   * rex_get/post(): Genauere Angabe der erwarteten Arraystruktur möglich, mit Defaultwerten für einzelne Keys etc.

@@ -55,7 +55,6 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
       unset($attrArray['perm']);
     }
 
-    $dbvalues = array($sqlFields->getValue('default'));
     if($activeItem)
     {
       $itemValue = $activeItem->getValue($name);
@@ -70,6 +69,8 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
         // Neue Notation mit | als Trenner
         $dbvalues = explode('|', $activeItem->getValue($name));
       }
+    } else {
+      $dbvalues = (array) $sqlFields->getValue('default');
     }
 
     if($title != '')
@@ -100,6 +101,12 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
         break;
       }
       case 'checkbox':
+        // Beachte auch default values in multiple fields bei ADD.
+        // Im EDIT wurde dies bereits vorher gehandelt
+        if(!$activeItem) {
+          $dbvalues = explode('|', $dbvalues[0]);
+        }
+
         $name .= '[]';
       case 'radio':
       {
@@ -219,6 +226,12 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
 
         if(!$multiple)
           $select->setSize(1);
+
+        // Beachte auch default values in multiple fields bei ADD.
+        // Im EDIT wurde dies bereits vorher gehandelt
+        if($multiple && !$activeItem) {
+            $dbvalues = explode('|', $dbvalues[0]);
+        }
 
         if(rex_sql::getQueryType($params) == 'SELECT')
         {
