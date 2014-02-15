@@ -124,6 +124,8 @@
 
   /**
    * Factory-Methode um rex_input_*-Elemente anhand des Types $inputType zu erstellen
+   *
+   * @return rex_input
    */
   static /*public*/ function factory($inputType)
   {
