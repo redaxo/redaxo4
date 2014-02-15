@@ -16,7 +16,9 @@ Version 4.6.0 (2014-XX-XX)
   * Installer (Download, Update und Upload von Addons)
   * Data-Ordner für Addon-Konfigurationsdateien etc., damit die Einstellungen beim Update erhalten bleiben
   * Benutzer können dupliziert werden
-  * Customizer Plugin: Codemirror update auf 3.21.0
+  * Customizer Plugin
+    - Codemirror update auf 3.21.0
+    - Neue Codemirror plugins hinzugefügt: Fullscreen (oeffnen mit F11) und YAML syntax highlighting
 
   Bugfixes
   * MetaInfo: Defaultwerte für Felder mit Mehrfachwerten (Checkbox, Multiple-Select) werden beim hinzufügen nicht vorbelegt.

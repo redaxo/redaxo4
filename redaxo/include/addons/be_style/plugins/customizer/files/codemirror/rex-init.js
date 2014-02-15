@@ -40,7 +40,15 @@ jQuery(document).ready(function()
       indentWithTabs: false,
       enterMode: "keep",
       tabMode: "shift",
-      theme: theme
+      theme: theme,
+      extraKeys: {
+        "F11": function(cm) {
+          cm.setOption("fullScreen", !cm.getOption("fullScreen"));
+        },
+        "Esc": function(cm) {
+          if (cm.getOption("fullScreen")) cm.setOption("fullScreen", false);
+        }
+      }
     });
   
     jQuery(cm_editor[cm].getWrapperElement()).css({
@@ -53,8 +61,8 @@ jQuery(document).ready(function()
     var height = parseInt(t.height());
     var width = parseInt(t.width());
 
-    if(height < 150) {
-      height = 150;
+    if(height < 200) {
+      height = 200;
     }
     if(width < 300) {
       width = 300;
