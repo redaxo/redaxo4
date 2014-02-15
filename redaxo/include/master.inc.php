@@ -180,6 +180,9 @@ $REX['VARIABLES'][] = 'rex_var_value';
 $REX['VARIABLES'][] = 'rex_var_link';
 $REX['VARIABLES'][] = 'rex_var_media';
 
+// deactivate session cache limiter
+session_cache_limiter(false);
+
 // ----------------- default values
 if (!isset($REX['NOFUNCTIONS'])) $REX['NOFUNCTIONS'] = false;
 

@@ -8,6 +8,9 @@
 
 
 $user_id = rex_request('user_id', 'rex-user-id');
+$duplicate_user_id = rex_request('duplicate_user_id', 'int');
+
+
 $info = '';
 $warnings = array();
 
@@ -120,7 +123,6 @@ if ($handle = opendir($langpath)) {
 }
 $userperm_be_sprache = rex_request('userperm_be_sprache', 'string');
 
-
 // ----- welche startseite
 $sel_startpage = new rex_select;
 $sel_startpage->setStyle('class="rex-form-select"');
@@ -141,9 +143,8 @@ foreach ($REX['ADDON']['status'] as $k => $v) {
 foreach ($startpages as $k => $v) {
     $sel_startpage->addOption($v[0], $k);
 }
+
 $userperm_startpage = rex_request('userperm_startpage', 'string');
-
-
 // zugriff auf module
 $sel_module = new rex_select;
 $sel_module->setMultiple(1);
@@ -183,6 +184,7 @@ $FUNC_UPDATE = rex_request('FUNC_UPDATE', 'string');
 $FUNC_APPLY = rex_request('FUNC_APPLY', 'string');
 $FUNC_DELETE = rex_request('FUNC_DELETE', 'string');
 $FUNC_ADD = rex_request('FUNC_ADD', 'string');
+$FUNC_DUPLICATE = rex_request('FUNC_DUPLICATE', 'string');
 $save = rex_request('save', 'int');
 $adminchecked = '';
 $allcatschecked = '';
@@ -311,9 +313,6 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '') {
 
         $info = $I18N->msg('user_data_updated');
 
-
-
-
     } else {
 
         if ($useradmin == 1) {
@@ -325,7 +324,6 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '') {
         if ($allmcats == 1) {
             $allmcatschecked = 'checked="checked"';
         }
-
         // userperm_all
         foreach ($userperm_all as $_perm) {
             $sel_all->setSelected($_perm);
@@ -390,7 +388,6 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '') {
     } else {
         $warnings[] = $I18N->msg('user_notdeleteself');
     }
-
 } elseif ($FUNC_ADD != '' and $save == '') {
     // bei add default selected
     $sel_sprachen->setSelected('0');
@@ -598,7 +595,102 @@ if ($FUNC_ADD != '' || $user_id > 0) {
 
     $add_login_reset_chkbox = '';
 
-    if ($user_id > 0) {
+    if ($user_id > 0 || $duplicate_user_id > 0) {
+        if ($duplicate_user_id > 0) {
+            $user_id = $duplicate_user_id;
+        }
+        $sql = new rex_login_sql;
+        $sql->setQuery('select * from ' . $REX['TABLE_PREFIX'] . 'user where user_id=' . $user_id);
+        // ----- EINLESEN DER PERMS
+        if ($sql->isAdmin()) {
+            $adminchecked = 'checked="checked"';
+        } else {
+            $adminchecked = '';
+        }
+
+        if ($sql->hasPerm('csw[0]')) {
+            $allcatschecked = 'checked="checked"';
+        } else {
+            $allcatschecked = '';
+        }
+
+        if ($sql->hasPerm('media[0]')) {
+            $allmcatschecked = 'checked="checked"';
+        } else {
+            $allmcatschecked = '';
+        }
+
+        if ($sql->getValue($REX['TABLE_PREFIX'] . 'user.status') == 1) {
+            $statuschecked = 'checked="checked"';
+        } else {
+            $statuschecked = '';
+        }
+
+        // Allgemeine Permissions setzen
+        foreach ($REX['PERM'] as $_perm) {
+            if ($sql->hasPerm($_perm)) {
+                $sel_all->setSelected($_perm);
+            }
+        }
+
+        // optionen
+        foreach ($REX['EXTPERM'] as $_perm) {
+            if ($sql->hasPerm($_perm)) {
+                $sel_ext->setSelected($_perm);
+            }
+        }
+
+        // extras
+        if (isset($REX['EXTRAPERM'])) {
+            foreach ($REX['EXTRAPERM'] as $_perm) {
+                if ($sql->hasPerm($_perm)) {
+                    $sel_extra->setSelected($_perm);
+                }
+            }
+        }
+
+        // categories
+        foreach ($sql->getPermAsArray('csw') as $cat_id) {
+            $sel_cat->setSelected($cat_id);
+        }
+
+        // media categories
+        foreach ($sql->getPermAsArray('media') as $cat_id) {
+            $sel_media->setSelected($cat_id);
+        }
+
+        foreach ($sql->getPermAsArray('module') as $module_id) {
+            $sel_module->setSelected($module_id);
+        }
+
+        foreach ($sql->getPermAsArray('clang') as $uclang_id) {
+            $sel_sprachen->setSelected($uclang_id);
+        }
+
+        foreach ($langs as $k => $v) {
+            if ($sql->hasPerm('be_lang[' . $k . ']')) {
+                $userperm_be_sprache = $k;
+            }
+        }
+        $sel_be_sprache->setSelected($userperm_be_sprache);
+
+        foreach ($startpages as $k => $v) {
+            if ($sql->hasPerm('startpage[' . $k . ']')) {
+                $userperm_startpage = $k;
+            }
+        }
+        $sel_startpage->setSelected($userperm_startpage);
+
+        $userpsw = $sql->getValue($REX['TABLE_PREFIX'] . 'user.psw');
+        $username = $sql->getValue($REX['TABLE_PREFIX'] . 'user.name');
+        $userdesc = $sql->getValue($REX['TABLE_PREFIX'] . 'user.description');
+    }
+
+
+
+
+
+    if ($user_id > 0 && !$duplicate_user_id) {
         // User Edit
 
         $form_label = $I18N->msg('edit_user');
@@ -608,103 +700,12 @@ if ($FUNC_ADD != '' || $user_id > 0) {
                         <p class="rex-form-col-b"><input type="submit" class="rex-form-submit" name="FUNC_APPLY" value="' . $I18N->msg('user_apply') . '" ' . rex_accesskey($I18N->msg('user_apply'), $REX['ACKEY']['APPLY']) . ' /></p>
                     </div>';
         $add_user_class = ' rex-form-read';
-        $add_user_login = '<span class="rex-form-read" id="userlogin">' . htmlspecialchars($sql->getValue($REX['TABLE_PREFIX'] . 'user.login')) . '</span>';
 
-        $sql = new rex_login_sql;
-        $sql->setQuery('select * from ' . $REX['TABLE_PREFIX'] . 'user where user_id=' . $user_id);
+
+        $add_user_login = '<span class="rex-form-read" id="userlogin">' . htmlspecialchars($sql->getValue($REX['TABLE_PREFIX'] . 'user.login')) . '</span>';
 
         if ($sql->getRows() == 1) {
 
-            if ($FUNC_UPDATE == '') {
-
-                // ----- EINLESEN DER PERMS
-                if ($sql->isAdmin()) {
-                    $adminchecked = 'checked="checked"';
-                } else {
-                    $adminchecked = '';
-                }
-
-                if ($sql->hasPerm('csw[0]')) {
-                    $allcatschecked = 'checked="checked"';
-                } else {
-                    $allcatschecked = '';
-                }
-
-                if ($sql->hasPerm('media[0]')) {
-                    $allmcatschecked = 'checked="checked"';
-                } else {
-                    $allmcatschecked = '';
-                }
-
-                if ($sql->getValue($REX['TABLE_PREFIX'] . 'user.status') == 1) {
-                    $statuschecked = 'checked="checked"';
-                } else {
-                    $statuschecked = '';
-                }
-
-                // Allgemeine Permissions setzen
-                foreach ($REX['PERM'] as $_perm) {
-                    if ($sql->hasPerm($_perm)) {
-                        $sel_all->setSelected($_perm);
-                    }
-                }
-
-                // optionen
-                foreach ($REX['EXTPERM'] as $_perm) {
-                    if ($sql->hasPerm($_perm)) {
-                        $sel_ext->setSelected($_perm);
-                    }
-                }
-
-                // extras
-                if (isset($REX['EXTRAPERM'])) {
-                    foreach ($REX['EXTRAPERM'] as $_perm) {
-                        if ($sql->hasPerm($_perm)) {
-                            $sel_extra->setSelected($_perm);
-                        }
-                    }
-                }
-
-                // categories
-                foreach ($sql->getPermAsArray('csw') as $cat_id) {
-                    $sel_cat->setSelected($cat_id);
-                }
-
-                // media categories
-                foreach ($sql->getPermAsArray('media') as $cat_id) {
-                    $sel_media->setSelected($cat_id);
-                }
-
-                foreach ($sql->getPermAsArray('module') as $module_id) {
-                    $sel_module->setSelected($module_id);
-                }
-
-                foreach ($sql->getPermAsArray('clang') as $uclang_id) {
-                    $sel_sprachen->setSelected($uclang_id);
-                }
-
-                foreach ($langs as $k => $v) {
-                    if ($sql->hasPerm('be_lang[' . $k . ']')) {
-                        $userperm_be_sprache = $k;
-                    }
-                }
-                $sel_be_sprache->setSelected($userperm_be_sprache);
-
-                foreach ($startpages as $k => $v) {
-                    if ($sql->hasPerm('startpage[' . $k . ']')) {
-                        $userperm_startpage = $k;
-                    }
-                }
-                $sel_startpage->setSelected($userperm_startpage);
-
-                $userpsw = $sql->getValue($REX['TABLE_PREFIX'] . 'user.psw');
-                $username = $sql->getValue($REX['TABLE_PREFIX'] . 'user.name');
-                $userdesc = $sql->getValue($REX['TABLE_PREFIX'] . 'user.description');
-
-
-
-
-            }
             // Der Benutzer kann sich selbst die Rechte nicht entziehen
             if ($REX['USER']->getValue('login') == $sql->getValue($REX['TABLE_PREFIX'] . 'user.login') && $adminchecked != '') {
                 $add_admin_chkbox = '<input type="hidden" name="useradmin" value="1" /><input class="rex-form-checkbox" type="checkbox" id="useradmin" name="useradmin" value="1" ' . $adminchecked . ' disabled="disabled" />';
@@ -734,6 +735,7 @@ if ($FUNC_ADD != '' || $user_id > 0) {
 
         }
     } else {
+
         // User Add
         $form_label = $I18N->msg('create_user');
         $add_hidden = '<input type="hidden" name="FUNC_ADD" value="1" />';
@@ -746,6 +748,10 @@ if ($FUNC_ADD != '' || $user_id > 0) {
         $add_status_chkbox = '<input class="rex-form-checkbox" type="checkbox" id="userstatus" name="userstatus" value="1" ' . $statuschecked . ' />';
         $add_user_class = ' rex-form-text';
         $add_user_login = '<input class="rex-form-text" type="text" id="userlogin" name="userlogin" value="' . htmlspecialchars($userlogin) . '" />';
+    }
+
+    if ($duplicate_user_id > 0) {
+        $userpsw = '';
     }
 
     echo '
@@ -965,7 +971,7 @@ if (isset($SHOW) and $SHOW) {
     $list = rex_list::factory('SELECT user_id, name, login, lasttrydate FROM ' . $REX['TABLE_PREFIX'] . 'user ORDER BY name');
     $list->setCaption($I18N->msg('user_caption'));
     $list->addTableAttribute('summary', $I18N->msg('user_summary'));
-    $list->addTableColumnGroup(array(40, '5%', '*', 153, 153, 153));
+    $list->addTableColumnGroup(array(40, '5%', '*', 153, 153, 70, 80));
 
     $tdIcon = '<span class="rex-i-element rex-i-user"><span class="rex-i-element-text">###name###</span></span>';
     $thIcon = '<a class="rex-i-element rex-i-user-add" href="' . $list->getUrl(array('FUNC_ADD' => '1')) . '"' . rex_accesskey($I18N->msg('create_user'), $REX['ACKEY']['ADD']) . '><span class="rex-i-element-text">' . $I18N->msg('create_user') . '</span></a>';
@@ -993,6 +999,7 @@ if (isset($SHOW) and $SHOW) {
     $list->addColumn('funcs', $I18N->msg('user_delete'));
     $list->setColumnLabel('funcs', $I18N->msg('user_functions'));
     $list->setColumnParams('funcs', array('FUNC_DELETE' => '1', 'user_id' => '###user_id###'));
+    $list->setColumnLayout('funcs', array('<th colspan="2">###VALUE###</th>', '<td>###VALUE###</td>'));
     $list->setColumnFormat('funcs', 'custom',
         create_function(
             '$params',
@@ -1007,5 +1014,9 @@ if (isset($SHOW) and $SHOW) {
     );
     $list->addLinkAttribute('funcs', 'onclick', 'return confirm(\'' . $I18N->msg('delete') . ' ?\')');
 
+
+    $list->addColumn('extra', $I18N->msg('user_duplicate'), -1, array('', '<td>###VALUE###</td>'));
+    $list->setColumnLabel('extra', '');
+    $list->setColumnParams('extra', array('FUNC_ADD' => '1', 'duplicate_user_id' => '###user_id###'));
     $list->show();
 }
