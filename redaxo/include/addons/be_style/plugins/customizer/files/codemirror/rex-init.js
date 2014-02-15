@@ -43,11 +43,12 @@ jQuery(document).ready(function()
       theme: theme
     });
   
-    jQuery(cm_editor[cm].getWrapperElement())
-      .css("margin-top", t.css("margin-top"))
-      .css("margin-left", t.css("margin-left"))
-      .css("margin-bottom", t.css("margin-bottom"))
-      .css("margin-right", t.css("margin-right"));
+    jQuery(cm_editor[cm].getWrapperElement()).css({
+      "margin-top": t.css("margin-top"),
+      "margin-left": t.css("margin-left"),
+      "margin-bottom": t.css("margin-bottom"),
+      "margin-right": t.css("margin-right")
+    });
 
     var height = parseInt(t.height());
     var width = parseInt(t.width());
