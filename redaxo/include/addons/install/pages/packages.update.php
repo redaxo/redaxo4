@@ -97,7 +97,7 @@ if ($addonkey && isset($addons[$addonkey])) {
 
     $content .= '
     <div class="rex-addon-output">
-        <h2 class="rex-hl2">' . $I18N->msg('install_available_update' . (count($addons) >= 2 ? 's' : ''), count($addons)) . '</h2>
+        <h2 class="rex-hl2">' . $I18N->msg('install_available_update' . (count($addons) != 1 ? 's' : ''), count($addons)) . '</h2>
         <table id="rex-install-packages-addons" class="rex-table">
             <colgroup>
               <col width="40" />
