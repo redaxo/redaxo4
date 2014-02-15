@@ -28,9 +28,14 @@ if ($addonkey && isset($addons[$addonkey])) {
     $addon = $addons[$addonkey];
 
     $content = '
-        <h2><b>' . htmlspecialchars($addonkey) . '</b> ' . $I18N->msg('install_information') . '</h2>
+    <div class="rex-addon-output">
+        <h2 class="rex-hl2">' . htmlspecialchars($addonkey) . '</small></h2>
 
         <table id="rex-table-install-packages-information" class="rex-table">
+            <colgroup>
+              <col width="120" />
+              <col width="*" />
+            </colgroup>
             <tbody>
             <tr>
                 <th class="rex-term">' . $I18N->msg('install_name') . '</th>
@@ -49,12 +54,19 @@ if ($addonkey && isset($addons[$addonkey])) {
                 <td class="rex-description">' . nl2br(htmlspecialchars($addon['description'])) . '</td>
             </tr>
             </tbody>
-        </table>';
+        </table></div>';
 
 
     $content .= '
-        <h2>' . $I18N->msg('install_files') . '</h2>
+    <div class="rex-addon-output">
+        <h3 class="rex-hl2">' . $I18N->msg('install_files') . '</h3>
         <table id="rex-table-install-packages-files" class="rex-table">
+            <colgroup>
+              <col width="40" />
+              <col width="79" />
+              <col width="*" />
+              <col width="153" />
+            </colgroup>
             <thead>
             <tr>
                 <th class="rex-slim"></th>
@@ -75,7 +87,9 @@ if ($addonkey && isset($addons[$addonkey])) {
             </tr>';
     }
 
-    $content .= '</tbody></table>';
+    $content .= '</tbody></table></div>';
+    
+    $content .= rex_content_block('<a class="rex-back" href="index.php?page=install&amp;subpage=add">' . $I18N->msg('install_back_to_overview') . '</a>');
 
     echo $content;
 
@@ -83,13 +97,19 @@ if ($addonkey && isset($addons[$addonkey])) {
 } else {
 
     $content = '
-        <h2>' . $I18N->msg('install_addons_found', count($addons)) . '</h2>
+    <div class="rex-addon-output">
+        <h2 class="rex-hl2">' . $I18N->msg('install_addons_found', count($addons)) . '</h2>
         <table id="rex-table-install-packages-addons" class="rex-table rex-table-striped">
+            <colgroup>
+              <col width="40">
+              <col width="153">
+              <col width="*">
+              <col width="153">
+            </colgroup>
          <thead>
             <tr>
                 <th class="rex-icon"></th>
                 <th class="rex-key">' . $I18N->msg('install_key') . '</th>
-                <th class="rex-name rex-author">' . $I18N->msg('install_name') . ' / ' . $I18N->msg('install_author') . '</th>
                 <th class="rex-shortdescription">' . $I18N->msg('install_shortdescription') . '</th>
                 <th class="rex-function">' . $I18N->msg('install_header_function') . '</th>
             </tr>
@@ -100,15 +120,14 @@ if ($addonkey && isset($addons[$addonkey])) {
         $url = 'index.php?page=install&amp;subpage=add&amp;addonkey=' . htmlspecialchars($key);
         $content .= '
             <tr>
-                <td class="rex-icon"><span class="rex-i-element rex-i-addon"><span class="rex-i-element-text"></span></span></td>
+                <td class="rex-icon"><a href="' . $url . '"><span class="rex-i-element rex-i-addon"><span class="rex-i-element-text"></span></span></a></td>
                 <td class="rex-key"><a href="' . $url . '">' . htmlspecialchars($key) . '</a></td>
-                <td class="rex-name rex-author">' . htmlspecialchars($addon['name']) . '<br />' . htmlspecialchars($addon['author']) . '</td>
-                <td class="rex-shortdescription">' . nl2br(htmlspecialchars($addon['shortdescription'])) . '</td>
+                <td class="rex-shortdescription"><h4>' . htmlspecialchars($addon['name']) . '</h4><i>' . htmlspecialchars($addon['author']) . '</i><br /><br />' . nl2br(htmlspecialchars($addon['shortdescription'])) . '</td>
                 <td class="rex-view"><a href="' . $url . '" class="rex-link rex-view">' . $I18N->msg('install_view') . '</a></td>
             </tr>';
     }
 
-    $content .= '</tbody></table>';
+    $content .= '</tbody></table></div>';
 
 
     echo $content;

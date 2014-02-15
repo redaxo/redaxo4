@@ -63,52 +63,112 @@ if ($addonkey && isset($addons[$addonkey])) {
         }
 
         $content = '
-        <h2><b>' . htmlspecialchars($addonkey) . '</b> ' . $I18N->msg($new ? 'install_file_add' : 'install_file_edit') . '</h2>
+    <div class="rex-addon-output">
+        <h2 class="rex-hl2">' . htmlspecialchars($addonkey) . '</h2>
+
 
         <div class="rex-form">
             <form action="index.php?page=install&amp;subpage=upload&amp;func=upload&amp;addonkey=' . htmlspecialchars($addonkey) . '&amp;file=' . htmlspecialchars($file_id) . '" method="post">
-                <fieldset>';
+                <fieldset class="rex-form-col-1">
+                    <legend>' . $I18N->msg($new ? 'install_version_add' : 'install_version_edit') . '</legend>
+                    
+                    <div class="rex-form-wrapper">
+            ';
 
-        $content .= '<label for="install-packages-upload-version">' . $I18N->msg('install_version') . '</label>';
-        $content .= '<span id="install-packages-upload-version" class="rex-form-read">' . htmlspecialchars($new ? $newVersion : $file['version']) . '</span>
-                                       <input type="hidden" name="upload[oldversion]" value="' . htmlspecialchars($file['version']) . '" />';
+        $content .= '
+            <div class="rex-form-row">
+                <p class="rex-form-col-a rex-form-read">
+                    <label for="install-packages-upload-version">' . $I18N->msg('install_version') . '</label>
+                    <span id="install-packages-upload-version" class="rex-form-read">' . htmlspecialchars($new ? $newVersion : $file['version']) . '</span>
+                    <input type="hidden" name="upload[oldversion]" value="' . htmlspecialchars($file['version']) . '" />
+                </p>
+            </div>';
 
-        $content .= '<label for="install-packages-upload-redaxo">REDAXO</label>';
-        $content .= $redaxo_select->get();
+        $content .= '
+            <div class="rex-form-row">
+                <p class="rex-form-col-a rex-form-select">
+                    <label for="install-packages-upload-redaxo">REDAXO</label>
+                    ' . $redaxo_select->get() . '
+                </p>
+            </div>';
 
-        $content .= '<label for="install-packages-upload-description">' . $I18N->msg('install_description') . '</label>';
-        $content .= '<textarea id="install-packages-upload-description" name="upload[description]" cols="50" rows="15">' . htmlspecialchars($file['description']) . '</textarea>';
+        $content .= '
+            <div class="rex-form-row">
+                <p class="rex-form-col-a rex-form-textarea">
+                    <label for="install-packages-upload-description">' . $I18N->msg('install_description') . '</label>
+                    <textarea id="install-packages-upload-description" name="upload[description]" cols="50" rows="15">' . htmlspecialchars($file['description']) . '</textarea>
+                </p>
+            </div>';
 
-        $content .= '<label for="install-packages-upload-status">' . $I18N->msg('install_online') . '</label>';
-        $content .= '<input id="install-packages-upload-status" type="checkbox" name="upload[status]" value="1" ' . (!$new && $file['status'] ? 'checked="checked" ' : '') . '/>';
+        $content .= '
+            <div class="rex-form-row">
+                <p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
+                    <input class="rex-form-checkbox" id="install-packages-upload-status" type="checkbox" name="upload[status]" value="1" ' . (!$new && $file['status'] ? 'checked="checked" ' : '') . '/>
+                    <label for="install-packages-upload-status">' . $I18N->msg('install_online') . '</label>
+                </p>
+            </div>';
 
-        $content .= '<label for="install-packages-upload-upload-file">' . $I18N->msg('install_upload_file') . '</label>' . $hiddenField;
-        $content .= '<input id="install-packages-upload-upload-file" type="checkbox" name="upload[upload_file]" value="1" ' . ($new ? 'checked="checked" ' : '') . $uploadCheckboxDisabled . '/>';
+        $content .= '
+            <div class="rex-form-row">
+                <p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
+                    ' . $hiddenField . '
+                    <input class="rex-form-checkbox" id="install-packages-upload-upload-file" type="checkbox" name="upload[upload_file]" value="1" ' . ($new ? 'checked="checked" ' : '') . $uploadCheckboxDisabled . '/>
+                    <label for="install-packages-upload-upload-file">' . $I18N->msg('install_upload_file') . '</label>
+                </p>
+            </div>';
 
         if (OOAddon::isInstalled($addonkey) && is_dir(rex_path::addonAssets($addonkey))) {
-            $content .= '<label for="install-packages-upload-replace-assets">' . $I18N->msg('install_replace_assets') . '</label>';
-            $content .= '<input id="install-packages-upload-replace-assets" type="checkbox" name="upload[replace_assets]" value="1" ' . ($new ? '' : 'disabled="disabled" ') . '/>';
+            $content .= '
+            <div class="rex-form-row">
+                <p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
+                    <input class="rex-form-checkbox" id="install-packages-upload-replace-assets" type="checkbox" name="upload[replace_assets]" value="1" ' . ($new ? '' : 'disabled="disabled" ') . '/>
+                    <label for="install-packages-upload-replace-assets">' . $I18N->msg('install_replace_assets') . '</label>
+                </p>
+            </div>';
         }
 
         if (is_dir(rex_path::addon($addonkey, 'tests'))) {
-            $content .= '<label for="install-packages-upload-ignore-tests">' . $I18N->msg('install_ignore_tests') . '</label>';
-            $content .= '<input id="install-packages-upload-ignore-tests" type="checkbox" name="upload[ignore_tests]" value="1" checked="checked"' . ($new ? '' : 'disabled="disabled" ') . '/>';
+            $content .= '
+            <div class="rex-form-row">
+                <p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
+                    <input class="rex-form-checkbox" id="install-packages-upload-ignore-tests" type="checkbox" name="upload[ignore_tests]" value="1" checked="checked"' . ($new ? '' : 'disabled="disabled" ') . '/>
+                    <label for="install-packages-upload-ignore-tests">' . $I18N->msg('install_ignore_tests') . '</label>
+                </p>
+            </div>';
+            
         }
 
-        $content .= '</fieldset>';
-
-        $content .= '<a class="rex-back" href="index.php?page=install&amp;subpage=upload&amp;addonkey=' . htmlspecialchars($addonkey) . '"><span class="rex-icon rex-icon-back"></span>' . $I18N->msg('form_abort') . '</a>';
-
-        $content .= '<button class="rex-button" id="install-packages-upload-send" type="submit" name="upload[send]" value="' . $I18N->msg('install_send') . '">' . $I18N->msg('install_send') . '</button>';
-
-        if (!$new) {
-            $content .= '<button class="rex-button rex-danger" id="install-packages-delete" value="' . $I18N->msg('install_delete') . '" onclick="if(confirm(\'' . $I18N->msg('delete') . ' ?\')) location.href=\'index.php?page=install&amp;subpage=upload&amp;addonkey=' . htmlspecialchars($addonkey) . '&amp;file=' . htmlspecialchars($file_id) . '&amp;func=delete\'; return false;">' . $I18N->msg('delete') . '</button>';
-        }
-
+        $content .= '</div></fieldset>';
+        
         $content .= '
-                </fieldset>
+        <fieldset class="rex-form-col-1">
+          <div class="rex-form-wrapper">
+            <div class="rex-form-row">
+              <p class="rex-form-col-a rex-form-submit">
+                <input class="rex-form-submit" type="submit" id="install-packages-upload-send" type="submit" name="upload[send]" value="' . $I18N->msg('install_send') . '"  />
+                ';
+                
+                if (!$new) {
+                    $content .= '<input class="rex-form-submit rex-form-submit-2" type="submit" id="install-packages-delete" value="' . $I18N->msg('delete') . '" onclick="if(confirm(\'' . $I18N->msg('delete') . ' ?\')) location.href=\'index.php?page=install&amp;subpage=upload&amp;addonkey=' . htmlspecialchars($addonkey) . '&amp;file=' . htmlspecialchars($file_id) . '&amp;func=delete\'; return false;" />';
+                }
+
+                
+        $content .= '
+              </p>
+            </div>
+          </div>
+        </fieldset>
+        ';
+
+       
+        $content .= '
             </form>
-        </div>';
+        </div>
+    </div>';
+    
+    
+        
+        $content .= rex_content_block('<a class="rex-back" href="index.php?page=install&amp;subpage=upload&amp;addonkey=' . htmlspecialchars($addonkey) . '"><span class="rex-icon rex-icon-back"></span>' . $I18N->msg('install_back_to_overview') . '</a>');
 
 
 
@@ -139,13 +199,17 @@ if ($addonkey && isset($addons[$addonkey])) {
     } else {
         $icon = '';
         if (OOAddon::isAvailable($addonkey)) {
-            $icon = '<a class="rex-i-element rex-i-generic-add" href="index.php?page=install&amp;subpage=upload&amp;addonkey=' .  htmlspecialchars($addonkey) . '&amp;file=new" title="' . $I18N->msg('install_file_add') . '"><span class="rex-i-element-text"></span></a>';
+            $icon = '<a class="rex-i-element rex-i-generic-add" href="index.php?page=install&amp;subpage=upload&amp;addonkey=' .  htmlspecialchars($addonkey) . '&amp;file=new" title="' . $I18N->msg('install_version_add') . '"><span class="rex-i-element-text"></span></a>';
         }
 
         $content = '
-        <h2><b>' . htmlspecialchars($addonkey) . '</b> ' . $I18N->msg('install_information') . '</h2>
-
+    <div class="rex-addon-output">
+        <h2 class="rex-hl2">' . htmlspecialchars($addonkey) . '</h2>
         <table class="rex-table">
+            <colgroup>
+              <col width="120" />
+              <col width="*" />
+            </colgroup>
             <tbody>
             <tr>
                 <th>' . $I18N->msg('install_name') . '</th>
@@ -164,13 +228,22 @@ if ($addonkey && isset($addons[$addonkey])) {
                 <td>' . nl2br(htmlspecialchars($addon['description'])) . '</td>
             </tr>
             </tbody>
-        </table>';
+        </table></div>';
 
         echo $content;
 
         $content = '
-        <h2>' . $I18N->msg('install_files') . '</h2>
+    <div class="rex-addon-output">
+        <h2 class="rex-hl2">' . $I18N->msg('install_files') . '</h2>
         <table class="rex-table">
+            <colgroup>
+              <col width="40" />
+              <col width="79" />
+              <col width="79" />
+              <col width="*" />
+              <col width="153" />
+              <col width="76" />
+            </colgroup>
             <thead>
             <tr>
                 <th class="rex-icon">' . $icon . '</th>
@@ -182,33 +255,50 @@ if ($addonkey && isset($addons[$addonkey])) {
             </thead>
             <tbody>';
 
-        foreach ($addon['files'] as $fileId => $file) {
-            $url = 'index.php?page=install&amp;subpage=upload&amp;addonkey=' .  htmlspecialchars($addonkey) . '&amp;file=' . htmlspecialchars($fileId);
-            $status = $file['status'] ? 'online' : 'offline';
+        if (count($addon['files'])) {
+            foreach ($addon['files'] as $fileId => $file) {
+                $url = 'index.php?page=install&amp;subpage=upload&amp;addonkey=' .  htmlspecialchars($addonkey) . '&amp;file=' . htmlspecialchars($fileId);
+                $status = $file['status'] ? 'online' : 'offline';
+                $content .= '
+                <tr>
+                    <td class="rex-icon"><span class="rex-i-element rex-i-addon"><span class="rex-i-element-text"></span></span></td>
+                    <td class="rex-version">' . htmlspecialchars($file['version']) . '</td>
+                    <td class="rex-version">' . implode(', ', $file['redaxo_versions']) . '</td>
+                    <td class="rex-description">' . nl2br(htmlspecialchars($file['description'])) . '</td>
+                    <td class="rex-edit"><a class="rex-link rex-edit" href="' . $url . '">' . $I18N->msg('install_version_edit') . '</a></td>
+                    <td class="rex-status"><span class="rex-status rex-' . $status . '">' . $I18N->msg('status_' . $status) . '</span></td>
+                </tr>';
+            }
+        
+        } else {
+        
             $content .= '
-            <tr>
-                <td class="rex-icon"><span class="rex-i-element rex-i-addon"><span class="rex-i-element-text"></span></span></td>
-                <td class="rex-version">' . htmlspecialchars($file['version']) . '</td>
-                <td class="rex-version">' . implode(', ', $file['redaxo_versions']) . '</td>
-                <td class="rex-description">' . nl2br(htmlspecialchars($file['description'])) . '</td>
-                <td class="rex-edit"><a class="rex-link rex-edit" href="' . $url . '">' . $I18N->msg('install_file_edit') . '</a></td>
-                <td class="rex-status"><span class="rex-status rex-' . $status . '">' . $I18N->msg('status_' . $status) . '</span></td>
-            </tr>';
+                <tr class="rex-table-no-results">
+                    <td colspan="6">' . $I18N->msg('install_my_packages_files_not_found', '<b>' . htmlspecialchars($addonkey) . '</b>') . '</td>
+                </tr>';
         }
 
-        $content .= '</tbody></table>';
+        $content .= '</tbody></table></div>';
 
         echo $content;
 
-        echo '<a class="rex-back" href="index.php?page=install&amp;subpage=upload"><span class="rex-icon rex-icon-back"></span>' . $I18N->msg('install_back') . '</a>';
+        echo rex_content_block('<a class="rex-back" href="index.php?page=install&amp;subpage=upload"><span class="rex-icon rex-icon-back"></span>' . $I18N->msg('install_back') . '</a>');
 
     }
 
 } else {
 
     $content = '
-        <h2>' . $I18N->msg('install_my_packages') . '</h2>
+    <div class="rex-addon-output">
+        <h2 class="rex-hl2">' . $I18N->msg('install_my_packages') . '</h2>
         <table class="rex-table">
+            <colgroup>
+              <col width="40" />
+              <col width="79" />
+              <col width="*" />
+              <col width="76" />
+              <col width="77" />
+            </colgroup>
          <thead>
             <tr>
                 <th class="rex-slim"></th>
@@ -219,20 +309,30 @@ if ($addonkey && isset($addons[$addonkey])) {
          </thead>
          <tbody>';
 
-    foreach ($addons as $key => $addon) {
-        $url = 'index.php?page=install&amp;subpage=upload&amp;addonkey=' . htmlspecialchars($key);
-        $status = $addon['status'] ? 'online' : 'offline';
+    
+    if (count($addons)) {
+        foreach ($addons as $key => $addon) {
+            $url = 'index.php?page=install&amp;subpage=upload&amp;addonkey=' . htmlspecialchars($key);
+            $status = $addon['status'] ? 'online' : 'offline';
+            $content .= '
+                <tr>
+                    <td class="rex-icon"><a href="' . $url . '" class="rex-link rex-view"><span class="rex-i-element rex-i-addon"><span class="rex-i-element-text"></span></span></a></td>
+                    <td class="rex-key"><a href="' . $url . '" class="rex-link rex-view">' . htmlspecialchars($key) . '</a></td>
+                    <td class="rex-name">' . htmlspecialchars($addon['name']) . '</td>
+                    <td class="rex-view"><a href="' . $url . '" class="rex-link rex-view">' . $I18N->msg('install_view') . '</a></td>
+                    <td class="rex-status"><span class="rex-status rex-' . $status . '">' . $I18N->msg('status_' . $status) . '</span></td>
+                </tr>';
+        }
+        
+    } else {
+    
         $content .= '
-            <tr>
-                <td class="rex-icon"><span class="rex-i-element rex-i-addon"><span class="rex-i-element-text"></span></span></td>
-                <td class="rex-key">' . htmlspecialchars($key) . '</td>
-                <td class="rex-name">' . htmlspecialchars($addon['name']) . '</td>
-                <td class="rex-view"><a href="' . $url . '" class="rex-link rex-view">' . $I18N->msg('install_view') . '</a></td>
-                <td class="rex-status"><span class="rex-status rex-' . $status . '">' . $I18N->msg('status_' . $status) . '</span></td>
+            <tr class="rex-table-no-results">
+                <td colspan="5">' . $I18N->msg('install_my_packages_not_found') . '</td>
             </tr>';
     }
 
-    $content .= '</tbody></table>';
+    $content .= '</tbody></table></div>';
 
     echo $content;
 
