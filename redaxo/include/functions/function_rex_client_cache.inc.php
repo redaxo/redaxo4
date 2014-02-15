@@ -163,7 +163,9 @@ function rex_send_content($content, $lastModified, $etag, $environment, $sendcha
   rex_sql::disconnect(null);
 
   // content length schicken, damit der browser einen ladebalken anzeigen kann
-  header('Content-Length: '. strlen($content));
+  if (!ini_get('zlib.output_compression')) {
+    header('Content-Length: '. strlen($content));
+  }
 
   echo $content;
 }

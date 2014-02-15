@@ -20,6 +20,9 @@ Version 4.6.0 (2014-XX-XX)
   * Data-Ordner für Addon-Konfigurationsdateien etc., damit die Einstellungen beim Update erhalten bleiben
   * Benutzer können dupliziert werden
 
+  Bugfixes
+  * Wenn zlib.output_compression aktiviert ist, wurde teilweise ein falscher Content-Length Header gesendet
+
 Version 4.5.1 (2013-11-21)
 
   Wichtig: Eine Sicherheitslücke zum TinyMCE geschlossen.
