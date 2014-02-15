@@ -37,7 +37,7 @@ jQuery(document).ready(function()
       matchBrackets: true,
       mode: mode,
       indentUnit: 4,
-      indentWithTabs: true,
+      indentWithTabs: false,
       enterMode: "keep",
       tabMode: "shift",
       theme: theme
