@@ -55,6 +55,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
       unset($attrArray['perm']);
     }
 
+    $defaultValue = $sqlFields->getValue('default');
     if($activeItem)
     {
       $itemValue = $activeItem->getValue($name);
@@ -69,8 +70,6 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
         // Neue Notation mit | als Trenner
         $dbvalues = explode('|', $activeItem->getValue($name));
       }
-    } else {
-      $dbvalues = (array) $sqlFields->getValue('default');
     }
 
     if($title != '')
@@ -97,6 +96,8 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
           $rexInput->setAttribute('maxlength', $dblength);
         if($activeItem)
           $rexInput->setValue($activeItem->getValue($name));
+        else
+          $rexInput->setValue($defaultValue);
         $field = $rexInput->getHtml();
         break;
       }
@@ -104,7 +105,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
         // Beachte auch default values in multiple fields bei ADD.
         // Im EDIT wurde dies bereits vorher gehandelt
         if(!$activeItem) {
-          $dbvalues = explode('|', $dbvalues[0]);
+          $defaultValue = explode('|', $defaultValue);
         }
 
         $name .= '[]';
@@ -165,6 +166,10 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
             $attrStr = ' '. $key .'="'. $value .'"';
         }
 
+        if (!$activeItem) {
+          $dbvalues = (array) $defaultValue;
+        }
+
         foreach($values as $key => $value)
         {
           $id = preg_replace('/[^a-zA-Z\-0-9_]/', '_', $id . $key);
@@ -207,8 +212,6 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
         $select->setStyle('class="rex-form-select"');
         $select->setName($name);
         $select->setId($id);
-        // hier mit den "raw"-values arbeiten, da die rex_select klasse selbst escaped
-        $select->setSelected($dbvalues);
 
         $multiple = FALSE;
         foreach($attrArray as $attr_name => $attr_value)
@@ -223,15 +226,17 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
             $select->setName($name.'[]');
           }
         }
-
-        if(!$multiple)
-          $select->setSize(1);
-
         // Beachte auch default values in multiple fields bei ADD.
         // Im EDIT wurde dies bereits vorher gehandelt
         if($multiple && !$activeItem) {
-            $dbvalues = explode('|', $dbvalues[0]);
+            $dbvalues = explode('|', $defaultValue);
         }
+
+        // hier mit den "raw"-values arbeiten, da die rex_select klasse selbst escaped
+        $select->setSelected($dbvalues);
+
+        if(!$multiple)
+          $select->setSize(1);
 
         if(rex_sql::getQueryType($params) == 'SELECT')
         {
@@ -303,6 +308,8 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
         $rexInput->setAttribute('name', $name);
         if($activeItem)
           $rexInput->setValue($activeItem->getValue($name));
+        else
+          $rexInput->setValue($defaultValue);
         $field = $rexInput->getHtml();
 
         break;
