@@ -131,8 +131,10 @@ div.rex-area-footer,
 div.rex-addon-footer, 
 table.rex-table th, 
 table.rex-table tr td.rex-colored, 
-table.rex-table tr.rex-table-row-activ td {
-	background-color: #DFE9E9;
+table.rex-table tr.rex-table-row-activ td, 
+table.rex-table tr:hover th, 
+table.rex-table tr:hover td {
+    background-color: #DFE9E9;
 }
 
 div#rex-footer,
