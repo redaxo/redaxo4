@@ -32,7 +32,6 @@ class rex_image {
       $this->gifsupport = function_exists('imagegif');
 
       // ----- detect image format
-      $this->img['src'] = false;
       if ($this->img['format'] == 'JPG' || $this->img['format'] == 'JPEG')
       {
         // --- JPEG
@@ -41,7 +40,7 @@ class rex_image {
       }elseif ($this->img['format'] == 'PNG')
       {
         // --- PNG
-        $this->img['src'] = @imagecreatefrompng($this->img["filepath"]);
+        $this->img['src'] = imagecreatefrompng($this->img["filepath"]);
       }elseif ($this->img['format'] == 'GIF')
       {
         // --- GIF
@@ -54,10 +53,11 @@ class rex_image {
       }
 
       // ggf error image senden
-      if (!$this->img['src'])
+      if (!isset($this->img['src']))
       {
-        $this->sendError('Unable to create gdressource from file "'.$this->img["filepath"].'"!');
-        exit();
+//        $this->sendError('Unable to create gdressource from file "'.$this->img["filepath"].'"!');
+//        exit();
+
       }else
       {
         $this->refreshDimensions();
@@ -243,4 +243,15 @@ class rex_image {
   {
     return is_object($image) && is_a($image, 'rex_image');
   }
+  
+  public function isImage() 
+  {
+    if (isset($this->img['src']) && $this->img['src'] != "") {
+      return true;
+    } else {
+      return false;
+    }
+  
+  }
+  
 }

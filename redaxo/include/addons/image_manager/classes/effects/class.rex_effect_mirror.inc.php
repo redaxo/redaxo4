@@ -40,6 +40,10 @@ class rex_effect_mirror extends rex_effect_abstract
   function execute()
   {
 
+    if(!$this->image->isImage()) {
+      return false;
+    }
+
     $gdimage =& $this->image->getImage();
 
     $w = $this->image->getWidth();

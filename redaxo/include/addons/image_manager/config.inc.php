@@ -14,11 +14,10 @@ $mypage = 'image_manager';
 
 $REX['ADDON']['name'][$mypage] = 'Image Manager';
 $REX['ADDON']['perm'][$mypage] = 'image_manager[]';
-$REX['ADDON']['version'][$mypage] = '1.1';
+$REX['ADDON']['version'][$mypage] = '1.2';
 $REX['ADDON']['author'][$mypage] = 'Markus Staab, Jan Kristinus';
 $REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
 $REX['PERM'][] = 'image_manager[]';
-
 
 // --- DYN
 $REX['ADDON']['image_manager']['jpg_quality'] = 85;
@@ -64,7 +63,7 @@ if(!function_exists('image_manager_init')){
                 'imagepath'    => $imagepath,
                 'cachepath'    => $cachepath);
     $subject   = rex_register_extension_point('IMAGE_MANAGER_INIT',$subject);
-
+    
     if(isset($subject['rex_img_file'])) $rex_img_file = $subject['rex_img_file'];
     if(isset($subject['rex_img_type'])) $rex_img_type = $subject['rex_img_type'];
     if(isset($subject['imagepath']))    $imagepath    = $subject['imagepath'];

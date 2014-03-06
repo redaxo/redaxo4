@@ -4,6 +4,11 @@ class rex_effect_filter_sepia extends rex_effect_abstract{
 
   function execute()
   {
+  
+    if(!$this->image->isImage()) {
+      return false;
+    }
+  
     $img =& $this->image->getImage();
 
     if (!($t = imagecolorstotal($img)))

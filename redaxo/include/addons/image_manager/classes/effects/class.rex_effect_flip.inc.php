@@ -18,6 +18,10 @@ class rex_effect_flip extends rex_effect_abstract
   function execute()
   {
 
+    if(!$this->image->isImage()) {
+      return false;
+    }
+    
     $gdimage =& $this->image->getImage();
     $w = $this->image->getWidth();
     $h = $this->image->getHeight();

@@ -11,6 +11,10 @@ class rex_effect_insert_image extends rex_effect_abstract{
   {
     global $REX;
 
+    if(!$this->image->isImage()) {
+      return false;
+    }
+
     // -------------------------------------- CONFIG
     $brandimage = $REX['MEDIAFOLDER'] .'/'. $this->params['brandimage'];
     if(!file_exists($brandimage) || !is_file($brandimage))

@@ -17,6 +17,11 @@ class rex_effect_filter_sharpen extends rex_effect_abstract{
 
   function execute()
   {
+  
+    if(!$this->image->isImage()) {
+      return false;
+    }
+  
     // do not sharpen gifs, results in black image
     if (strtolower($this->image->img['format']) == 'gif') {
       return;

@@ -16,7 +16,12 @@ class rex_effect_rounded_corners extends rex_effect_abstract
   
 	function execute()
 	{
-		$gdimage =& $this->image->getImage();
+
+    if(!$this->image->isImage()) {
+      return false;
+    }
+
+    $gdimage =& $this->image->getImage();
 		$w = $this->image->getWidth();
 		$h = $this->image->getHeight();
 		

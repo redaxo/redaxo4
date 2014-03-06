@@ -18,14 +18,25 @@ class rex_image_cacher
       trigger_error('Given image is not a valid rex_image', E_USER_ERROR);
     }
 
-    $cache_file = $this->getCacheFile($image, $cacheParams);
+    $original_cache_file = $this->getCacheFile($image, $cacheParams);
+    $cache_files = glob($original_cache_file.'.*');
 
     // ----- check for cache file
-    if (file_exists($cache_file))
+    // if (file_exists($cache_file))
+    if (count($cache_files) == 1)
     {
+      $cache_file = $cache_files[0];
+    
       // time of cache
       $cachetime = filectime($cache_file);
       $imagepath = $image->getFilePath();
+
+      if ($original_cache_file != $cache_file) {
+
+        $image->img["format"] = strtoupper(OOMedia::_getExtension($cache_file));
+        $image->img["file"] = $image->img["file"].'.'.OOMedia::_getExtension($cache_file);
+
+      }
 
       // file exists?
       if (file_exists($imagepath))
@@ -34,6 +45,7 @@ class rex_image_cacher
       }
       else
       {
+      
         $image->sendError('Missing original file for cache-validation!');
         exit();
       }
@@ -84,22 +96,14 @@ class rex_image_cacher
       trigger_error('Given image is not a valid rex_image', E_USER_ERROR);
     }
 
-    // caching gifs doesn't work
-//	  if($image->getFormat() == 'GIF' && !$image->hasGifSupport())
-//	  {
-//	    $image->prepare();
-//	    $image->send($lastModified);
-//	  }
-//	  else
-//	  {
-      $cacheFile = $this->getCacheFile($image, $cacheParams);
+    $cacheFile = $this->getCacheFile($image, $cacheParams);
 
-      // save image to file
-      if(!$this->isCached($image, $cacheParams))
-      {
-        $image->prepare();
-        $image->save($cacheFile);
-      }
+    // save image to file
+    if(!$this->isCached($image, $cacheParams))
+    {
+      $image->prepare();
+      $image->save($cacheFile);
+    }
 
     $tmp = $REX['USE_GZIP'];
     $REX['USE_GZIP'] = 'false';
@@ -110,7 +114,7 @@ class rex_image_cacher
     rex_send_file($cacheFile,'image/'.$format,'frontend');
 
     $REX['USE_GZIP'] = $tmp;
-//	  }
+
   }
 
   /*
@@ -129,34 +133,26 @@ class rex_image_cacher
    *
    * @param $filename
    */
-  static function deleteCache($filename = null, $cacheParams = null)
+  static function deleteCache($filename = "", $cacheParams = null)
   {
     global $REX;
 
-    if(!$filename)
-    {
-      $filename = '*';
-    }
+    $filename .= '*';
 
-    if(!$cacheParams)
-    {
+    if(!$cacheParams) {
       $cacheParams = '*';
     }
 
     $folders = array();
     $folders[] = $REX['GENERATED_PATH'] . '/files/';
-    $folders[] = $REX['HTDOCS_PATH'] . $REX['MEDIA_DIR'] . '/';
 
     $counter = 0;
-    foreach($folders as $folder)
-    {
+    foreach($folders as $folder) {
+    
       $glob = glob($folder .'image_manager__'. $cacheParams . '_'. $filename);
-      if($glob)
-      {
-        foreach ($glob as $file)
-        {
-          if(unlink($file))
-          {
+      if($glob) {
+        foreach ($glob as $file) {
+          if(unlink($file)) {
             $counter++;
           }
         }

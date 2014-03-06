@@ -18,6 +18,10 @@ class rex_effect_filter_blur extends rex_effect_abstract{
   function execute()
   {
 
+    if(!$this->image->isImage()) {
+      return false;
+    }
+
     $options = array();
     $options['gaussian'] = IMG_FILTER_GAUSSIAN_BLUR;
     $options['selective'] = IMG_FILTER_SELECTIVE_BLUR;
