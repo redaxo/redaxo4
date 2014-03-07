@@ -415,7 +415,7 @@ if ($article->getRows() == 1)
         {
           // ----- EXTENSION POINT
           $info = $I18N->msg('content_tostartarticle_ok');
-          header("Location:index.php?page=content&mode=meta&clang=$clang&ctype=$ctype&article_id=$article_id&info=".urlencode($info));
+          header("Location:index.php?page=content&mode=functions&clang=$clang&ctype=$ctype&article_id=$article_id&info=".urlencode($info));
           exit;
         }
         else
@@ -440,7 +440,7 @@ if ($article->getRows() == 1)
         {
           // ----- EXTENSION POINT
           $info = $I18N->msg('content_tocategory_ok');
-          header("Location:index.php?page=content&mode=meta&clang=$clang&ctype=$ctype&article_id=$article_id&info=".urlencode($info));
+          header("Location:index.php?page=content&mode=functions&clang=$clang&ctype=$ctype&article_id=$article_id&info=".urlencode($info));
           exit;
         }
         else
@@ -465,7 +465,7 @@ if ($article->getRows() == 1)
         {
           // ----- EXTENSION POINT
           $info = $I18N->msg('content_toarticle_ok');
-          header("Location:index.php?page=content&mode=meta&clang=$clang&ctype=$ctype&article_id=$article_id&info=".urlencode($info));
+          header("Location:index.php?page=content&mode=functions&clang=$clang&ctype=$ctype&article_id=$article_id&info=".urlencode($info));
           exit;
         }
         else
@@ -510,7 +510,7 @@ if ($article->getRows() == 1)
         {
           $info = $I18N->msg('content_articlemoved');
           ob_end_clean();
-          header('Location: index.php?page=content&article_id=' . $article_id . '&mode=meta&clang=' . $clang . '&ctype=' . $ctype . '&info=' . urlencode($info));
+          header('Location: index.php?page=content&article_id=' . $article_id . '&mode=functions&clang=' . $clang . '&ctype=' . $ctype . '&info=' . urlencode($info));
           exit;
         }
         else
@@ -535,7 +535,7 @@ if ($article->getRows() == 1)
         {
           $info = $I18N->msg('content_articlecopied');
           ob_end_clean();
-          header('Location: index.php?page=content&article_id=' . $new_id . '&mode=meta&clang=' . $clang . '&ctype=' . $ctype . '&info=' . urlencode($info));
+          header('Location: index.php?page=content&article_id=' . $new_id . '&mode=functions&clang=' . $clang . '&ctype=' . $ctype . '&info=' . urlencode($info));
           exit;
         }
         else
@@ -560,7 +560,7 @@ if ($article->getRows() == 1)
         {
           $info = $I18N->msg('category_moved');
           ob_end_clean();
-          header('Location: index.php?page=content&article_id=' . $category_id . '&mode=meta&clang=' . $clang . '&ctype=' . $ctype . '&info=' . urlencode($info));
+          header('Location: index.php?page=content&article_id=' . $category_id . '&mode=functions&clang=' . $clang . '&ctype=' . $ctype . '&info=' . urlencode($info));
           exit;
         }
         else
@@ -590,7 +590,7 @@ if ($article->getRows() == 1)
       if($meta_sql->update())
       {
         $article->setQuery("SELECT * FROM " . $REX['TABLE_PREFIX'] . "article WHERE id='$article_id' AND clang='$clang'");
-        $info = $I18N->msg("metadata_updated");
+        $info = $I18N->msg("article_properties_updated");
 
         rex_deleteCacheArticle($article_id, $clang);
 
@@ -679,14 +679,22 @@ if ($article->getRows() == 1)
     }
 
     if($mode == 'meta') {
-      $listElements[] = '<a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=meta&amp;clang=' . $clang . '&amp;ctype=' . $ctype . '" class="rex-active"'. rex_tabindex() .'>' . $I18N->msg('metadata') . '</a>';
+      $listElements[] = '<a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=meta&amp;clang=' . $clang . '&amp;ctype=' . $ctype . '" class="rex-active"'. rex_tabindex() .'>' . $I18N->msg('article_properties') . '</a>';
 
     } else {
-      $listElements[] = '<a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=meta&amp;clang=' . $clang . '&amp;ctype=' . $ctype . '"'. rex_tabindex() .'>' . $I18N->msg('metadata') . '</a>';
+      $listElements[] = '<a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=meta&amp;clang=' . $clang . '&amp;ctype=' . $ctype . '"'. rex_tabindex() .'>' . $I18N->msg('article_properties') . '</a>';
 
     }
 
-    $listElements[] = '<a href="../' . rex_getUrl($article_id,$clang) . '" onclick="window.open(this.href); return false;" '. rex_tabindex() .'>' . $I18N->msg('show') . '</a>';
+    if($mode == 'functions') {
+      $listElements[] = '<a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=functions&amp;clang=' . $clang . '&amp;ctype=' . $ctype . '" class="rex-active"'. rex_tabindex() .'>' . $I18N->msg('article_functions') . '</a>';
+
+    } else {
+      $listElements[] = '<a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=functions&amp;clang=' . $clang . '&amp;ctype=' . $ctype . '"'. rex_tabindex() .'>' . $I18N->msg('article_functions') . '</a>';
+
+    }
+
+    $listElements[] = '<a href="../' . rex_getUrl($article_id,$clang) . '" onclick="window.open(this.href); return false;" '. rex_tabindex() .'>' . $I18N->msg('show_article_in_frontend') . '<i class="rex-i-external"></i></a>';
 
     // ----- EXTENSION POINT
     $listElements = rex_register_extension_point('PAGE_CONTENT_MENU', $listElements,
@@ -743,7 +751,7 @@ if ($article->getRows() == 1)
       $mode = "";
     }
     
-    if($mode == 'edit' || $mode == 'meta') {
+    if($mode == 'edit' || $mode == 'meta' || $mode == 'functions') {
 
         // ------------------------------------------ WARNING
         if($global_warning != '')
@@ -843,7 +851,7 @@ if ($article->getRows() == 1)
 
                   <div class="rex-form-row">
                     <p class="rex-form-col-a rex-form-submit">
-                      <input class="rex-form-submit" type="submit" name="savemeta" value="' . $I18N->msg("update_metadata") . '"'. rex_accesskey($I18N->msg('update_metadata'), $REX['ACKEY']['SAVE']) . rex_tabindex() .' />
+                      <input class="rex-form-submit" type="submit" name="savemeta" value="' . $I18N->msg("update_article_properties") . '"'. rex_accesskey($I18N->msg('update_article_properties'), $REX['ACKEY']['SAVE']) . rex_tabindex() .' />
                     </p>
                   </div>
                   <div class="rex-clearer"></div>
@@ -857,6 +865,14 @@ if ($article->getRows() == 1)
       ));
 
       echo '</div>';
+      echo '</form>
+            </div>';
+    }
+
+
+    else if ($mode == 'functions')
+    {
+        $out = '';
 
       $isStartpage = $article->getValue('startpage') == 1;
 
@@ -1108,23 +1124,39 @@ if ($article->getRows() == 1)
       }
       // ------------------------------------------------ KATEGROIE/STARTARTIKEL VERSCHIEBEN ENDE
 
+
       if ($out != '')
       {
-        echo '<div class="rex-form-section">';
-        echo $out;
-        echo '</div>';
+        echo '
+        <div class="rex-form" id="rex-form-content-metamode">
+            <form action="index.php" method="post" enctype="multipart/form-data" id="REX_FORM">
+                <div class="rex-form-section">
+                    <input type="hidden" name="page" value="content" />
+                    <input type="hidden" name="article_id" value="' . $article_id . '" />
+                    <input type="hidden" name="mode" value="functions" />
+                    <input type="hidden" name="save" value="1" />
+                    <input type="hidden" name="clang" value="' . $clang . '" />
+                    <input type="hidden" name="ctype" value="' . $ctype . '" />
+                    ' . $out . '
+                </div>
+                <div class="rex-clearer"></div>
+            </form>
+        </div>';
+      } else {
+
+        echo '<div class="rex-area"><div class="rex-area-content">';
+        echo rex_warning($I18N->msg('no_rights_to_edit'));
+        echo '</div></div>';
+
       }
       // ------------------------------------------------------------- SONSTIGES ENDE
 
-      echo '
-                  </form>
-                </div>';
 
       // ------------------------------------------ END: META VIEW
 
     }
 
-    if($mode == 'edit' || $mode == 'meta') {
+    if($mode == 'edit' || $mode == 'meta' || $mode == 'functions') {
       echo '
               </div>
               </div>

@@ -336,6 +336,12 @@ div#rex-form-structure-category p.rex-button-add a {
 .rex-i-cronjob-add {
 	background-image: url(cronjob_add.gif);
 }
+.rex-i-external {
+    padding-left: 16px;
+    background-image: url(popup.gif);
+    background-position: 100% 50%;
+    background-repeat: no-repeat;
+}
 .rex-i-generic {
 	background-image: url(generic.gif);
 }
