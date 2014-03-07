@@ -25,3 +25,11 @@ h1.be-style-customizer-title.be-style-customizer-small {
   font-size: 13px;
   line-height: 16px;
 }
+
+
+.CodeMirror {
+    min-height: 330px;
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+    font-size: 12px;
+    line-height: 16px !important;
+}
