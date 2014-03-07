@@ -26,40 +26,30 @@ class rex_image {
 
   /*public*/ function prepare()
   {
-    if(!isset($this->img['src']))
-    {
+    if (!isset($this->img['src'])) {
       // ----- gif support ?
       $this->gifsupport = function_exists('imagegif');
 
       // ----- detect image format
-      if ($this->img['format'] == 'JPG' || $this->img['format'] == 'JPEG')
-      {
+      if ($this->img['format'] == 'JPG' || $this->img['format'] == 'JPEG') {
         // --- JPEG
         $this->img['format'] = 'JPEG';
         $this->img['src'] = @imagecreatefromjpeg($this->img["filepath"]);
-      }elseif ($this->img['format'] == 'PNG')
-      {
+
+      } else if ($this->img['format'] == 'PNG') {
         // --- PNG
-        $this->img['src'] = imagecreatefrompng($this->img["filepath"]);
-      }elseif ($this->img['format'] == 'GIF')
-      {
+        $this->img['src'] = @imagecreatefrompng($this->img["filepath"]);
+      } else if ($this->img['format'] == 'GIF') {
         // --- GIF
         if ($this->gifsupport)
           $this->img['src'] = @imagecreatefromgif($this->img["filepath"]);
-      }elseif ($this->img['format'] == 'WBMP')
-      {
+      } else if ($this->img['format'] == 'WBMP') {
         // --- WBMP
         $this->img['src'] = @imagecreatefromwbmp($this->img["filepath"]);
       }
 
       // ggf error image senden
-      if (!isset($this->img['src']))
-      {
-//        $this->sendError('Unable to create gdressource from file "'.$this->img["filepath"].'"!');
-//        exit();
-
-      }else
-      {
+      if (isset($this->img['src'])) {
         $this->refreshDimensions();
       }
     }
