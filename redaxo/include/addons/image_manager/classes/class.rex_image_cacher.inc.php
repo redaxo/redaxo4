@@ -13,8 +13,8 @@ class rex_image_cacher
 
   /*public*/ function isCached(/*rex_image*/ $image, $cacheParams)
   {
-    if(!rex_image::isValid($image))
-    {
+
+    if(!rex_image::isValid($image)) {
       trigger_error('Given image is not a valid rex_image', E_USER_ERROR);
     }
 
@@ -22,9 +22,8 @@ class rex_image_cacher
     $cache_files = glob($original_cache_file.'.*');
 
     // ----- check for cache file
-    // if (file_exists($cache_file))
-    if (count($cache_files) == 1)
-    {
+    if (count($cache_files) == 1 && is_file($cache_file)) {
+
       $cache_file = $cache_files[0];
     
       // time of cache
@@ -39,19 +38,17 @@ class rex_image_cacher
       }
 
       // file exists?
-      if (file_exists($imagepath))
-      {
+      if (file_exists($imagepath)) {
+
         $filetime = filectime($imagepath);
-      }
-      else
-      {
+
+      } else {
       
         $image->sendError('Missing original file for cache-validation!');
         exit();
       }
       // cache is newer?
-      if ($cachetime > $filetime)
-      {
+      if ($cachetime > $filetime) {
         return true;
       }
     }
@@ -152,7 +149,7 @@ class rex_image_cacher
       $glob = glob($folder .'image_manager__'. $cacheParams . '_'. $filename);
       if($glob) {
         foreach ($glob as $file) {
-          if(unlink($file)) {
+          if(is_file($file) && unlink($file)) {
             $counter++;
           }
         }
