@@ -92,6 +92,7 @@ slice_moved = Slice moved.
 slice_moved_error = Error. Slice not moved.
 slice_deleted_error = Error. Slice not deleted.
 slice_saved_error = Error. Slice not saved.
+content_copy = Copy
 content_contentcopy = Content copied.
 content_errorcopy = You cannot copy article content to the same language.
 content_contentoflang = from language

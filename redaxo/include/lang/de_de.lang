@@ -92,6 +92,7 @@ slice_moved = Block wurde verschoben.
 slice_moved_error = Block konnte nicht verschoben werden.
 slice_deleted_error = Block konnte nicht gelöscht werden.
 slice_saved_error = Eingaben wurden nicht übernommen.
+content_copy = Kopie
 content_contentcopy = Inhalt wurde kopiert.
 content_errorcopy = Sie können Inhalte nicht in die gleiche Sprache kopieren.
 content_contentoflang = von Sprache

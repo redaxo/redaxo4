@@ -633,7 +633,7 @@ function rex_copyContent($from_id, $to_id, $from_clang = 0, $to_clang = 0, $from
  */
 function rex_copyArticle($id, $to_cat_id)
 {
-  global $REX;
+  global $REX, $I18N;
 
   $id = (int) $id;
   $to_cat_id = (int) $to_cat_id;
@@ -672,6 +672,7 @@ function rex_copyArticle($id, $to_cat_id)
         $art_sql->setValue('id', $new_id); // neuen auto_incrment erzwingen
         $art_sql->setValue('re_id', $to_cat_id);
         $art_sql->setValue('path', $path);
+        $art_sql->setValue('name', $art_sql->escape($from_sql->getValue('name') . ' ' . $I18N->msg('content_copy')));
         $art_sql->setValue('catname', $art_sql->escape($catname));
         $art_sql->setValue('catprior', 0);
         $art_sql->setValue('prior', 99999); // Artikel als letzten Artikel in die neue Kat einfügen
@@ -680,7 +681,7 @@ function rex_copyArticle($id, $to_cat_id)
         $art_sql->addGlobalCreateFields();
 
         // schon gesetzte Felder nicht wieder überschreiben
-        $dont_copy = array ('id', 'pid', 're_id', 'catname', 'catprior', 'path', 'prior', 'status', 'createdate', 'createuser', 'startpage');
+        $dont_copy = array ('id', 'pid', 're_id', 'name', 'catname', 'catprior', 'path', 'prior', 'status', 'createdate', 'createuser', 'startpage');
 
         foreach (array_diff($from_sql->getFieldnames(), $dont_copy) as $fld_name)
         {
