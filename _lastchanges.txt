@@ -20,6 +20,7 @@ Version 4.6.0 (2014-XX-XX)
     - Codemirror update auf 3.21.0
     - Neue Codemirror plugins hinzugefügt: Fullscreen (oeffnen mit F11) und YAML syntax highlighting
   * Updated jQuery to 1.11.0, also included jQuery Migrate Plugin 1.2.1
+  * Ctypes können sortiert werden
 
   Bugfixes
   * MetaInfo: Defaultwerte für Felder mit Mehrfachwerten (Checkbox, Multiple-Select) werden beim hinzufügen nicht vorbelegt.
