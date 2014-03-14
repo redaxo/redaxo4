@@ -53,7 +53,12 @@ if ($article->getRows() == 1)
   if($template_attributes === null)
     $template_attributes = '';
 
-  $REX['CTYPE'] = rex_getAttributes('ctype', $template_attributes, array ()); // ctypes - aus dem template
+  $ctypes = rex_getAttributes('ctype', $template_attributes, array ()); // ctypes - aus dem template
+  $ctype_prios = rex_getAttributes('ctype_prios', $template_attributes, array ()); // ctype_prios - aus dem template
+
+    $REX['CTYPE'] = rex_organize_ctypes($ctypes, $ctype_prios);
+  
+
 
   $ctype = rex_request('ctype', 'rex-ctype-id', 1);
   if (!array_key_exists($ctype, $REX['CTYPE']))

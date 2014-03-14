@@ -74,13 +74,17 @@ if ($function == "add" or $function == "edit")
     $templatename = rex_post("templatename", "string");
     $content = rex_post("content", "string");
     $ctypes = rex_post("ctype", "array");
+    $ctype_prios = rex_post("ctype_prios", "array");
+
     $num_ctypes = count($ctypes);
     if ($ctypes[$num_ctypes] == "")
     {
       unset ($ctypes[$num_ctypes]);
+      unset ($ctype_prios[$num_ctypes]);
       if (isset ($ctypes[$num_ctypes -1]) && $ctypes[$num_ctypes -1] == '')
       {
         unset ($ctypes[$num_ctypes -1]);
+        unset ($ctype_prios[$num_ctypes -1]);
       }
     }
 
@@ -90,6 +94,8 @@ if ($function == "add" or $function == "edit")
     {
       $ctypes[$i] = stripslashes($ctypes[$i]);
     }
+
+
 
     $categories = rex_post("categories", "array");
     // leerer eintrag = 0
@@ -119,6 +125,7 @@ if ($function == "add" or $function == "edit")
     $TPL->setValue("active", $active);
     $TPL->setValue("content", $content);
     $attributes = rex_setAttributes("ctype", $ctypes, "");
+    $attributes = rex_setAttributes("ctype_prios", $ctype_prios, '');
     $attributes = rex_setAttributes("modules", $modules, "");
     $attributes = rex_setAttributes("categories", $categories, "");
     $TPL->setValue("attributes", addslashes($attributes));
@@ -127,6 +134,7 @@ if ($function == "add" or $function == "edit")
     if ($function == "add")
     {
       $attributes = rex_setAttributes("ctype", $ctypes, "");
+      $attributes = rex_setAttributes("ctype_prios", $ctype_prios, $attributes);
       $attributes = rex_setAttributes("modules", $modules, $attributes);
       $attributes = rex_setAttributes("categories", $categories, $attributes);
       $TPL->setValue("attributes", addslashes($attributes));
@@ -143,6 +151,7 @@ if ($function == "add" or $function == "edit")
     }else
     {
       $attributes = rex_setAttributes("ctype", $ctypes, $attributes);
+      $attributes = rex_setAttributes("ctype_prios", $ctype_prios, $attributes);
       $attributes = rex_setAttributes("modules", $modules, $attributes);
       $attributes = rex_setAttributes("categories", $categories, $attributes);
 
@@ -174,8 +183,14 @@ if ($function == "add" or $function == "edit")
 
     // Ctype Handling
     $ctypes = rex_getAttributes("ctype", $attributes);
+    $ctype_prios = rex_getAttributes("ctype_prios", $attributes);
     $modules = rex_getAttributes("modules", $attributes);
     $categories = rex_getAttributes("categories", $attributes);
+
+    if(!is_array($ctype_prios))
+      $ctype_prios = array();
+
+    $ctypes = rex_organize_ctypes($ctypes, $ctype_prios);
 
     if(!is_array($modules))
       $modules = array();
@@ -221,17 +236,39 @@ if ($function == "add" or $function == "edit")
 
     $ctypes_out = '';
     $i = 1;
-    $ctypes[] = ""; // Extra, fŸr Neue Spalte
+    if (count($ctypes) >= 1)
+        $ctypes[] = ""; // Extra, fŸr Neue Spalte
+    else {
+        $ctypes[1] = '';
+    }
 
     if (is_array($ctypes)) {
+
+        $ctypes_out .= '
+
+        <table class="rex-table rex-table-ctypes">
+            <colgroup>
+              <col width="40" />
+              <col width="*" />
+              <col width="40" />
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>'.$I18N->msg("content_types").'</th>
+                    <th>'.$I18N->msg("header_priority").'</th>
+                </tr>
+            </thead>
+            <tbody>';
+
       foreach ($ctypes as $id => $name)
       {
-        $modul_select->setName('modules['.$i.'][]');
-        $modul_select->setId('modules_'.$i.'_select');
+        $modul_select->setName('modules['.$id.'][]');
+        $modul_select->setId('modules_'.$id.'_select');
         $modul_select->resetSelected();
-        if(isset($modules[$i]) && count($modules[$i])>0)
+        if(isset($modules[$id]) && count($modules[$id])>0)
         {
-          foreach($modules[$i] as $j => $jj)
+          foreach($modules[$id] as $j => $jj)
           {
             // typsicherer vergleich, weil (0 != "all") => false
             if($j !== 'all')
@@ -242,26 +279,36 @@ if ($function == "add" or $function == "edit")
         }
 
         $ctypes_out .= '
-        <div class="rex-form-row">
-        <p class="rex-form-col-a rex-form-text">
-          <label for="ctype'.$i.'">ID=' . $i . '</label>
-          <input class="rex-form-text" id="ctype'.$i.'" type="text" name="ctype[' . $i . ']" value="' . htmlspecialchars($name) . '" />
-        </p>
-        <p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
-          <input class="rex-form-checkbox" id="allmodules'.$i.'" type="checkbox" name="modules[' . $i . '][all]" ';
-        if(!isset($modules[$i]['all']) || $modules[$i]['all'] == 1)
-          $ctypes_out .= ' checked="checked" ';
-        $ctypes_out .= ' value="1" />
-          <label for="allmodules'.$i.'">'.$I18N->msg("modules_available_all").'</label>
-        </p>
-        <p class="rex-form-col-a rex-form-select" id="p_modules'.$i.'">
-          <label for="modules_'.$i.'_select">'.$I18N->msg("modules_available").'</label>
-          '.$modul_select->get().'
-          <span class="rex-form-notice">'. $I18N->msg('ctrl') .'</span>
-        </p>
-        </div>';
+                <tr>
+                    <td>' . $id . '</td>
+                    <td>
+                        <div class="rex-form-row rex-form-row-alone">
+                            <p class="rex-form-col-a rex-form-text">
+                                <input class="rex-form-text" id="ctype'.$id.'" type="text" name="ctype[' . $id . ']" value="' . htmlspecialchars($name) . '" />
+                            </p>
+                            <p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
+                                <input class="rex-form-checkbox" id="allmodules'.$id.'" type="checkbox" name="modules[' . $id . '][all]" ';
+                                
+                                if(!isset($modules[$id]['all']) || $modules[$id]['all'] == 1)
+                                    $ctypes_out .= ' checked="checked" ';
+
+                                $ctypes_out .= ' value="1" />
+                                <label for="allmodules'.$id.'">'.$I18N->msg("modules_available_all").'</label>
+                            </p>
+                            <p class="rex-form-col-a rex-form-select" id="p_modules'.$id.'">
+                              <label for="modules_'.$id.'_select">'.$I18N->msg("modules_available").'</label>
+                              '.$modul_select->get().'
+                              <span class="rex-form-notice">'. $I18N->msg('ctrl') .'</span>
+                            </p>
+                        </div>
+                    </td>
+                    <td><input class="rex-form-text rex-form-small" type="text" name="ctype_prios[' . $id . ']" value="' . htmlspecialchars($ctype_prios[$id]) . '" /></td>
+                </tr>';
         $i++;
       }
+      $ctypes_out .= '
+            </tbody>
+        </table>';
     }
 
 
