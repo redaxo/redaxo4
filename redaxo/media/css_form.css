@@ -634,6 +634,11 @@ input.rex-form-text.rex-form-small {
 }
 
 
+table.rex-table-ctypes div.rex-form-row p {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
 table.rex-table-ctypes div.rex-form-row p label {
     float: none;
     width: auto;
