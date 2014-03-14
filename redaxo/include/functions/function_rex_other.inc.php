@@ -391,44 +391,6 @@ function rex_replace_dynamic_contents($path, $content)
 }
 
 /**
- * Allgemeine funktion um die Ctypes zu sortieren
- *
- * @param array Ctypes mit Key = Id, Value = Name
- * @param array Prios mit Key = Id, Value = Prior
- */
-function rex_organize_ctypes($ctypes, $ctype_prios)
-{
-
-    if (count($ctype_prios) >= 2) {
-
-        // Ctype Prios sortieren, 
-        // leere Prios ans Ende stellen und nach Id sortieren
-
-        asort($ctype_prios);
-        $ctype_prios_empty = array();
-        foreach ($ctype_prios as $ctype_id => $ctype_prio) {
-            if ($ctype_prio == '') {
-                unset($ctype_prios[$ctype_id]);
-                $ctype_prios_empty[$ctype_id] = '';
-            }
-        }
-
-        ksort($ctype_prios_empty);
-        $ctype_prios += $ctype_prios_empty;
-
-        foreach ($ctype_prios as $ctype_id => $ctype_prio) {
-
-            $organize_ctypes[$ctype_id] = $ctypes[$ctype_id];
-        }
-
-    } else {
-        $organize_ctypes = $ctypes;    
-    }
-
-    return $organize_ctypes;
-}
-
-/**
  * Allgemeine funktion die eine Datenbankspalte fortlaufend durchnummeriert.
  * Dies ist z.B. nützlich beim Umgang mit einer Prioritäts-Spalte
  *

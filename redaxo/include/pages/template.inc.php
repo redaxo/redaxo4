@@ -75,6 +75,9 @@ if ($function == "add" or $function == "edit")
     $content = rex_post("content", "string");
     $ctypes = rex_post("ctype", "array");
     $ctype_prios = rex_post("ctype_prios", "array");
+    
+    if(!is_array($ctype_prios))
+      $ctype_prios = array();
 
     $num_ctypes = count($ctypes);
     if ($ctypes[$num_ctypes] == "")
@@ -94,7 +97,33 @@ if ($function == "add" or $function == "edit")
     {
       $ctypes[$i] = stripslashes($ctypes[$i]);
     }
+    
 
+
+    if (count($ctype_prios) >= 2) {
+
+        // Ctype Prios sortieren, 
+        // leere Prios ans Ende stellen und nach Id sortieren
+
+        asort($ctype_prios);
+        $ctype_prios_empty = array();
+        foreach ($ctype_prios as $ctype_id => $ctype_prio) {
+            if ($ctype_prio == '') {
+                unset($ctype_prios[$ctype_id]);
+                $ctype_prios_empty[$ctype_id] = '';
+            }
+        }
+
+        ksort($ctype_prios_empty);
+        $ctype_prios += $ctype_prios_empty;
+
+        foreach ($ctype_prios as $ctype_id => $ctype_prio) {
+
+            $organize_ctypes[$ctype_id] = $ctypes[$ctype_id];
+        }
+
+        $ctypes = $organize_ctypes;
+    }
 
 
     $categories = rex_post("categories", "array");
@@ -190,7 +219,6 @@ if ($function == "add" or $function == "edit")
     if(!is_array($ctype_prios))
       $ctype_prios = array();
 
-    $ctypes = rex_organize_ctypes($ctypes, $ctype_prios);
 
     if(!is_array($modules))
       $modules = array();
@@ -276,6 +304,10 @@ if ($function == "add" or $function == "edit")
               $modul_select->setSelected($jj);
             }
           }
+        }
+
+        if (! isset($ctype_prios[$id])) {
+            $ctype_prios[$id] = '';
         }
 
         $ctypes_out .= '
