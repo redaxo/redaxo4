@@ -53,16 +53,14 @@ if ($article->getRows() == 1)
   if($template_attributes === null)
     $template_attributes = '';
 
-  $ctypes = rex_getAttributes('ctype', $template_attributes, array ()); // ctypes - aus dem template
-  $ctype_prios = rex_getAttributes('ctype_prios', $template_attributes, array ()); // ctype_prios - aus dem template
+  $REX['CTYPE'] = rex_getAttributes('ctype', $template_attributes, array ()); // ctypes - aus dem template
 
-    $REX['CTYPE'] = rex_organize_ctypes($ctypes, $ctype_prios);
-  
+  reset($REX['CTYPE']);
+  $first_ctype = key($REX['CTYPE']);
 
-
-  $ctype = rex_request('ctype', 'rex-ctype-id', 1);
+  $ctype = rex_request('ctype', 'rex-ctype-id', $first_ctype);
   if (!array_key_exists($ctype, $REX['CTYPE']))
-    $ctype = 1; // default = 1
+    $ctype = $first_ctype; // default = 1
 
   // ----- Artikel wurde gefunden - Kategorie holen
   $OOArt = OOArticle::getArticleById($article_id, $clang);
