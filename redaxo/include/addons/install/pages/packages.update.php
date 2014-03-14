@@ -30,8 +30,8 @@ try {
 if ($addonkey && isset($addons[$addonkey])) {
 
     $addon = $addons[$addonkey];
-    
-    
+
+
     $content .= '
     <div class="rex-addon-output">
         <h2 class="rex-hl2">' . htmlspecialchars($addonkey) . '</h2>
@@ -90,7 +90,7 @@ if ($addonkey && isset($addons[$addonkey])) {
     }
 
     $content .= '</tbody></table></div>';
-    
+
     $content .= rex_content_block('<a class="rex-back" href="index.php?page=install&amp;">' . $I18N->msg('install_back_to_overview') . '</a>');
 
 } else {
@@ -108,7 +108,7 @@ if ($addonkey && isset($addons[$addonkey])) {
             </colgroup>
             <thead>
             <tr>
-                <th class="rex-slim"></th>
+                <th class="rex-icon"><a class="rex-i-refresh rex-i-element" href="index.php?page=install&amp;subpage=&amp;func=reload" title="' . $I18N->msg('install_reload') . '"><span class="rex-i-element-text">' . $I18N->msg('install_reload') . '</span></a></th>
                 <th class="rex-key">' . $I18N->msg('install_key') . '</th>
                 <th class="rex-name">' . $I18N->msg('install_name') . '</th>
                 <th class="rex-version">' . $I18N->msg('install_existing_version') . '</th>
@@ -116,16 +116,16 @@ if ($addonkey && isset($addons[$addonkey])) {
             </tr>
             </thead>
             <tbody>';
-    
+
     if (count($addons)) {
-    
+
         foreach ($addons as $key => $addon) {
             $availableVersions = array();
             foreach ($addon['files'] as $file) {
                 $availableVersions[] = $file['version'];
             }
             $url = 'index.php?page=install&amp;addonkey=' . htmlspecialchars($key);
-    
+
             $content .= '
                 <tr>
                     <td class="rex-icon"><a href="' . $url . '"><span class="rex-i-element rex-i-addon"><span class="rex-i-element-text"></span></span></a></td>
@@ -136,7 +136,7 @@ if ($addonkey && isset($addons[$addonkey])) {
                 </tr>';
         }
     } else {
-    
+
         $content .= '
             <tr class="rex-table-no-results">
                 <td colspan="5">' . $I18N->msg('install_installed_addons_not_found') . '</td>

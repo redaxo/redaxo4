@@ -53,6 +53,7 @@ if ($addonkey && isset($addons[$addonkey])) {
         $redaxo_select->addOption('4.6.x', '4.6.x');
         $redaxo_select->addOption('4.5.x', '4.5.x');
         $redaxo_select->addOption('4.4.x', '4.4.x');
+        $redaxo_select->addOption('4.3.x', '4.3.x');
         $redaxo_select->setSelected($file['redaxo_versions']);
 
         $uploadCheckboxDisabled = '';
@@ -71,7 +72,7 @@ if ($addonkey && isset($addons[$addonkey])) {
             <form action="index.php?page=install&amp;subpage=upload&amp;func=upload&amp;addonkey=' . htmlspecialchars($addonkey) . '&amp;file=' . htmlspecialchars($file_id) . '" method="post">
                 <fieldset class="rex-form-col-1">
                     <legend>' . $I18N->msg($new ? 'install_version_add' : 'install_version_edit') . '</legend>
-                    
+
                     <div class="rex-form-wrapper">
             ';
 
@@ -135,11 +136,11 @@ if ($addonkey && isset($addons[$addonkey])) {
                     <label for="install-packages-upload-ignore-tests">' . $I18N->msg('install_ignore_tests') . '</label>
                 </p>
             </div>';
-            
+
         }
 
         $content .= '</div></fieldset>';
-        
+
         $content .= '
         <fieldset class="rex-form-col-1">
           <div class="rex-form-wrapper">
@@ -147,12 +148,12 @@ if ($addonkey && isset($addons[$addonkey])) {
               <p class="rex-form-col-a rex-form-submit">
                 <input class="rex-form-submit" type="submit" id="install-packages-upload-send" type="submit" name="upload[send]" value="' . $I18N->msg('install_send') . '"  />
                 ';
-                
+
                 if (!$new) {
                     $content .= '<input class="rex-form-submit rex-form-submit-2" type="submit" id="install-packages-delete" value="' . $I18N->msg('delete') . '" onclick="if(confirm(\'' . $I18N->msg('delete') . ' ?\')) location.href=\'index.php?page=install&amp;subpage=upload&amp;addonkey=' . htmlspecialchars($addonkey) . '&amp;file=' . htmlspecialchars($file_id) . '&amp;func=delete\'; return false;" />';
                 }
 
-                
+
         $content .= '
               </p>
             </div>
@@ -160,14 +161,14 @@ if ($addonkey && isset($addons[$addonkey])) {
         </fieldset>
         ';
 
-       
+
         $content .= '
             </form>
         </div>
     </div>';
-    
-    
-        
+
+
+
         $content .= rex_content_block('<a class="rex-back" href="index.php?page=install&amp;subpage=upload&amp;addonkey=' . htmlspecialchars($addonkey) . '"><span class="rex-icon rex-icon-back"></span>' . $I18N->msg('install_back_to_overview') . '</a>');
 
 
@@ -269,9 +270,9 @@ if ($addonkey && isset($addons[$addonkey])) {
                     <td class="rex-status"><span class="rex-status rex-' . $status . '">' . $I18N->msg('status_' . $status) . '</span></td>
                 </tr>';
             }
-        
+
         } else {
-        
+
             $content .= '
                 <tr class="rex-table-no-results">
                     <td colspan="6">' . $I18N->msg('install_my_packages_files_not_found', '<b>' . htmlspecialchars($addonkey) . '</b>') . '</td>
@@ -301,7 +302,7 @@ if ($addonkey && isset($addons[$addonkey])) {
             </colgroup>
          <thead>
             <tr>
-                <th class="rex-slim"></th>
+                <th class="rex-icon"><a class="rex-i-refresh rex-i-element" href="index.php?page=install&amp;subpage=upload&amp;func=reload" title="' . $I18N->msg('install_reload') . '"><span class="rex-i-element-text">' . $I18N->msg('install_reload') . '</span></a></th>
                 <th class="rex-key">' . $I18N->msg('install_key') . '</th>
                 <th class="rex-name">' . $I18N->msg('install_name') . '</th>
                 <th colspan="2" class="rex-function">' . $I18N->msg('install_status') . '</th>
@@ -309,7 +310,7 @@ if ($addonkey && isset($addons[$addonkey])) {
          </thead>
          <tbody>';
 
-    
+
     if (count($addons)) {
         foreach ($addons as $key => $addon) {
             $url = 'index.php?page=install&amp;subpage=upload&amp;addonkey=' . htmlspecialchars($key);
@@ -323,9 +324,9 @@ if ($addonkey && isset($addons[$addonkey])) {
                     <td class="rex-status"><span class="rex-status rex-' . $status . '">' . $I18N->msg('status_' . $status) . '</span></td>
                 </tr>';
         }
-        
+
     } else {
-    
+
         $content .= '
             <tr class="rex-table-no-results">
                 <td colspan="5">' . $I18N->msg('install_my_packages_not_found') . '</td>

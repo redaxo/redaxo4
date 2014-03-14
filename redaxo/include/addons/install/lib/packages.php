@@ -51,17 +51,18 @@ class rex_install_packages
         }
 
         self::$addPackages = self::getPackages();
-        foreach (self::$addPackages as $key => $addon) {
+        /*foreach (self::$addPackages as $key => $addon) {
             if (is_dir(rex_path::addon($key))) {
                 unset(self::$addPackages[$key]);
             }
-        }
+        }*/
         return self::$addPackages;
     }
 
     public static function addedPackage($package)
     {
-        unset(self::$addPackages[$package]);
+        //unset(self::$addPackages[$package]);
+        self::$myPackages = null;
     }
 
     public static function getMyPackages()
@@ -71,6 +72,11 @@ class rex_install_packages
         }
 
         self::$myPackages = self::getPackages('?only_my=1');
+        foreach (self::$myPackages as $key => $addon) {
+            if (!is_dir(rex_path::addon($key))) {
+                unset(self::$myPackages[$key]);
+            }
+        }
         return self::$myPackages;
     }
 

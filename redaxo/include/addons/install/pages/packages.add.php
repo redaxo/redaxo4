@@ -24,7 +24,7 @@ try {
     $addonkey = '';
 }
 
-if ($addonkey && isset($addons[$addonkey])) {
+if ($addonkey && isset($addons[$addonkey]) && !is_dir(rex_path::addon($addonkey))) {
     $addon = $addons[$addonkey];
 
     $content = '
@@ -88,13 +88,15 @@ if ($addonkey && isset($addons[$addonkey])) {
     }
 
     $content .= '</tbody></table></div>';
-    
+
     $content .= rex_content_block('<a class="rex-back" href="index.php?page=install&amp;subpage=add">' . $I18N->msg('install_back_to_overview') . '</a>');
 
     echo $content;
 
 
 } else {
+
+    echo rex_content_block('<input type="text" id="rex-install-addon-search" class="rex-form-text" placeholder="Suchen…" style="width: 300px"/>');
 
     $content = '
     <div class="rex-addon-output">
@@ -108,7 +110,7 @@ if ($addonkey && isset($addons[$addonkey])) {
             </colgroup>
          <thead>
             <tr>
-                <th class="rex-icon"></th>
+                <th class="rex-icon"><a class="rex-i-refresh rex-i-element" href="index.php?page=install&amp;subpage=add&amp;func=reload" title="' . $I18N->msg('install_reload') . '"><span class="rex-i-element-text">' . $I18N->msg('install_reload') . '</span></a></th>
                 <th class="rex-key">' . $I18N->msg('install_key') . '</th>
                 <th class="rex-shortdescription">' . $I18N->msg('install_shortdescription') . '</th>
                 <th class="rex-function">' . $I18N->msg('install_header_function') . '</th>
@@ -117,17 +119,51 @@ if ($addonkey && isset($addons[$addonkey])) {
          <tbody>';
 
     foreach ($addons as $key => $addon) {
-        $url = 'index.php?page=install&amp;subpage=add&amp;addonkey=' . htmlspecialchars($key);
-        $content .= '
-            <tr>
-                <td class="rex-icon"><a href="' . $url . '"><span class="rex-i-element rex-i-addon"><span class="rex-i-element-text"></span></span></a></td>
-                <td class="rex-key"><a href="' . $url . '">' . htmlspecialchars($key) . '</a></td>
-                <td class="rex-shortdescription"><h4>' . htmlspecialchars($addon['name']) . '</h4><i>' . htmlspecialchars($addon['author']) . '</i><br /><br />' . nl2br(htmlspecialchars($addon['shortdescription'])) . '</td>
-                <td class="rex-view"><a href="' . $url . '" class="rex-link rex-view">' . $I18N->msg('install_view') . '</a></td>
-            </tr>';
+        if (is_dir(rex_path::addon($key))) {
+            $content .= '
+                <tr>
+                    <td class="rex-icon"><span class="rex-i-element rex-i-addon"><span class="rex-i-element-text"></span></span></td>
+                    <td class="rex-key">' . htmlspecialchars($key) . '</td>
+                    <td class="rex-shortdescription"><h4>' . htmlspecialchars($addon['name']) . '</h4><i>' . htmlspecialchars($addon['author']) . '</i><br /><br />' . nl2br(htmlspecialchars($addon['shortdescription'])) . '</td>
+                    <td class="rex-view">' . $I18N->msg('install_addon_already_exists') . '</td>
+                </tr>';
+        } else {
+            $url = 'index.php?page=install&amp;subpage=add&amp;addonkey=' . htmlspecialchars($key);
+            $content .= '
+                <tr>
+                    <td class="rex-icon"><a href="' . $url . '"><span class="rex-i-element rex-i-addon"><span class="rex-i-element-text"></span></span></a></td>
+                    <td class="rex-key"><a href="' . $url . '">' . htmlspecialchars($key) . '</a></td>
+                    <td class="rex-shortdescription"><h4>' . htmlspecialchars($addon['name']) . '</h4><i>' . htmlspecialchars($addon['author']) . '</i><br /><br />' . nl2br(htmlspecialchars($addon['shortdescription'])) . '</td>
+                    <td class="rex-view"><a href="' . $url . '" class="rex-link rex-view">' . $I18N->msg('install_view') . '</a></td>
+                </tr>';
+        }
     }
 
     $content .= '</tbody></table></div>';
+
+    $content .= '
+        <script type="text/javascript">
+        <!--
+
+        jQuery(function($) {
+            var table = $("#rex-table-install-packages-addons");
+            $("#rex-install-addon-search").keyup(function () {
+                table.find("tr").show();
+                var search = $(this).val().toLowerCase();
+                if (search) {
+                    table.find("tr").each(function () {
+                        var tr = $(this);
+                        if (tr.text().toLowerCase().indexOf(search) < 0) {
+                            tr.hide();
+                        }
+                    });
+                }
+            });
+        });
+
+        //-->
+        </script>
+    ';
 
 
     echo $content;

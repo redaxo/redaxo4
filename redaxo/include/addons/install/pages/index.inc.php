@@ -31,6 +31,11 @@ require_once $dir . 'api_package_delete.php';
 require_once $dir . 'api_package_update.php';
 require_once $dir . 'api_package_upload.php';
 
+if ('reload' === $func) {
+    rex_install_webservice::deleteCache();
+    $func = '';
+}
+
 include __DIR__ . '/' . $file . '.php';
 
 include $REX['INCLUDE_PATH'] . '/layout/bottom.php';
