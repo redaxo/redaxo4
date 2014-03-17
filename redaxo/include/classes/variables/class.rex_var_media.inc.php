@@ -335,9 +335,12 @@ class rex_var_media extends rex_var
       $open_params .= '&amp;rex_file_category=' . $category;
     }
 
-    foreach($args as $aname => $avalue)
+    if(count($args) > 0)
     {
-      $open_params .= '&amp;args['. $aname .']='. urlencode($avalue);
+      foreach($args as $aname => $avalue)
+      {
+        $open_params .= '&amp;args['. $aname .']='. urlencode($avalue);
+      }
     }
 
     $wdgtClass = 'rex-widget-medialist';
