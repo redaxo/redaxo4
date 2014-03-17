@@ -55,8 +55,11 @@ if ($article->getRows() == 1)
 
   $REX['CTYPE'] = rex_getAttributes('ctype', $template_attributes, array ()); // ctypes - aus dem template
 
-  reset($REX['CTYPE']);
-  $first_ctype = key($REX['CTYPE']);
+  $first_ctype = 1;
+    if (count($REX['CTYPE'])){
+      reset($REX['CTYPE']);
+      $first_ctype = key($REX['CTYPE']);
+    }
 
   $ctype = rex_request('ctype', 'rex-ctype-id', $first_ctype);
   if (!array_key_exists($ctype, $REX['CTYPE']))
