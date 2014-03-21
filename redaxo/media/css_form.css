@@ -620,36 +620,3 @@ div#rex-form-setup-step-2 div.rex-form-row label {
 	width: 160px;
 }
 
-
-
-
-div.rex-form div.rex-form-row.rex-form-row-alone {
-    border-bottom-width: 0;
-}
-div.rex-form td div.rex-form-row.rex-form-row-alone {
-    padding-top: 0;
-}
-input.rex-form-text.rex-form-small {
-    width: 40px;
-}
-
-
-table.rex-table-ctypes div.rex-form-row p {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-}
-table.rex-table-ctypes div.rex-form-row p label {
-    float: none;
-    width: auto;
-    padding: 10px 0 0 0;
-}
-table.rex-table-ctypes div.rex-form-row p span.rex-form-notice {
-    margin-left: 0;
-}
-table.rex-table-ctypes div.rex-form-row p.rex-form-col-a {
-    padding-left: 108px;
-}
-table.rex-table-ctypes div.rex-form-row p.rex-form-label-right input.rex-form-checkbox {
-    margin-left: -20px;
-}
