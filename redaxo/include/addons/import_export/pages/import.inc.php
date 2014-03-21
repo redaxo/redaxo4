@@ -27,7 +27,7 @@ if ($impname != '')
 
   } else if ($function == "fileimport" && substr($impname, -7, 7) == ".tar.gz") {
 
-  } else if ($function == "delete" && (substr($impname, -4, 4) == ".sql" || substr($impname, -7, 7) == ".tar.gz") ) {
+  } else if (($function == "delete" || $function == 'download') && (substr($impname, -4, 4) == ".sql" || substr($impname, -7, 7) == ".tar.gz") ) {
 
   } else {
     $impname = "";
@@ -45,6 +45,14 @@ if ($function == "delete" && $impname != '')
   // ------------------------------ FUNC DELETE
   if (unlink(getImportDir().'/'.$impname));
   $info = $I18N->msg("im_export_file_deleted");
+}
+elseif ($function == 'download' && $impname)
+{
+  while (ob_get_level()) ob_end_clean();
+  header("Content-Type: " . (substr($impname, -7) == '.tar.gz' ? 'plain/text' : 'plain/text'));
+  header("Content-Disposition: attachment; filename=$impname");
+  readfile(getImportDir().'/'.$impname);
+  exit;
 }
 elseif ($function == "dbimport")
 {
@@ -185,7 +193,7 @@ if ($warning != '')
             <th><?php echo $I18N->msg('im_export_filename'); ?></th>
             <th><?php echo $I18N->msg('im_export_filesize'); ?></th>
             <th><?php echo $I18N->msg('im_export_createdate'); ?></th>
-            <th colspan="2"><?php echo $I18N->msg('im_export_function'); ?></th>
+            <th colspan="3"><?php echo $I18N->msg('im_export_function'); ?></th>
           </tr>
         </thead>
         <tbody>
@@ -205,6 +213,7 @@ if ($warning != '')
             <td>'.$filesize.'</td>
             <td>'. $filec .'</td>
             <td><a href="index.php?page=import_export&amp;subpage=import&amp;function=dbimport&amp;impname='. $file .'" title="'. $I18N->msg('im_export_import_file') .'" onclick="return confirm(\''. $I18N->msg('im_export_proceed_db_import') .'\')">'. $I18N->msg('im_export_import') .'</a></td>
+            <td><a href="index.php?page=import_export&amp;subpage=import&amp;function=download&amp;impname='. $file .'" title="'. $I18N->msg('im_export_download_file') .'">'. $I18N->msg('im_export_download') .'</a></td>
             <td><a href="index.php?page=import_export&amp;subpage=import&amp;function=delete&amp;impname='. $file .'" title="'. $I18N->msg('im_export_delete_file') .'" onclick="return confirm(\''. $I18N->msg('im_export_delete') .' ?\')">'. $I18N->msg('im_export_delete') .'</a></td>
           </tr>
   ';
@@ -251,7 +260,7 @@ if ($warning != '')
             <th><?php echo $I18N->msg('im_export_filename'); ?></th>
             <th><?php echo $I18N->msg('im_export_filesize'); ?></th>
             <th><?php echo $I18N->msg('im_export_createdate'); ?></th>
-            <th colspan="2"><?php echo $I18N->msg('im_export_function'); ?></th>
+            <th colspan="3"><?php echo $I18N->msg('im_export_function'); ?></th>
           </tr>
         </thead>
         <tbody>
@@ -271,6 +280,7 @@ if ($warning != '')
             <td>'.$filesize.'</td>
             <td>'. $filec .'</td>
             <td><a href="index.php?page=import_export&amp;subpage=import&amp;function=fileimport&amp;impname='. $file .'" title="'. $I18N->msg('im_export_import_file') .'" onclick="return confirm(\''. $I18N->msg('im_export_proceed_file_import') .'\')">'. $I18N->msg('im_export_import') .'</a></td>
+            <td><a href="index.php?page=import_export&amp;subpage=import&amp;function=download&amp;impname='. $file .'" title="'. $I18N->msg('im_export_download_file') .'">'. $I18N->msg('im_export_download') .'</a></td>
             <td><a href="index.php?page=import_export&amp;subpage=import&amp;function=delete&amp;impname='. $file .'" title="'. $I18N->msg('im_export_delete_file') .'" onclick="return confirm(\''. $I18N->msg('im_export_delete') .' ?\')">'. $I18N->msg('im_export_delete') .'</a></td>
           </tr>';
   }

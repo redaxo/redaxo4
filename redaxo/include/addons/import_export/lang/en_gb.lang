@@ -14,6 +14,7 @@ im_export_create_dirs_manually = Please create the following folders manually (v
 im_export_file_imported = File has been imported.
 im_export_import = Import
 im_export_export = Export
+im_export_download = Download
 im_export_db_import = Import
 im_export_db_export = Export
 im_export_filename_updated = File name updated because of unallowed characters. Please click again to export.

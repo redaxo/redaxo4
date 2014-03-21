@@ -14,6 +14,7 @@ im_export_create_dirs_manually = Erstellen Sie bitte folgende Ordner manuell und
 im_export_file_imported = Die Datei wurde erfolgreich importiert.
 im_export_import = Import
 im_export_export = Export
+im_export_download = Herunterladen
 im_export_db_import = Import
 im_export_db_export = Export
 im_export_filename_updated = Ihr Dateiname wurde angepasst, da er unkorrekte Zeichen enthielt. Sofern dieser stimmig ist bitte nochmal auf Export klicken
