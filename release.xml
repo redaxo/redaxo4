@@ -10,7 +10,6 @@
       <addon name="textile"></addon>
       <addon name="url_rewrite"></addon>
       <addon name="version"></addon>
-      <addon name="tinymce"></addon>
       <addon name="cronjob"></addon>
       <addon name="xform"></addon>
     </addons>
