@@ -1,9 +1,7 @@
 <?php
 // Import Folder Functions
 function getImportDir() {
-    global $REX;
-
-    return $REX['INCLUDE_PATH'].'/addons/import_export/backup';
+    return rex_path::addonData('import_export', 'backups');
 }
 
 // PATCH http://www.redaxo.org/de/forum/bugs-f31/sortierung-nach-datum-broken-t16162.html

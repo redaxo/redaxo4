@@ -108,7 +108,7 @@ class rex_cronjob_manager
       $nexttime = 0;
     else
       $nexttime = max(1, $nexttime);
-    if ($nexttime != $REX['ADDON']['nexttime']['cronjob'] && rex_put_file_contents(REX_CRONJOB_NEXTTIME_FILE, $nexttime))
+    if ($nexttime != $REX['ADDON']['nexttime']['cronjob'] && rex_file::put(REX_CRONJOB_NEXTTIME_FILE, $nexttime))
     {
       $REX['ADDON']['nexttime']['cronjob'] = $nexttime;
       return true;

@@ -21,14 +21,6 @@ if (!extension_loaded('gd'))
 
 if($error == '')
 {
-  $file = $REX['INCLUDE_PATH'] .'/addons/image_manager/config.inc.php';
-
-  if(($state = rex_is_writable($file)) !== true)
-    $error = $state;
-}
-
-if($error == '')
-{
   $file = $REX['GENERATED_PATH'] .'/files';
 
   if(($state = rex_is_writable($file)) !== true)

@@ -31,8 +31,10 @@ if (!function_exists('readFolder')) {
    function readFolder($dir)
    {
       if (!is_dir($dir)) {
-         trigger_error('Folder "' . $dir . '" is not available or not a directory');
-         return false;
+        rex_dir::copy(
+          rex_path::addon('import_export', 'backup'),
+          rex_path::addonData('import_export', 'backups')
+        );
       }
       $hdl = opendir($dir);
       $folder = array();

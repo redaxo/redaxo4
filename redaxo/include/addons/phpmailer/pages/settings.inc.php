@@ -31,32 +31,30 @@ $message = '';
 
 if (rex_post('btn_save', 'string') != '')
 {
-  $file = $REX['INCLUDE_PATH'] .'/addons/phpmailer/classes/class.rex_mailer.inc.php';
-  $message = rex_is_writable($file);
+  $file = rex_path::addonData('phpmailer', 'settings.inc.php');
 
-  if($message === true)
+  $message  = $I18N->msg('phpmailer_config_saved_error');
+
+  $content = '<?php
+
+$this->From             = ' . var_export($from, true) . ';
+$this->FromName         = ' . var_export($fromname, true) . ';
+$this->ConfirmReadingTo = ' . var_export($confirmto, true) . ';
+$this->AdminBcc         = ' . var_export($AdminBcc, true) . ';
+$this->Mailer           = ' . var_export($mailer, true) . ';
+$this->Host             = ' . var_export($host, true) . ';
+$this->CharSet          = ' . var_export($charset, true) . ';
+$this->WordWrap         = ' . var_export($wordwrap, true) . ';
+$this->Encoding         = ' . var_export($encoding, true) . ';
+$this->Priority         = ' . var_export($priority, true) . ';
+$this->SMTPAuth         = ' . var_export($smtpauth, true) . ';
+$this->Username         = ' . var_export($Username, true) . ';
+$this->Password         = ' . var_export($Password, true) . ';
+';
+
+  if(rex_file::put($file, $content) !== false)
   {
-    $message  = $I18N->msg('phpmailer_config_saved_error');
-
-    $content = "
-\$this->From             = '". $from      ."';
-\$this->FromName         = '". $fromname  ."';
-\$this->ConfirmReadingTo = '". $confirmto ."';
-\$this->AdminBcc         = '". $AdminBcc  ."';
-\$this->Mailer           = '". $mailer    ."';
-\$this->Host             = '". $host      ."';
-\$this->CharSet          = '". $charset   ."';
-\$this->WordWrap         =  ". $wordwrap  .";
-\$this->Encoding         = '". $encoding  ."';
-\$this->Priority         =  ". $priority  .";
-\$this->SMTPAuth         =  ". $smtpauth  .";
-\$this->Username         = '". $Username  ."';
-\$this->Password         = '". $Password  ."';";
-
-    if(rex_replace_dynamic_contents($file, $content) !== false)
-    {
-      $message = $I18N->msg('phpmailer_config_saved_successful');
-    }
+    $message = $I18N->msg('phpmailer_config_saved_successful');
   }
 }
 

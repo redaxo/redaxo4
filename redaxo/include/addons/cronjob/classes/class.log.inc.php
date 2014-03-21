@@ -16,8 +16,7 @@ class rex_cronjob_log
     $folder = REX_CRONJOB_LOG_FOLDER;
     $years = array ();
 
-    $hdl = opendir($folder);
-    if($hdl)
+    if(is_dir($folder) && $hdl = opendir($folder))
     {
       while (($file = readdir($hdl)) !== false)
       {
@@ -128,20 +127,15 @@ class rex_cronjob_log
       $newline .= ' | '. str_replace(array("\r\n", "\n"), ' | ', trim(strip_tags($message)));
 
     $dir = REX_CRONJOB_LOG_FOLDER . $year;
-    if (!is_dir($dir))
-    {
-      mkdir($dir);
-      chmod($dir, $REX['DIRPERM']);
-    }
 
     $content = '';
     $file = $dir .'/'. $year .'-'. $month .'.log';
     if (file_exists($file))
-      $content = rex_get_file_contents($file);
+      $content = rex_file::get($file);
 
     $content = $newline ."\n". $content;
 
-    return rex_put_file_contents($file, $content);
+    return rex_file::put($file, $content);
   }
 
   static /*private*/ function _getList($lines, $caption = '', $summary = '')

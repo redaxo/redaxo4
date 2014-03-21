@@ -324,7 +324,6 @@ function rex_setup_dropREXtables()
     $REX['GENERATED_PATH'].DIRECTORY_SEPARATOR.'files',
     $REX['MEDIAFOLDER'],
     $REX['MEDIAFOLDER'] .DIRECTORY_SEPARATOR.'.redaxo',
-    getImportDir()
     );
 
     foreach($REX['SYSTEM_ADDONS'] as $system_addon)

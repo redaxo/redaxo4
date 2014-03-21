@@ -18,21 +18,24 @@ class rex_mailer extends PHPMailer
   {
     global $REX;
 
-// --- DYN
-$this->From             = 'from@example.com';
-$this->FromName         = 'Mailer';
-$this->ConfirmReadingTo = '';
-$this->AdminBcc         = '';
-$this->Mailer           = 'mail';
-$this->Host             = 'localhost';
-$this->CharSet          = 'utf-8';
-$this->WordWrap         = 120;
-$this->Encoding         = '8bit';
-$this->Priority         = 3;
-$this->SMTPAuth         = false;
-$this->Username         = '';
-$this->Password         = '';
-// --- /DYN
+    $this->From             = 'from@example.com';
+    $this->FromName         = 'Mailer';
+    $this->ConfirmReadingTo = '';
+    $this->AdminBcc         = '';
+    $this->Mailer           = 'mail';
+    $this->Host             = 'localhost';
+    $this->CharSet          = 'utf-8';
+    $this->WordWrap         = 120;
+    $this->Encoding         = '8bit';
+    $this->Priority         = 3;
+    $this->SMTPAuth         = false;
+    $this->Username         = '';
+    $this->Password         = '';
+
+    $settings = rex_path::addonData('phpmailer', 'settings.inc.php');
+    if (file_exists($settings)) {
+      include $settings;
+    }
 
     $this->PluginDir = $REX['INCLUDE_PATH'] . '/addons/phpmailer/classes/';
 

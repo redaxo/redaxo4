@@ -16,7 +16,7 @@ $func = rex_request('func', 'string');
 $jpg_quality = rex_request('jpg_quality', 'int');
 $old_syntax = rex_request('old_syntax', 'int');
 
-$config_file = $REX['INCLUDE_PATH'].'/addons/image_manager/config.inc.php';
+$config_file = rex_path::addonData('image_manager', 'settings.inc.php');
 
 if ($func == 'update')
 {
@@ -25,18 +25,16 @@ if ($func == 'update')
 
   $REX['ADDON']['image_manager']['jpg_quality'] = $jpg_quality;
 
-  $content = '
+  $content = '<?php
+
 $REX[\'ADDON\'][\'image_manager\'][\'jpg_quality\'] = '.$jpg_quality.';
 ';
 
-  if(rex_replace_dynamic_contents($config_file, $content) !== false)
+  if(rex_file::put($config_file, $content) !== false)
     echo rex_info($I18N->msg('imanager_config_saved'));
   else
     echo rex_warning($I18N->msg('imanager_config_not_saved'));
 }
-
-if(!is_writable($config_file))
-  echo rex_warning($I18N->msg('imanager_config_not_writable', $config_file));
 
 echo '
 
