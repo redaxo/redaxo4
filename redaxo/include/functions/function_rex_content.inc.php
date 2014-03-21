@@ -781,7 +781,7 @@ function rex_moveArticle($id, $from_cat_id, $to_cat_id)
         // Artikel als letzten Artikel in die neue Kat einfügen
         $art_sql->setValue('prior', '99999');
         // Kopierter Artikel offline setzen
-        $art_sql->setValue('status', '0');
+        $art_sql->setValue('status', $from_sql->getValue('status'));
         $art_sql->addGlobalUpdateFields();
 
         $art_sql->setWhere('clang="'. $clang .'" and startpage<>1 and id="'. $id .'" and re_id="'. $from_cat_id .'"');
