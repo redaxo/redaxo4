@@ -658,7 +658,7 @@ function rex_copyArticle($id, $to_cat_id)
         if ($to_sql->getRows() == 1)
         {
           $path = $to_sql->getValue('path').$to_sql->getValue('id').'|';
-          $catname = $to_sql->getValue('name');
+          $catname = $to_sql->getValue('catname');
         }else
         {
           // In RootEbene
@@ -762,7 +762,7 @@ function rex_moveArticle($id, $from_cat_id, $to_cat_id)
         {
           $re_id = $to_sql->getValue('id');
           $path = $to_sql->getValue('path').$to_sql->getValue('id').'|';
-          $catname = $to_sql->getValue('name');
+          $catname = $to_sql->getValue('catname');
         }else
         {
           // In RootEbene
