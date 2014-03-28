@@ -471,16 +471,6 @@ body#rex-page-import-export table.rex-table tr th {
 	white-space: nowrap;
 }
 
-body#rex-page-import-export div.rex-area-content, 
-body#rex-page-import-export div.rex-addon-content {
-	padding: 0;
-}
-body#rex-page-import-export div.rex-area-content p.rex-tx1 {
-	margin-bottom: 0px;
-	padding: 5px;
-}
-
-
 
 /*	Toolbar ********************************************************************
 *******************************************************************************/

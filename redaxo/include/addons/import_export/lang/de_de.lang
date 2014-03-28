@@ -49,3 +49,11 @@ im_export_export_db_summary = Tabelle der verfügbaren Datenbankexporte
 im_export_export_file_summary = Tabelle der verfügbaren Dateiexporte
 
 im_export_function = Funktion
+
+im_export_select = Exportvariante
+im_export_select_location = Speicherort wählen
+im_export_select_filename = Dateiname wählen
+im_export_choose_tables = Tabellen wählen
+
+im_export_to_import = Importieren
+im_export_upload = Upload

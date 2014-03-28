@@ -141,17 +141,18 @@ if ($warning != '')
 
 ?>
 
-<div class="rex-area">
+<div class="rex-addon-output">
 
     <h3 class="rex-hl2"><?php echo $I18N->msg('im_export_export'); ?></h3>
 
-    <div class="rex-area-content">
+    <div class="rex-addon-content">
       <p class="rex-tx1"><?php echo $I18N->msg('im_export_intro_export') ?></p>
+    </div>
 
       <div class="rex-form" id="rex-form-export">
       <form action="index.php" enctype="multipart/form-data" method="post" >
         <fieldset class="rex-form-col-1">
-          <legend><?php echo $I18N->msg('im_export_export'); ?></legend>
+          <legend><?php echo $I18N->msg('im_export_select'); ?></legend>
 
           <div class="rex-form-wrapper">
             <input type="hidden" name="page" value="import_export" />
@@ -175,12 +176,13 @@ else
                 <label for="exporttype_sql"><?php echo $I18N->msg('im_export_database_export'); ?></label>
               </p>
 
-              <div class="rex-form-select">
-                <div class="rex-form-select-wrapper">
+              <p class="rex-form-col-a rex-form-select">
+                <label for="export_tables"><?php echo $I18N->msg('im_export_choose_tables'); ?></label>
 <?php
   $tableSelect = new rex_select();
   $tableSelect->setMultiple();
   $tableSelect->setName('EXPTABLES[]');
+  $tableSelect->setId('export_tables');
   $tables = rex_sql::showTables();
   foreach ($tables as $table) {
     $tableSelect->addOption($table, $table);
@@ -190,9 +192,9 @@ else
   }
   $tableSelect->show();
 ?>
-                </div>
-              </div>
+              </p>
             </div>
+
             <div class="rex-form-row rex-form-element-v2">
               <p class="rex-form-radio rex-form-label-right">
                 <input class="rex-form-radio" type="radio" id="exporttype_files" name="exporttype" value="files"<?php echo $checkedfiles ?> />
@@ -241,6 +243,12 @@ else
   $checked0 = ' checked="checked"';
 }
 ?>
+        </div>
+        </fieldset>
+        <fieldset>
+          <legend><?php echo $I18N->msg('im_export_select_location'); ?></legend>
+          <div class="rex-form-wrapper">
+
             <div class="rex-form-row">
               <p class="rex-form-radio rex-form-label-right">
                 <input class="rex-form-radio" type="radio" id="exportdl_server" name="exportdl" value="0"<?php echo $checked0; ?> />
@@ -253,6 +261,13 @@ else
                 <label for="exportdl_download"><?php echo $I18N->msg('im_export_download_as_file'); ?></label>
               </p>
             </div>
+
+        </div>
+        </fieldset>
+        <fieldset>
+          <legend><?php echo $I18N->msg('im_export_select_filename'); ?></legend>
+          <div class="rex-form-wrapper">
+  
             <div class="rex-form-row">
               <p class="rex-form-text">
                 <label for="exportfilename"><?php echo $I18N->msg('im_export_filename'); ?></label>
@@ -268,6 +283,5 @@ else
         </fieldset>
       </form>
       </div><!-- END rex-form -->
-    </div><!-- END rex-area-content -->
   <div class="rex-clearer"></div>
 </div><!-- END rex-area -->

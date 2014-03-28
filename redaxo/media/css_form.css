@@ -562,14 +562,19 @@ div#rex-addon-editmode form div.rex-widget {
 /*	Import / Export ***********************************************************/
 
 /*  Export */
+/*
 div#rex-form-export div.rex-form-row p.rex-form-label-right input.rex-form-radio {
 	margin-left: 5px;
+}
+*/
+div#rex-form-export div.rex-form-row p {
+  padding-top: 5px;
 }
 div#rex-form-export div.rex-form-row div.rex-form-checkboxes {
   clear: both;
   padding-top: 5px;
   padding-bottom: 10px;
-  padding-left: 23px;
+  padding-left: 158px;
 }
 div#rex-form-export div.rex-form-row div.rex-form-checkboxes-wrapper {
   float: none;
