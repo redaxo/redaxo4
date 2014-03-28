@@ -258,6 +258,12 @@ class rex_navigation
             }
             break;
 
+          case('regex'):
+            if (!preg_match($va, $mf)) {
+              return false;
+            }
+            break;
+
           case("="):
           case("=="):
           default:

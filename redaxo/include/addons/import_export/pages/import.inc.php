@@ -46,10 +46,10 @@ if ($function == "delete" && $impname != '')
   if (unlink(getImportDir().'/'.$impname));
   $info = $I18N->msg("im_export_file_deleted");
 }
-elseif ($function == 'download' && $impname)
+elseif ($function == 'download' && $impname && is_readable(getImportDir().'/'.$impname))
 {
   while (ob_get_level()) ob_end_clean();
-  header("Content-Type: " . (substr($impname, -7) == '.tar.gz' ? 'plain/text' : 'plain/text'));
+  header("Content-Type: " . (substr($impname, -7) == '.tar.gz' ? 'tar/gzip' : 'plain/text'));
   header("Content-Disposition: attachment; filename=$impname");
   readfile(getImportDir().'/'.$impname);
   exit;

@@ -17,11 +17,11 @@ if($REX['REDAXO'] && is_object($REX["USER"]))
 
   $REX['ADDON']['pages'][$mypage] = array();
 
+  $REX['ADDON']['pages'][$mypage][] = array ('', $I18N->msg('im_export_export'));
   if($REX["USER"]->isAdmin())
   {
     $REX['ADDON']['pages'][$mypage][] = array ('import', $I18N->msg('im_export_import'));
   }
-  $REX['ADDON']['pages'][$mypage][] = array ('', $I18N->msg('im_export_export'));
 }
 
 if(OOAddon::isAvailable('cronjob'))
