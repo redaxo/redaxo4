@@ -23,7 +23,9 @@ Version 4.6.0 (2014-XX-XX)
   * TinyMCE-Addon entfernt, kann über Installer nachinstalliert werden
   * url_rewrite-Addon entfernt, kann über Installer nachinstalliert werden
   * PHPMailer: Konfiguration für Port und SMTP-Verschlüsselung
-  * Im-/Export: Exports können vom Server heruntergeladen werden
+  * Im-/Export:
+    - Exports können vom Server heruntergeladen werden
+    - Beim Export können die Tabellen ausgewählt werden
 
   Bugfixes
   * MetaInfo: Defaultwerte für Felder mit Mehrfachwerten (Checkbox, Multiple-Select) werden beim hinzufügen nicht vorbelegt.
