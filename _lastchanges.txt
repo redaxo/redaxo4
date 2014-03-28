@@ -26,6 +26,7 @@ Version 4.6.0 (2014-XX-XX)
   * Im-/Export:
     - Exports können vom Server heruntergeladen werden
     - Beim Export können die Tabellen ausgewählt werden
+  * rex_navigation: Zusätzlicher Filteroperator "regex"
 
   Bugfixes
   * MetaInfo: Defaultwerte für Felder mit Mehrfachwerten (Checkbox, Multiple-Select) werden beim hinzufügen nicht vorbelegt.
