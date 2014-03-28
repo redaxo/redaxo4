@@ -23,7 +23,7 @@ class rex_api_install_package_upload
         $archive = null;
         $file['version'] = $upload['upload_file'] ? OOAddon::getVersion($addonkey) : $upload['oldversion'];
         $file['redaxo_versions'] = $upload['redaxo'];
-        $file['description'] = $upload['description'];
+        $file['description'] = stripslashes($upload['description']);
         $file['status'] = $upload['status'];
 
         if ($upload['upload_file']) {
