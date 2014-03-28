@@ -187,17 +187,7 @@ class rex_image {
 
   /*protected*/ function sendError($message, $file = null)
   {
-    // User die auch im Backend eingeloggt sind, bekommen eine Fehlermeldung
-    // alle anderen ein ErrorImage
-    if($message != '' && rex_hasBackendSession())
-    {
-      echo 'Error: '. htmlspecialchars($message);
-      exit();
-    }
-    else
-    {
-      $this->sendErrorImage($file);
-    }
+    $this->sendErrorImage($file);
   }
 
   /*protected*/ function sendErrorImage($file = null)
