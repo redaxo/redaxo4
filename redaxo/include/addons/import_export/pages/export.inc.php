@@ -29,6 +29,7 @@ $impname        = rex_request('impname', 'string');
 $exportfilename = rex_post('exportfilename', 'string');
 $exporttype     = rex_post('exporttype', 'string');
 $exportdl       = rex_post('exportdl', 'boolean');
+$EXPTABLES      = rex_post('EXPTABLES', 'array');
 $EXPDIR         = rex_post('EXPDIR', 'array');
 
 if ($impname != '')
@@ -85,7 +86,7 @@ if ($function == 'export')
       // ------------------------------ FUNC EXPORT SQL
       $header = 'plain/text';
 
-      $hasContent = rex_a1_export_db($export_path.$filename.$ext);
+      $hasContent = rex_a1_export_db($export_path.$filename.$ext, $EXPTABLES);
       // ------------------------------ /FUNC EXPORT SQL
     }
     elseif ($exporttype == 'files')
@@ -173,6 +174,24 @@ else
                 <input class="rex-form-radio" type="radio" id="exporttype_sql" name="exporttype" value="sql"<?php echo $checkedsql ?> />
                 <label for="exporttype_sql"><?php echo $I18N->msg('im_export_database_export'); ?></label>
               </p>
+
+              <div class="rex-form-select">
+                <div class="rex-form-select-wrapper">
+<?php
+  $tableSelect = new rex_select();
+  $tableSelect->setMultiple();
+  $tableSelect->setName('EXPTABLES[]');
+  $tables = rex_sql::showTables();
+  foreach ($tables as $table) {
+    $tableSelect->addOption($table, $table);
+    if ($table != $REX['TABLE_PREFIX'] . 'user' && 0 === strpos($table, $REX['TABLE_PREFIX']) && 0 !== strpos($table, $REX['TABLE_PREFIX'] . $REX['TEMP_PREFIX'])) {
+      $tableSelect->setSelected($table);
+    }
+  }
+  $tableSelect->show();
+?>
+                </div>
+              </div>
             </div>
             <div class="rex-form-row rex-form-element-v2">
               <p class="rex-form-radio rex-form-label-right">
