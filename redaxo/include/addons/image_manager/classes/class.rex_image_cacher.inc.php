@@ -19,11 +19,10 @@ class rex_image_cacher
     }
 
     $original_cache_file = $this->getCacheFile($image, $cacheParams);
-    $cache_files = glob($original_cache_file.'.*');
+    $cache_files = glob($original_cache_file.'*');
 
     // ----- check for cache file
-    if (count($cache_files) == 1 && is_file($cache_file)) {
-
+    if (count($cache_files) == 1) {
       $cache_file = $cache_files[0];
     
       // time of cache
@@ -31,7 +30,6 @@ class rex_image_cacher
       $imagepath = $image->getFilePath();
 
       if ($original_cache_file != $cache_file) {
-
         $image->img["format"] = strtoupper(OOMedia::_getExtension($cache_file));
         $image->img["file"] = $image->img["file"].'.'.OOMedia::_getExtension($cache_file);
 
@@ -39,12 +37,12 @@ class rex_image_cacher
 
       // file exists?
       if (file_exists($imagepath)) {
-
         $filetime = filectime($imagepath);
 
       } else {
         // Missing original file for cache-validation!
         $image->sendErrorImage();
+
       }
       // cache is newer?
       if ($cachetime > $filetime) {
