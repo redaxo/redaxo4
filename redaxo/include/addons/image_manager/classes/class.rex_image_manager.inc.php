@@ -42,9 +42,8 @@ class rex_image_manager
       }
       
       if(!rex_image::isValid($image) || !$image->isImage() ) {
-        $image->sendError('Given image is not a valid rex_image');
-        // trigger_error('Given image is not a valid rex_image', E_USER_ERROR);
-
+        // Given image is not a valid rex_image
+        $image->sendErrorImage();
       }
       
     }

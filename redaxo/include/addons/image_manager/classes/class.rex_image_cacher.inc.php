@@ -43,9 +43,8 @@ class rex_image_cacher
         $filetime = filectime($imagepath);
 
       } else {
-      
-        $image->sendError('Missing original file for cache-validation!');
-        exit();
+        // Missing original file for cache-validation!
+        $image->sendErrorImage();
       }
       // cache is newer?
       if ($cachetime > $filetime) {

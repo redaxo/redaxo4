@@ -21,8 +21,8 @@ class rex_image {
     // ----- check params
     if (!file_exists($filepath))
     {
-      $this->sendError('Imagefile does not exist - '. $filepath);
-      exit();
+      // 'Imagefile does not exist - '. $filepath
+      $this->sendErrorImage();
     }
 
     // ----- imagepfad speichern
@@ -203,11 +203,6 @@ class rex_image {
     return TRUE;
   }
 
-  /*protected*/ function sendError($message, $file = null)
-  {
-    $this->sendErrorImage($file);
-  }
-
   /*protected*/ function sendErrorImage($file = null)
   {
     if(!$file)
@@ -232,6 +227,7 @@ class rex_image {
     header('HTTP/1.0 404 Not Found');
 
     readfile($file);
+    exit;
   }
 
   /*
