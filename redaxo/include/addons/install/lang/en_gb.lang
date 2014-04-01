@@ -1,0 +1,72 @@
+# addon:install de_de
+
+install_title = Installer
+install_subpage_packages = Core & Packages
+install_subpage_update = Update installed AddOns
+install_subpage_add = Download AddOns
+install_subpage_upload = Upload my Addons
+install_subpage_settings = Settings
+
+install_back = Back
+install_back_to_overview = Back to overview
+
+install_webservice_unreachable = Webservice is not available at the moment!
+install_webservice_error = Webservice liefert folgende Fehlermeldung:
+install_archive_unreachable = Zip-file is unreachable!
+
+install_reload = Update list
+install_key = Key
+install_information = Information
+install_name = Name
+install_author = Author
+install_shortdescription = Abstract
+install_description = Description
+install_files = Files
+install_version = Version
+install_existing_version = Available version
+install_available_versions = Available versions
+install_view = view
+install_addon_already_exists = already downloaded
+install_update = update
+install_download = download
+install_addons_found = {0} AddOns found
+install_installed_addons_not_found = No updates found
+install_available_update = {0} Update available
+install_available_updates = {0} Updates available
+install_my_packages = My AddOns
+install_my_packages_not_found = No AddOns for this REDAXO-Version found (redaxo.org)
+install_my_packages_files_not_found = No files of this AddOns {0} found (redaxo.org)
+install_status = Status
+install_online = online
+install_offline = offline
+install_file_add = Add file
+install_file_edit = Update file
+install_version_add = Add version
+install_version_edit = Update version
+install_send = Send
+install_upload_file = Create Zip-file and upload
+install_replace_assets = Use files of the Root-Files-Folder
+install_ignore_tests = Ignore "tests" Folder
+
+install_info_addon_downloaded = AddOn "{0}" downloaded!
+install_warning_addon_not_downloaded = AddOn "{0}" not downloaded:
+install_info_addon_updated = AddOn "{0}" has been updated!
+install_warning_addon_not_updated = AddOn "{0}" could not be updated:
+install_info_addon_uploaded = AddOn "{0}" has been uploaded!
+install_info_addon_deleted = AddOn-Version of "{0}" has been deleted!
+install_warning_addon_zip_not_extracted = The Zip-File could not be extracted in the AddOn-Folder!
+
+install_warning_zip_wrong_checksum = The checksum of the Zip-File is wrong!
+install_warning_zip_wrong_format = The Zip-File has a wrong format!
+
+install_to_addon_page = To AddOn-page
+
+install_settings_general = General
+install_settings_backups = Create file-backups
+install_settings_myredaxo_account = myREDAXO-Account
+install_settings_api_login = Api-Login
+install_settings_api_key = API-Key
+install_settings_saved = Settings saved!
+install_settings_not_saved = Settings not saved!
+
+install_header_function = Function
