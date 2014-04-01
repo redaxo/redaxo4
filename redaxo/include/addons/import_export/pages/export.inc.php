@@ -183,6 +183,7 @@ else
   $tableSelect->setMultiple();
   $tableSelect->setName('EXPTABLES[]');
   $tableSelect->setId('export_tables');
+  $tableSelect->setSize('8');
   $tables = rex_sql::showTables();
   foreach ($tables as $table) {
     $tableSelect->addOption($table, $table);
