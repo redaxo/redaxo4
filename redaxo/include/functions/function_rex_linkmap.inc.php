@@ -44,7 +44,7 @@ function rex_linkmap_format_label($OOobject)
 function rex_linkmap_format_li($OOobject, $current_category_id, $GlobalParams, $liAttr = '', $linkAttr = '')
 {
   $liAttr .= $OOobject->getId() == $current_category_id ? ' id="rex-linkmap-active"' : '';
-  $linkAttr .= ' class="'. ($OOobject->isOnline() ? 'rex-online' : 'rex-offine'). '"';
+  $linkAttr .= ' class="'. ($OOobject->isOnline() ? 'rex-online' : 'rex-offline'). '"';
 
   if(strpos($linkAttr, ' href=') === false)
     $linkAttr .= ' href="'. rex_linkmap_url(array('category_id' => $OOobject->getId()), $GlobalParams) .'"';
