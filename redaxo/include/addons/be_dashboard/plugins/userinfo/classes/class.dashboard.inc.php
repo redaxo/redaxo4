@@ -218,6 +218,16 @@ class rex_media_component extends rex_dashboard_component
     $list->setColumnParams('filename', $editParams);
     $list->addLinkAttribute('filename', 'onclick', 'newPoolWindow(this.href); return false;');
 
+    $list->setColumnFormat('filename', 'custom', 'rex_dashboard_userinfo_filename', array());
+
+    function rex_dashboard_userinfo_filename ($params) {
+      $filename = $params["subject"];
+      if (strlen($filename)>30) $filename = substr($filename,0,13).' ... '.substr($filename,-13);
+      $link = 'index.php?page=mediapool&subpage=detail&rex_file_category='.$params['list']->getValue('category_id').'&file_id='.$params['list']->getValue('file_id');
+      $filename = '<a onclick="newPoolWindow(this.href); return false;" title="'.htmlspecialchars($filename).'" href="'.$link.'">'.$filename.'</a>';
+      return $filename;
+    }
+
     $list->setColumnLabel('updateuser', $I18N->msg('userinfo_component_stats_user'));
     $list->setColumnLabel('updatedate', $I18N->msg('userinfo_component_stats_date'));
     $list->setColumnFormat('updatedate', 'strftime', 'datetime');
