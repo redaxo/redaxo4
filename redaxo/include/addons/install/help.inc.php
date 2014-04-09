@@ -4,7 +4,8 @@
 </p>
 
 <p>
-    AddOn-Entwickler können dem AddOn ein Updateskript (<code>update.inc.php</code>) beilegen, welches während des Updates Änderungen an der Datenbank etc. durchführt.
+    AddOn-Entwickler sollten Einstellungen nicht mehr in der <code>config.inc.php</code> oder in anderen Dateien innerhalb des AddOn-Ordners ablegen. Stattdessen sollte der Data-Ordner (<code>/redaxo/include/data/addons/&gt;addonkey&lt;</code> verwendet werden.<br />
+    Des Weiteren kann dem AddOn ein Updateskript (<code>update.inc.php</code>) beigelegt werden, welches während des Updates Änderungen an der Datenbank etc. durchführt.
 </p>
 
 <p>
