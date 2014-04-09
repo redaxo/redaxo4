@@ -182,11 +182,6 @@ if ($subpage == 'detail') {
     if ($ffiletype_ii) {
       $fwidth = $gf->getValue('width');
       $fheight = $gf->getValue('height');
-      if ($size = @getimagesize($REX['HTDOCS_PATH'] . $REX['MEDIA_DIR'] . '/' . $fname)) {
-        $fwidth = $size[0];
-        $fheight = $size[1];
-      }
-
       if ($fwidth > 199) $rfwidth = 200;
       else $rfwidth = $fwidth;
     }
@@ -211,8 +206,7 @@ if ($subpage == 'detail') {
         if ($image_manager) {
           $imgn = $REX['HTDOCS_PATH'] . 'redaxo/index.php?rex_img_type=rex_mediapool_detail&amp;rex_img_file=' . $encoded_fname;
           $img_max = $REX['HTDOCS_PATH'] . 'redaxo/index.php?rex_img_type=rex_mediapool_maximized&amp;rex_img_file=' . $encoded_fname;
-        } elseif ($image_resize && $rfwidth > 199)
-          $imgn = $REX['HTDOCS_PATH'] . 'redaxo/index.php?rex_resize=200a__' . $encoded_fname;
+        }
       }
 
       $add_image = '<div class="rex-mediapool-detail-image">

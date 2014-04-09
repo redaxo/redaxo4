@@ -247,6 +247,15 @@ function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null){
     {
       $RETURN["msg"] = $I18N->msg('pool_file_upload_errortype');
     }
+
+  } else {
+
+    if($size = @getimagesize($REX['MEDIAFOLDER'] .'/'. $FILEINFOS["filename"])) {
+      $FILESQL->setValue('width',$size[0]);
+      $FILESQL->setValue('height',$size[1]);
+    }
+    $FILESQL->setValue('filesize', @filesize($REX['MEDIAFOLDER'] .'/'. $FILEINFOS["filename"]));
+
   }
 
   // Aus BC gruenden hier mit int 1/0
