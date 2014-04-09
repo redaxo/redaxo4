@@ -12,47 +12,48 @@
 
 class rex_mailer extends PHPMailer
 {
-  public $AdminBcc = '';
+    public $AdminBcc = '';
 
-  function rex_mailer()
-  {
-    global $REX;
+    function rex_mailer()
+    {
+        global $REX;
 
-    $this->From             = 'from@example.com';
-    $this->FromName         = 'Mailer';
-    $this->ConfirmReadingTo = '';
-    $this->AdminBcc         = '';
-    $this->Mailer           = 'mail';
-    $this->Host             = 'localhost';
-    $this->Port             = 25;
-    $this->CharSet          = 'utf-8';
-    $this->WordWrap         = 120;
-    $this->Encoding         = '8bit';
-    $this->Priority         = 3;
-    $this->SMTPSecure       = '';
-    $this->SMTPAuth         = false;
-    $this->Username         = '';
-    $this->Password         = '';
+        $this->From             = 'from@example.com';
+        $this->FromName         = 'Mailer';
+        $this->ConfirmReadingTo = '';
+        $this->AdminBcc         = '';
+        $this->Mailer           = 'mail';
+        $this->Host             = 'localhost';
+        $this->Port             = 25;
+        $this->CharSet          = 'utf-8';
+        $this->WordWrap         = 120;
+        $this->Encoding         = '8bit';
+        $this->Priority         = 3;
+        $this->SMTPSecure       = '';
+        $this->SMTPAuth         = false;
+        $this->Username         = '';
+        $this->Password         = '';
 
-    $settings = rex_path::addonData('phpmailer', 'settings.inc.php');
-    if (file_exists($settings)) {
-      include $settings;
+        $settings = rex_path::addonData('phpmailer', 'settings.inc.php');
+        if (file_exists($settings)) {
+            include $settings;
+        }
+
+        $this->PluginDir = $REX['INCLUDE_PATH'] . '/addons/phpmailer/classes/';
+
+        if ($this->AdminBcc !== '') {
+            parent::AddBCC($this->AdminBcc);
+        }
     }
 
-    $this->PluginDir = $REX['INCLUDE_PATH'] . '/addons/phpmailer/classes/';
+    function SetLanguage($lang_type = 'de', $lang_path = null)
+    {
+        global $REX;
 
-    if($this->AdminBcc !== ''){
-      parent::AddBCC($this->AdminBcc);
+        if ($lang_path == null) {
+            $lang_path = $REX['INCLUDE_PATH'] . '/addons/phpmailer/classes/language/';
+        }
+
+        return parent :: SetLanguage($lang_type, $lang_path);
     }
-  }
-
-  function SetLanguage($lang_type = "de", $lang_path = null)
-  {
-    global $REX;
-
-    if ($lang_path == null)
-      $lang_path = $REX['INCLUDE_PATH'] . '/addons/phpmailer/classes/language/';
-
-    return parent :: SetLanguage($lang_type, $lang_path);
-  }
 }

@@ -13,7 +13,7 @@
  */
 function rex_get($varname, $vartype = '', $default = '')
 {
-  return _rex_array_key_cast($_GET, $varname, $vartype, $default);
+    return _rex_array_key_cast($_GET, $varname, $vartype, $default);
 }
 
 /**
@@ -23,7 +23,7 @@ function rex_get($varname, $vartype = '', $default = '')
  */
 function rex_post($varname, $vartype = '', $default = '')
 {
-  return _rex_array_key_cast($_POST, $varname, $vartype, $default);
+    return _rex_array_key_cast($_POST, $varname, $vartype, $default);
 }
 
 /**
@@ -33,7 +33,7 @@ function rex_post($varname, $vartype = '', $default = '')
  */
 function rex_request($varname, $vartype = '', $default = '')
 {
-  return _rex_array_key_cast($_REQUEST, $varname, $vartype, $default);
+    return _rex_array_key_cast($_REQUEST, $varname, $vartype, $default);
 }
 
 /**
@@ -43,7 +43,7 @@ function rex_request($varname, $vartype = '', $default = '')
  */
 function rex_server($varname, $vartype = '', $default = '')
 {
-  return _rex_array_key_cast($_SERVER, $varname, $vartype, $default);
+    return _rex_array_key_cast($_SERVER, $varname, $vartype, $default);
 }
 
 /**
@@ -53,18 +53,16 @@ function rex_server($varname, $vartype = '', $default = '')
  */
 function rex_session($varname, $vartype = '', $default = '')
 {
-  global $REX;
+    global $REX;
 
-  if(isset($_SESSION[$varname][$REX['INSTNAME']]))
-  {
-    return _rex_cast_var($_SESSION[$varname][$REX['INSTNAME']], $vartype, $default, 'found');
-  }
+    if (isset($_SESSION[$varname][$REX['INSTNAME']])) {
+        return _rex_cast_var($_SESSION[$varname][$REX['INSTNAME']], $vartype, $default, 'found');
+    }
 
-  if($default === '')
-  {
-    return _rex_cast_var($default, $vartype, $default, 'default');
-  }
-  return $default;
+    if ($default === '') {
+        return _rex_cast_var($default, $vartype, $default, 'default');
+    }
+    return $default;
 }
 
 /**
@@ -74,9 +72,9 @@ function rex_session($varname, $vartype = '', $default = '')
  */
 function rex_set_session($varname, $value)
 {
-  global $REX;
+    global $REX;
 
-  $_SESSION[$varname][$REX['INSTNAME']] = $value;
+    $_SESSION[$varname][$REX['INSTNAME']] = $value;
 }
 
 /**
@@ -86,9 +84,9 @@ function rex_set_session($varname, $value)
  */
 function rex_unset_session($varname)
 {
-  global $REX;
+    global $REX;
 
-  unset($_SESSION[$varname][$REX['INSTNAME']]);
+    unset($_SESSION[$varname][$REX['INSTNAME']]);
 }
 
 /**
@@ -98,7 +96,7 @@ function rex_unset_session($varname)
  */
 function rex_cookie($varname, $vartype = '', $default = '')
 {
-  return _rex_array_key_cast($_COOKIE, $varname, $vartype, $default);
+    return _rex_array_key_cast($_COOKIE, $varname, $vartype, $default);
 }
 
 /**
@@ -108,7 +106,7 @@ function rex_cookie($varname, $vartype = '', $default = '')
  */
 function rex_files($varname, $vartype = '', $default = '')
 {
-  return _rex_array_key_cast($_FILES, $varname, $vartype, $default);
+    return _rex_array_key_cast($_FILES, $varname, $vartype, $default);
 }
 
 /**
@@ -118,7 +116,7 @@ function rex_files($varname, $vartype = '', $default = '')
  */
 function rex_env($varname, $vartype = '', $default = '')
 {
-  return _rex_array_key_cast($_ENV, $varname, $vartype, $default);
+    return _rex_array_key_cast($_ENV, $varname, $vartype, $default);
 }
 
 /**
@@ -133,28 +131,24 @@ function rex_env($varname, $vartype = '', $default = '')
  */
 function _rex_array_key_cast($haystack, $needle, $vartype, $default = '')
 {
-  if(!is_array($haystack))
-  {
-    trigger_error('Array expected for $haystack in _rex_array_key_cast()!', E_USER_ERROR);
-    exit();
-  }
+    if (!is_array($haystack)) {
+        trigger_error('Array expected for $haystack in _rex_array_key_cast()!', E_USER_ERROR);
+        exit();
+    }
 
-  if(!is_scalar($needle))
-  {
-    trigger_error('Scalar expected for $needle in _rex_array_key_cast()!', E_USER_ERROR);
-    exit();
-  }
+    if (!is_scalar($needle)) {
+        trigger_error('Scalar expected for $needle in _rex_array_key_cast()!', E_USER_ERROR);
+        exit();
+    }
 
-  if(array_key_exists($needle, $haystack))
-  {
-    return _rex_cast_var($haystack[$needle], $vartype, $default, 'found');
-  }
+    if (array_key_exists($needle, $haystack)) {
+        return _rex_cast_var($haystack[$needle], $vartype, $default, 'found');
+    }
 
-  if($default === '')
-  {
-    return _rex_cast_var($default, $vartype, $default, 'default');
-  }
-  return $default;
+    if ($default === '') {
+        return _rex_cast_var($default, $vartype, $default, 'default');
+    }
+    return $default;
 }
 
 /**
@@ -188,140 +182,140 @@ function _rex_array_key_cast($haystack, $needle, $vartype, $default = '')
  */
 function _rex_cast_var($var, $vartype, $default = null, $mode = 'default')
 {
-  global $REX;
+    global $REX;
 
-  if (is_string($vartype)) {
-    $casted = true;
-    switch($vartype)
-    {
-      // ---------------- REDAXO types
-      case 'rex-article-id':
-        $var = (int) $var;
-        if($mode == 'found')
-        {
-          if(!OOArticle::isValid(OOArticle::getArticleById($var)))
-            $var = (int) $default;
+    if (is_string($vartype)) {
+        $casted = true;
+        switch ($vartype) {
+            // ---------------- REDAXO types
+            case 'rex-article-id':
+                $var = (int) $var;
+                if ($mode == 'found') {
+                    if (!OOArticle::isValid(OOArticle::getArticleById($var))) {
+                        $var = (int) $default;
+                    }
+                }
+                break;
+            case 'rex-category-id':
+                $var = (int) $var;
+                if ($mode == 'found') {
+                    if (!OOCategory::isValid(OOCategory::getCategoryById($var))) {
+                        $var = (int) $default;
+                    }
+                }
+                break;
+            case 'rex-clang-id':
+                $var = (int) $var;
+                if ($mode == 'found') {
+                    if (empty($REX['CLANG'][$var])) {
+                        $var = (int) $default;
+                    }
+                }
+                break;
+            case 'rex-template-id':
+            case 'rex-ctype-id':
+            case 'rex-slice-id':
+            case 'rex-module-id':
+            case 'rex-action-id':
+            case 'rex-media-id':
+            case 'rex-mediacategory-id':
+            case 'rex-user-id':
+                // erstmal keine weitere validierung
+                $var = (int) $var;
+                break;
+
+            // ---------------- PHP types
+            case 'bool'   :
+            case 'boolean':
+                $var = (boolean) $var;
+                break;
+            case 'int'    :
+            case 'integer':
+                $var = (int)     $var;
+                break;
+            case 'double' :
+                $var = (double)  $var;
+                break;
+            case 'float'  :
+            case 'real'   :
+                $var = (float)   $var;
+                break;
+            case 'string' :
+                $var = (string)  $var;
+                break;
+            case 'object' :
+                $var = (object)  $var;
+                break;
+            case 'array'  :
+                if ($var === '') {
+                    $var = array();
+                } else {
+                    $var = (array) $var;
+                }
+                break;
+
+            // kein Cast, nichts tun
+            case ''       : break;
+
+            default:
+                // check for array with generic type
+                if (strpos($vartype, 'array[') === 0) {
+                    if (empty($var)) {
+                        $var = array();
+                    } else {
+                        $var = (array) $var;
+                    }
+
+                    // check if every element in the array is from the generic type
+                    $matches = array();
+                    if (preg_match('@array\[([^\]]*)\]@', $vartype, $matches)) {
+                        foreach ($var as $key => $value) {
+                            try {
+                                $var[$key] = _rex_cast_var($value, $matches[1]);
+                            } catch (InvalidArgumentException $e) {
+                                // Evtl Typo im vartype, mit urspr. typ als fehler melden
+                                throw new InvalidArgumentException('Unexpected vartype "' . $vartype . '" in _rex_cast_var()!');
+                            }
+                        }
+                    } else {
+                        throw new InvalidArgumentException('Unexpected vartype "' . $vartype . '" in _rex_cast_var()!');
+                    }
+                } else {
+                    $casted = false;
+                }
         }
-        break;
-      case 'rex-category-id':
-        $var = (int) $var;
-        if($mode == 'found')
-        {
-          if(!OOCategory::isValid(OOCategory::getCategoryById($var)))
-            $var = (int) $default;
+        if ($casted) {
+            return $var;
         }
-        break;
-      case 'rex-clang-id':
-        $var = (int) $var;
-        if($mode == 'found')
-        {
-          if(empty($REX['CLANG'][$var]))
-            $var = (int) $default;
-        }
-        break;
-      case 'rex-template-id':
-      case 'rex-ctype-id':
-      case 'rex-slice-id':
-      case 'rex-module-id':
-      case 'rex-action-id':
-      case 'rex-media-id':
-      case 'rex-mediacategory-id':
-      case 'rex-user-id':
-        // erstmal keine weitere validierung
-        $var = (int) $var;
-        break;
+    }
 
-      // ---------------- PHP types
-      case 'bool'   :
-      case 'boolean':
-        $var = (boolean) $var;
-        break;
-      case 'int'    :
-      case 'integer':
-        $var = (int)     $var;
-        break;
-      case 'double' :
-        $var = (double)  $var;
-        break;
-      case 'float'  :
-      case 'real'   :
-        $var = (float)   $var;
-        break;
-      case 'string' :
-        $var = (string)  $var;
-        break;
-      case 'object' :
-        $var = (object)  $var;
-        break;
-      case 'array'  :
-        if($var === '')
-          $var = array();
-        else
-          $var = (array) $var;
-        break;
-
-      // kein Cast, nichts tun
-      case ''       : break;
-
-      default:
-        // check for array with generic type
-        if (strpos($vartype, 'array[') === 0) {
-          if (empty($var)) {
-            $var = array();
-          } else {
-            $var = (array) $var;
-          }
-
-          // check if every element in the array is from the generic type
-          $matches = array();
-          if (preg_match('@array\[([^\]]*)\]@', $vartype, $matches)) {
-            foreach ($var as $key => $value) {
-              try {
-                $var[$key] = _rex_cast_var($value, $matches[1]);
-              } catch (InvalidArgumentException $e) {
-                // Evtl Typo im vartype, mit urspr. typ als fehler melden
-                throw new InvalidArgumentException('Unexpected vartype "' . $vartype . '" in _rex_cast_var()!');
-              }
+    if (is_callable($vartype)) {
+        $var = call_user_func($vartype, $var);
+    } elseif (is_array($vartype)) {
+        $var = _rex_cast_var($var, 'array');
+        $newVar = array();
+        foreach ($vartype as $cast) {
+            if (!is_array($cast) || !isset($cast[0])) {
+                throw new InvalidArgumentException('Unexpected vartype in _rex_cast_var()!');
             }
-          } else {
-            throw new InvalidArgumentException('Unexpected vartype "' . $vartype . '" in _rex_cast_var()!');
-          }
-        } else {
-          $casted = false;
+            $key = $cast[0];
+            $innerVartype = isset($cast[1]) ? $cast[1] : '';
+            if (array_key_exists($key, $var)) {
+                $newVar[$key] = _rex_cast_var($var[$key], $innerVartype);
+            } elseif (!isset($cast[2])) {
+                $newVar[$key] = _rex_cast_var('', $innerVartype);
+            } else {
+                $newVar[$key] = $cast[2];
+            }
         }
-    }
-    if ($casted) {
-      return $var;
-    }
-  }
-
-  if (is_callable($vartype)) {
-    $var = call_user_func($vartype, $var);
-  } elseif (is_array($vartype)) {
-    $var = _rex_cast_var($var, 'array');
-    $newVar = array();
-    foreach ($vartype as $cast) {
-      if (!is_array($cast) || !isset($cast[0])) {
+        $var = $newVar;
+    } elseif (is_string($vartype)) {
+        throw new InvalidArgumentException('Unexpected vartype "' . $vartype . '" in _rex_cast_var()!');
+    } else {
         throw new InvalidArgumentException('Unexpected vartype in _rex_cast_var()!');
-      }
-      $key = $cast[0];
-      $innerVartype = isset($cast[1]) ? $cast[1] : '';
-      if (array_key_exists($key, $var)) {
-        $newVar[$key] = _rex_cast_var($var[$key], $innerVartype);
-      } elseif (!isset($cast[2])) {
-        $newVar[$key] = _rex_cast_var('', $innerVartype);
-      } else {
-        $newVar[$key] = $cast[2];
-      }
     }
-    $var = $newVar;
-  } elseif (is_string($vartype)) {
-    throw new InvalidArgumentException('Unexpected vartype "' . $vartype . '" in _rex_cast_var()!');
-  } else {
-    throw new InvalidArgumentException('Unexpected vartype in _rex_cast_var()!');
-  }
 
-  return $var;
+    return $var;
 }
 
 /**
@@ -331,5 +325,5 @@ function _rex_cast_var($var, $vartype, $default = null, $mode = 'default')
  */
 function rex_request_method()
 {
-  return isset($_SERVER['REQUEST_METHOD']) ? strtolower($_SERVER['REQUEST_METHOD']) : 'get';
+    return isset($_SERVER['REQUEST_METHOD']) ? strtolower($_SERVER['REQUEST_METHOD']) : 'get';
 }

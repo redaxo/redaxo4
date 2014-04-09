@@ -11,7 +11,8 @@
 
 $error = '';
 
-if ($error != '')
-  $REX['ADDON']['installmsg']['be_search'] = $error;
-else
-  $REX['ADDON']['install']['be_search'] = true;
+if ($error != '') {
+    $REX['ADDON']['installmsg']['be_search'] = $error;
+} else {
+    $REX['ADDON']['install']['be_search'] = true;
+}

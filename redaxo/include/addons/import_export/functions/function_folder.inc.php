@@ -1,23 +1,25 @@
 <?php
 
 if (!function_exists('createFolder')) {
-  function createFolder($dir, $recursive = true)
-  {
-    global $REX;
-    if (is_dir($dir))
-      return true;
+    function createFolder($dir, $recursive = true)
+    {
+        global $REX;
+        if (is_dir($dir)) {
+            return true;
+        }
 
-    $parent = dirname($dir);
-    if (!is_dir($parent) && (!$recursive || !createFolder($parent)))
-      return false;
+        $parent = dirname($dir);
+        if (!is_dir($parent) && (!$recursive || !createFolder($parent))) {
+            return false;
+        }
 
-    if (mkdir($dir, $REX['DIRPERM'])) {
-      @chmod($dir, $REX['DIRPERM']);
-      return true;
+        if (mkdir($dir, $REX['DIRPERM'])) {
+            @chmod($dir, $REX['DIRPERM']);
+            return true;
+        }
+
+        return false;
     }
-
-    return false;
-  }
 }
 
 /**
@@ -28,22 +30,22 @@ if (!function_exists('createFolder')) {
  * @author Markus Staab <staab@public-4u.de>
  */
 if (!function_exists('readFolder')) {
-   function readFolder($dir)
-   {
-      if (!is_dir($dir)) {
-        rex_dir::copy(
-          rex_path::addon('import_export', 'backup'),
-          rex_path::addonData('import_export', 'backups')
-        );
-      }
-      $hdl = opendir($dir);
-      $folder = array();
-      while (false !== ($file = readdir($hdl))) {
-         $folder[] = $file;
-      }
+     function readFolder($dir)
+     {
+            if (!is_dir($dir)) {
+                rex_dir::copy(
+                    rex_path::addon('import_export', 'backup'),
+                    rex_path::addonData('import_export', 'backups')
+                );
+            }
+            $hdl = opendir($dir);
+            $folder = array();
+            while (false !== ($file = readdir($hdl))) {
+                 $folder[] = $file;
+            }
 
-      return $folder;
-   }
+            return $folder;
+     }
 }
 
 /**
@@ -57,23 +59,23 @@ if (!function_exists('readFolder')) {
  */
 
 if (!function_exists('readFilteredFolder')) {
-   function readFilteredFolder($dir, $fileprefix)
-   {
-      $filtered = array();
-      $folder = readFolder($dir);
+     function readFilteredFolder($dir, $fileprefix)
+     {
+            $filtered = array();
+            $folder = readFolder($dir);
 
-      if (!$folder) {
-         return false;
-      }
+            if (!$folder) {
+                 return false;
+            }
 
-      foreach ($folder as $file) {
-         if (endsWith($file, $fileprefix)) {
-            $filtered[] = $file;
-         }
-      }
+            foreach ($folder as $file) {
+                 if (endsWith($file, $fileprefix)) {
+                        $filtered[] = $file;
+                 }
+            }
 
-      return $filtered;
-   }
+            return $filtered;
+     }
 }
 
 /**
@@ -84,23 +86,23 @@ if (!function_exists('readFilteredFolder')) {
  * @author Markus Staab <staab@public-4u.de>
  */
 if (!function_exists('readFolderFiles')) {
-   function readFolderFiles($dir)
-   {
-      $folder = readFolder($dir);
-      $files = array();
+     function readFolderFiles($dir)
+     {
+            $folder = readFolder($dir);
+            $files = array();
 
-      if (!$folder) {
-         return false;
-      }
+            if (!$folder) {
+                 return false;
+            }
 
-      foreach ($folder as $file) {
-         if (is_file($dir . '/' . $file)) {
-            $files[] = $file;
-         }
-      }
+            foreach ($folder as $file) {
+                 if (is_file($dir . '/' . $file)) {
+                        $files[] = $file;
+                 }
+            }
 
-      return $files;
-   }
+            return $files;
+     }
 }
 
 /**
@@ -112,24 +114,24 @@ if (!function_exists('readFolderFiles')) {
  * @author Markus Staab <staab@public-4u.de>
  */
 if (!function_exists('readSubFolders')) {
-   function readSubFolders($dir, $ignore_dots = true)
-   {
-      $folder = readFolder($dir);
-      $folders = array();
+     function readSubFolders($dir, $ignore_dots = true)
+     {
+            $folder = readFolder($dir);
+            $folders = array();
 
-      if (!$folder) {
-         return false;
-      }
+            if (!$folder) {
+                 return false;
+            }
 
-      foreach ($folder as $file) {
-         if ($ignore_dots && ($file == '.' || $file == '..')) {
-            continue;
-         }
-         if (is_dir($dir . '/' . $file)) {
-            $folders[] = $file;
-         }
-      }
+            foreach ($folder as $file) {
+                 if ($ignore_dots && ($file == '.' || $file == '..')) {
+                        continue;
+                 }
+                 if (is_dir($dir . '/' . $file)) {
+                        $folders[] = $file;
+                 }
+            }
 
-      return $folders;
-   }
+            return $folders;
+     }
 }

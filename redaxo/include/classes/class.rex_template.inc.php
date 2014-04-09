@@ -10,95 +10,107 @@
 
 class rex_template
 {
-  var $id;
+    var $id;
 
-  function rex_template($template_id = 0)
-  {
-    $this->setId($template_id);
-  }
-
-  /*public*/ function getId()
-  {
-    return $this->id;
-  }
-
-  /*public*/ function setId($id)
-  {
-    $this->id = (int) $id;
-  }
-
-  /*public*/ function getFile()
-  {
-    if($this->getId()<1) return FALSE;
-
-    $file = $this->getFilePath($this->getId());
-    if(!$file) return FALSE;
-
-    if(!file_exists($file))
+    function rex_template($template_id = 0)
     {
-      // Generated Datei erzeugen
-      if(!$this->generate())
-      {
-        trigger_error('Unable to generate rexTemplate with id "'. $this->getId() . '"', E_USER_ERROR);
-
-        return FALSE;
-      }
+        $this->setId($template_id);
     }
 
-    return $file;
-  }
+    /*public*/ function getId()
+    {
+        return $this->id;
+    }
 
-  static /*public*/ function getFilePath($template_id)
-  {
-    if($template_id<1) return FALSE;
+    /*public*/ function setId($id)
+    {
+        $this->id = (int) $id;
+    }
 
-    return rex_template::getTemplatesDir() .'/' . $template_id . '.template';
-  }
+    /*public*/ function getFile()
+    {
+        if ($this->getId() < 1) {
+            return false;
+        }
 
-  static /*public*/ function getTemplatesDir()
-  {
-    global $REX;
+        $file = $this->getFilePath($this->getId());
+        if (!$file) {
+            return false;
+        }
 
-    return $REX['GENERATED_PATH'] . '/templates';
-  }
+        if (!file_exists($file)) {
+            // Generated Datei erzeugen
+            if (!$this->generate()) {
+                trigger_error('Unable to generate rexTemplate with id "' . $this->getId() . '"', E_USER_ERROR);
 
-  /*public*/ function getTemplate()
-  {
-    $file = $this->getFile();
-    if(!$file) return FALSE;
+                return false;
+            }
+        }
 
-    return rex_get_file_contents($file);
-  }
+        return $file;
+    }
 
-  /*public*/ function generate()
-  {
-    global $REX;
+    static /*public*/ function getFilePath($template_id)
+    {
+        if ($template_id < 1) {
+            return false;
+        }
 
-    if($this->getId()<1) return FALSE;
+        return self::getTemplatesDir() . '/' . $template_id . '.template';
+    }
 
-    include_once ($REX['INCLUDE_PATH'].'/functions/function_rex_generate.inc.php');
-    return rex_generateTemplate($this->getId());
-  }
+    static /*public*/ function getTemplatesDir()
+    {
+        global $REX;
 
-  /*public*/ function deleteCache()
-  {
-    global $REX;
+        return $REX['GENERATED_PATH'] . '/templates';
+    }
 
-    if($this->id<1) return FALSE;
+    /*public*/ function getTemplate()
+    {
+        $file = $this->getFile();
+        if (!$file) {
+            return false;
+        }
 
-    $file = $this->getFilePath($this->getId());
-    return @unlink($file);
-  }
+        return rex_get_file_contents($file);
+    }
 
-  static /*public*/ function hasModule($template_attributes,$ctype,$module_id)
-  {
-    $template_modules = rex_getAttributes('modules', $template_attributes, array ());
-    if(!isset($template_modules[$ctype]['all']) || $template_modules[$ctype]['all'] == 1)
-      return TRUE;
+    /*public*/ function generate()
+    {
+        global $REX;
 
-    if(in_array($module_id,$template_modules[$ctype]))
-      return TRUE;
+        if ($this->getId() < 1) {
+            return false;
+        }
 
-    return FALSE;
-  }
+        include_once $REX['INCLUDE_PATH'] . '/functions/function_rex_generate.inc.php';
+        return rex_generateTemplate($this->getId());
+    }
+
+    /*public*/ function deleteCache()
+    {
+        global $REX;
+
+        if ($this->id < 1) {
+            return false;
+        }
+
+        $file = $this->getFilePath($this->getId());
+        return @unlink($file);
+    }
+
+    static /*public*/ function hasModule($template_attributes, $ctype, $module_id)
+    {
+        $template_modules = rex_getAttributes('modules', $template_attributes, array ());
+        if (!isset($template_modules[$ctype]['all']) || $template_modules[$ctype]['all'] == 1) {
+            return true;
+        }
+
+        if (in_array($module_id, $template_modules[$ctype])) {
+            return true;
+        }
+
+        return false;
+    }
 }

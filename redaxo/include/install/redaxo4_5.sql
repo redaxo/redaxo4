@@ -19,4 +19,4 @@ ALTER TABLE rex_article_slice ADD INDEX `id` (`id`), ADD INDEX `clang` (`clang`)
 ALTER TABLE rex_file ADD INDEX `re_file_id` (`re_file_id`), ADD INDEX `category_id` (`category_id`);
 ALTER TABLE rex_file_category DROP PRIMARY KEY, ADD PRIMARY KEY (`id`), ADD INDEX `re_id` (`re_id`);
 ALTER TABLE rex_module DROP PRIMARY KEY, ADD PRIMARY KEY (`id`), ADD INDEX `category_id` (`category_id`);
-ALTER TABLE rex_user ADD UNIQUE INDEX `login` (`login`(50)); 
+ALTER TABLE rex_user ADD UNIQUE INDEX `login` (`login`(50));

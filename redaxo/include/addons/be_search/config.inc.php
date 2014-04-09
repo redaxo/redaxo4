@@ -28,12 +28,11 @@ $REX['ADDON']['searchmode'][$mypage] = 'local';
 $REX['EXTPERM'][] = 'be_search[mediapool]';
 $REX['EXTPERM'][] = 'be_search[structure]';
 
-if ($REX['REDAXO'])
-{
-  $I18N->appendFile($REX['INCLUDE_PATH'].'/addons/'.$mypage.'/lang/');
+if ($REX['REDAXO']) {
+    $I18N->appendFile($REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/lang/');
 
-  // Include Functions
-  require_once $REX['INCLUDE_PATH'].'/addons/be_search/functions/functions.search.inc.php';
+    // Include Functions
+    require_once $REX['INCLUDE_PATH'] . '/addons/be_search/functions/functions.search.inc.php';
 
-  rex_register_extension('PAGE_CHECKED', 'rex_a256_extensions_handler');
+    rex_register_extension('PAGE_CHECKED', 'rex_a256_extensions_handler');
 }

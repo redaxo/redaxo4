@@ -36,7 +36,8 @@ $error = '';
 //  $error = $actErr;
 //}
 
-if ($error != '')
-  $REX['ADDON']['installmsg']['userinfo'] = $error;
-else
-  $REX['ADDON']['install']['userinfo'] = true;
+if ($error != '') {
+    $REX['ADDON']['installmsg']['userinfo'] = $error;
+} else {
+    $REX['ADDON']['install']['userinfo'] = true;
+}

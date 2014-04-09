@@ -12,48 +12,46 @@
 
 /*abstract*/ class rex_dashboard_notification extends rex_dashboard_component_base
 {
-  var $message;
+    var $message;
 
-  function rex_dashboard_notification($id, $cache_options = array())
-  {
-    if(!isset($cache_options['lifetime']))
+    function rex_dashboard_notification($id, $cache_options = array())
     {
-      // default cache lifetime in seconds
-      $cache_options['lifetime'] = 60;
+        if (!isset($cache_options['lifetime'])) {
+            // default cache lifetime in seconds
+            $cache_options['lifetime'] = 60;
+        }
+
+        $this->message = '';
+        parent::rex_dashboard_component_base($id, $cache_options);
     }
 
-    $this->message = '';
-    parent::rex_dashboard_component_base($id, $cache_options);
-  }
-
-  /*public*/ function setMessage($message)
-  {
-    $this->message = $message;
-  }
-
-  /*public*/ function getMessage()
-  {
-    return $this->message;
-  }
-
-  /*public*/ function _get()
-  {
-    $this->prepare();
-
-    $message = $this->getMessage();
-
-    if($message)
+    /*public*/ function setMessage($message)
     {
-      return $message;
+        $this->message = $message;
     }
-    return '';
-  }
 
-  /*
-   * Static Method: Returns boolean if is notification
-   */
-  static /*public*/ function isValid($notification)
-  {
-    return is_object($notification) && is_a($notification, 'rex_dashboard_notification');
-  }
+    /*public*/ function getMessage()
+    {
+        return $this->message;
+    }
+
+    /*public*/ function _get()
+    {
+        $this->prepare();
+
+        $message = $this->getMessage();
+
+        if ($message) {
+            return $message;
+        }
+        return '';
+    }
+
+    /*
+     * Static Method: Returns boolean if is notification
+     */
+    static /*public*/ function isValid($notification)
+    {
+        return is_object($notification) && is_a($notification, 'rex_dashboard_notification');
+    }
 }

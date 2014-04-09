@@ -25,12 +25,12 @@ Zum einbinden eines Bildes muss dazu der Bildtyp in der Url notiert werden.
 
 <h3>Anwendungsbeispiele:</h3>
 <p>
-  <?php echo $REX["FRONTEND_FILE"]; ?>?rex_img_type=ImgTypeName&rex_img_file=ImageFileName
+    <?php echo $REX['FRONTEND_FILE']; ?>?rex_img_type=ImgTypeName&rex_img_file=ImageFileName
 </p>
 
 
 <h3>Version 1.0:</h3>
 <p>
-  Neue Filter eingebaut: mirror und workspace
-  Anpassung von resize
+    Neue Filter eingebaut: mirror und workspace
+    Anpassung von resize
 </p>

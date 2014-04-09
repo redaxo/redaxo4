@@ -14,20 +14,20 @@
 
 $error = '';
 
-if (!extension_loaded('gd'))
-{
-  $error = 'GD-LIB-extension not available! See <a href="http://www.php.net/gd">http://www.php.net/gd</a>';
+if (!extension_loaded('gd')) {
+    $error = 'GD-LIB-extension not available! See <a href="http://www.php.net/gd">http://www.php.net/gd</a>';
 }
 
-if($error == '')
-{
-  $file = $REX['GENERATED_PATH'] .'/files';
+if ($error == '') {
+    $file = $REX['GENERATED_PATH'] . '/files';
 
-  if(($state = rex_is_writable($file)) !== true)
-    $error = $state;
+    if (($state = rex_is_writable($file)) !== true) {
+        $error = $state;
+    }
 }
 
-if ($error != '')
-  $REX['ADDON']['installmsg']['image_manager'] = $error;
-else
-  $REX['ADDON']['install']['image_manager'] = true;
+if ($error != '') {
+    $REX['ADDON']['installmsg']['image_manager'] = $error;
+} else {
+    $REX['ADDON']['install']['image_manager'] = true;
+}

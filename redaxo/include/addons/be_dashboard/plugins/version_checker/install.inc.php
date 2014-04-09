@@ -12,23 +12,21 @@
 
 $error = '';
 
-if($error == '')
-{
-  require_once dirname(__FILE__) .'/functions/function_version_check.inc.php';
+if ($error == '') {
+    require_once dirname(__FILE__) . '/functions/function_version_check.inc.php';
 
-  $url = 'http://www.redaxo.org';
-  if(!rex_a657_open_http_socket($url, $errno, $errstr, 5))
-  {
-    $error .= 'The server was unable to connect to "'. $url .'".';
-    $error .= 'Make sure the server has access to the internet.';
-    if($error != '' || $errstr != '')
-    {
-      $error .= '(error '. $errno .'; '. $errstr .')';
+    $url = 'http://www.redaxo.org';
+    if (!rex_a657_open_http_socket($url, $errno, $errstr, 5)) {
+        $error .= 'The server was unable to connect to "' . $url . '".';
+        $error .= 'Make sure the server has access to the internet.';
+        if ($error != '' || $errstr != '') {
+            $error .= '(error ' . $errno . '; ' . $errstr . ')';
+        }
     }
-  }
 }
 
-if ($error != '')
-  $REX['ADDON']['installmsg']['version_checker'] = $error;
-else
-  $REX['ADDON']['install']['version_checker'] = true;
+if ($error != '') {
+    $REX['ADDON']['installmsg']['version_checker'] = $error;
+} else {
+    $REX['ADDON']['install']['version_checker'] = true;
+}

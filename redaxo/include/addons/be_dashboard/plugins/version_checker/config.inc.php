@@ -19,15 +19,13 @@ $REX['ADDON']['author'][$mypage] = 'Markus Staab, Jan Kristinus';
 $REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
 
 // im backend und eingeloggt?
-if($REX["REDAXO"] && $REX["USER"])
-{
-  if(rex_request('page', 'string') == 'be_dashboard')
-  {
-    $I18N->appendFile(dirname(__FILE__). '/lang/');
+if ($REX['REDAXO'] && $REX['USER']) {
+    if (rex_request('page', 'string') == 'be_dashboard') {
+        $I18N->appendFile(dirname(__FILE__) . '/lang/');
 
-    require_once dirname(__FILE__) .'/functions/function_version_check.inc.php';
-    require_once dirname(__FILE__) .'/classes/class.dashboard.inc.php';
+        require_once dirname(__FILE__) . '/functions/function_version_check.inc.php';
+        require_once dirname(__FILE__) . '/classes/class.dashboard.inc.php';
 
-    rex_register_extension('DASHBOARD_NOTIFICATION', array(new rex_version_checker_notification(), 'registerAsExtension'));
-  }
+        rex_register_extension('DASHBOARD_NOTIFICATION', array(new rex_version_checker_notification(), 'registerAsExtension'));
+    }
 }

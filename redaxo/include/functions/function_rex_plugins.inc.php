@@ -8,40 +8,38 @@
 
 function rex_plugins_folder($addon, $plugin = null)
 {
-  $addonFolder = rex_addons_folder($addon);
+    $addonFolder = rex_addons_folder($addon);
 
-  if($plugin)
-    return $addonFolder. 'plugins' .DIRECTORY_SEPARATOR. $plugin .DIRECTORY_SEPARATOR;
+    if ($plugin) {
+        return $addonFolder . 'plugins' . DIRECTORY_SEPARATOR . $plugin . DIRECTORY_SEPARATOR;
+    }
 
-  return $addonFolder. 'plugins' .DIRECTORY_SEPARATOR;
+    return $addonFolder . 'plugins' . DIRECTORY_SEPARATOR;
 }
 
 function rex_plugins_file()
 {
-  return (dirname(dirname(__FILE__))) . '/plugins.inc.php';
+    return (dirname(dirname(__FILE__))) . '/plugins.inc.php';
 }
 
 function rex_read_plugins_folder($addon, $folder = '')
 {
-  global $REX;
-  $plugins = array ();
+    global $REX;
+    $plugins = array ();
 
-  if ($folder == '')
-  {
-    $folder = rex_plugins_folder($addon, '*');
-  }
-
-  $files = glob(rtrim($folder,DIRECTORY_SEPARATOR), GLOB_NOSORT);
-  if(is_array($files))
-  {
-    foreach($files as $file)
-    {
-      $plugins[] = basename($file);
+    if ($folder == '') {
+        $folder = rex_plugins_folder($addon, '*');
     }
-  }
 
-  // Sortiere Array
-  natsort($plugins);
+    $files = glob(rtrim($folder, DIRECTORY_SEPARATOR), GLOB_NOSORT);
+    if (is_array($files)) {
+        foreach ($files as $file) {
+            $plugins[] = basename($file);
+        }
+    }
 
-  return $plugins;
+    // Sortiere Array
+    natsort($plugins);
+
+    return $plugins;
 }

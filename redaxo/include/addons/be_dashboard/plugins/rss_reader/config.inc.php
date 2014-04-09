@@ -19,23 +19,21 @@ $REX['ADDON']['author'][$mypage] = 'Markus Staab';
 $REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
 
 // im backend und eingeloggt?
-if($REX["REDAXO"] && $REX["USER"])
-{
-  if(rex_request('page', 'string') == 'be_dashboard')
-  {
-    $I18N->appendFile(dirname(__FILE__). '/lang/');
+if ($REX['REDAXO'] && $REX['USER']) {
+    if (rex_request('page', 'string') == 'be_dashboard') {
+        $I18N->appendFile(dirname(__FILE__) . '/lang/');
 
-    // warnings/notices der externen lib verhindern
-    $oldReporting = error_reporting(0);
-    require_once dirname(__FILE__) .'/classes/class.rss_reader.inc.php';
-    error_reporting($oldReporting);
+        // warnings/notices der externen lib verhindern
+        $oldReporting = error_reporting(0);
+        require_once dirname(__FILE__) . '/classes/class.rss_reader.inc.php';
+        error_reporting($oldReporting);
 
-    require_once dirname(__FILE__) .'/functions/function_reader.inc.php';
-    require_once dirname(__FILE__) .'/classes/class.dashboard.inc.php';
+        require_once dirname(__FILE__) . '/functions/function_reader.inc.php';
+        require_once dirname(__FILE__) . '/classes/class.dashboard.inc.php';
 
-    rex_register_extension(
-      'DASHBOARD_COMPONENT',
-      array(new rex_rss_reader_component(), 'registerAsExtension')
-    );
-  }
+        rex_register_extension(
+            'DASHBOARD_COMPONENT',
+            array(new rex_rss_reader_component(), 'registerAsExtension')
+        );
+    }
 }

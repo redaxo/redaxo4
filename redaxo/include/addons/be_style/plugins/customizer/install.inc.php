@@ -2,7 +2,7 @@
 
 $error = '';
 if ($error != '') {
-  $REX['ADDON']['installmsg']['customizer'] = $error;
+    $REX['ADDON']['installmsg']['customizer'] = $error;
 } else {
-  $REX['ADDON']['install']['customizer'] = true;
+    $REX['ADDON']['install']['customizer'] = true;
 }

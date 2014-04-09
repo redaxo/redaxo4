@@ -14,22 +14,21 @@ $func = rex_request('func', 'string');
 
 rex_title($I18N->msg('specials'), $REX['PAGES']['specials']->getPage()->getSubPages());
 
-$content = rex_register_extension_point('PAGE_SPECIALS_OUTPUT', "",
-  array(
-    'subpage' => $subpage,
-  )
+$content = rex_register_extension_point('PAGE_SPECIALS_OUTPUT', '',
+    array(
+        'subpage' => $subpage,
+    )
 );
 
-if($content != "") {
-  echo $content;
+if ($content != '') {
+    echo $content;
 
 } else {
-  switch($subpage) {
-    case 'lang': $file = 'specials.clangs.inc.php'; break;
-    default : $file = 'specials.settings.inc.php'; break;
-  }
+    switch ($subpage) {
+        case 'lang': $file = 'specials.clangs.inc.php'; break;
+        default : $file = 'specials.settings.inc.php'; break;
+    }
 
-  require $REX['INCLUDE_PATH'].'/pages/'.$file;
+    require $REX['INCLUDE_PATH'] . '/pages/' . $file;
 
 }
-

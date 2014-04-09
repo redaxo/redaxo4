@@ -8,53 +8,53 @@
 
 class OOAddon extends rex_addon
 {
-  /*
-   * Pr黤t, ob ein System-Addon vorliegt
-   *
-   * @param string $addon Name des Addons
-   *
-   * @return boolean TRUE, wenn es sich um ein System-Addon handelt, sonst FALSE
-   */
-  static /*public*/ function isSystemAddon($addon)
-  {
-    global $REX;
-    return in_array($addon, $REX['SYSTEM_ADDONS']);
-  }
-
-  /**
-   * Gibt ein Array von verf黦baren Addons zur點k.
-   *
-   * @return array Array der verf黦baren Addons
-   */
-  static /*public*/ function getAvailableAddons()
-  {
-    $avail = array();
-    foreach(OOAddon::getRegisteredAddons() as $addonName)
+    /*
+     * Pr黤t, ob ein System-Addon vorliegt
+     *
+     * @param string $addon Name des Addons
+     *
+     * @return boolean TRUE, wenn es sich um ein System-Addon handelt, sonst FALSE
+     */
+    static /*public*/ function isSystemAddon($addon)
     {
-      if(OOAddon::isAvailable($addonName))
-        $avail[] = $addonName;
+        global $REX;
+        return in_array($addon, $REX['SYSTEM_ADDONS']);
     }
 
-    return $avail;
-  }
-
-  /**
-   * Gibt ein Array aller registrierten Addons zur點k.
-   * Ein Addon ist registriert, wenn es dem System bekannt ist (addons.inc.php).
-   *
-   * @return array Array aller registrierten Addons
-   */
-  static /*public*/ function getRegisteredAddons()
-  {
-    global $REX;
-
-    $addons = array();
-    if(isset($REX['ADDON']) && is_array($REX['ADDON']) &&
-       isset($REX['ADDON']['install']) && is_array($REX['ADDON']['install']))
+    /**
+     * Gibt ein Array von verf黦baren Addons zur點k.
+     *
+     * @return array Array der verf黦baren Addons
+     */
+    static /*public*/ function getAvailableAddons()
     {
-      $addons = array_keys($REX['ADDON']['install']);
+        $avail = array();
+        foreach (self::getRegisteredAddons() as $addonName) {
+            if (self::isAvailable($addonName)) {
+                $avail[] = $addonName;
+            }
+        }
+
+        return $avail;
     }
 
-    return $addons;
-  }
+    /**
+     * Gibt ein Array aller registrierten Addons zur點k.
+     * Ein Addon ist registriert, wenn es dem System bekannt ist (addons.inc.php).
+     *
+     * @return array Array aller registrierten Addons
+     */
+    static /*public*/ function getRegisteredAddons()
+    {
+        global $REX;
+
+        $addons = array();
+        if (isset($REX['ADDON']) && is_array($REX['ADDON']) &&
+             isset($REX['ADDON']['install']) && is_array($REX['ADDON']['install'])
+        ) {
+            $addons = array_keys($REX['ADDON']['install']);
+        }
+
+        return $addons;
+    }
 }

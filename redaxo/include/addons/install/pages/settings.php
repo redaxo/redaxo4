@@ -27,12 +27,12 @@ if (is_array($settings)) {
 $content .= '
     <div class="rex-addon-output">
         <h2 class="rex-hl2">' . $I18N->msg('install_subpage_settings') . '</h2>
-        
+
         <div class="rex-form">
             <form action="index.php?page=install&subpage=settings" method="post">
                 <fieldset class="rex-form-col-1">
                     <legend>' . $I18N->msg('install_settings_general') . '</legend>
-                    
+
                     <div class="rex-form-wrapper">';
 
 $content .= '
@@ -45,7 +45,7 @@ $content .= '
 
 $content .= '       </div>
                 </fieldset>
-                
+
                 <fieldset>
                     <legend>' . $I18N->msg('install_settings_myredaxo_account') . '</legend>
                     <div class="rex-form-wrapper">';
@@ -79,7 +79,7 @@ $content .= '
                     </div>
                   </div>
                 </fieldset>
-                
+
         </form>
     </div>
 </div>';

@@ -60,7 +60,7 @@ Additions and fixes Copyright (c) 2012    Robert Wetzlmayr  http://wetzlmayr.com
 // ----- addons/import_export/classes/class.tar.inc.php
 
 TAR File Manager
-Base name: 	tarmanager
+Base name:     tarmanager
 Copyright (C) 2002  Josh Barger
 License: GNU Lesser General Public License (LGPL)
 Description: A PHP Implementation of the TAR Format manager.

@@ -11,30 +11,31 @@
  */
 function rex_absPath($rel_path, $rel_to_current = false)
 {
-  $stack = array();
-  // Pfad relativ zum aktuellen Verzeichnis?
-  // z.b. ../../files
-  if($rel_to_current)
-  {
-    $path = realpath('.');
-    $stack = explode(DIRECTORY_SEPARATOR, $path);
-  }
+    $stack = array();
+    // Pfad relativ zum aktuellen Verzeichnis?
+    // z.b. ../../files
+    if ($rel_to_current) {
+        $path = realpath('.');
+        $stack = explode(DIRECTORY_SEPARATOR, $path);
+    }
 
-  foreach (explode('/', $rel_path) as $dir)
-  {
-    // Aktuelles Verzeichnis, oder Ordner ohne Namen
-    if ($dir == '.' || $dir == '')
-      continue;
+    foreach (explode('/', $rel_path) as $dir) {
+        // Aktuelles Verzeichnis, oder Ordner ohne Namen
+        if ($dir == '.' || $dir == '') {
+            continue;
+        }
 
-    // Zum Parent
-    if ($dir == '..')
-      array_pop($stack);
-    // Normaler Ordner
-    else
-      array_push($stack, $dir);
-  }
+        // Zum Parent
+        if ($dir == '..') {
+            array_pop($stack);
+        }
+        // Normaler Ordner
+        else {
+            array_push($stack, $dir);
+        }
+    }
 
-  return implode('/', $stack);
+    return implode('/', $stack);
 }
 
 /**
@@ -46,84 +47,79 @@ function rex_absPath($rel_path, $rel_to_current = false)
  */
 function rex_is_writable($item)
 {
-  return _rex_is_writable_info(_rex_is_writable($item), $item);
+    return _rex_is_writable_info(_rex_is_writable($item), $item);
 }
 
 function _rex_is_writable_info($is_writable, $item = '')
 {
-  global $I18N;
+    global $I18N;
 
-  $state = true;
-  $key = '';
-  switch($is_writable)
-  {
-    case 1:
-    {
-      $key = 'setup_012';
-      break;
+    $state = true;
+    $key = '';
+    switch ($is_writable) {
+        case 1:
+        {
+            $key = 'setup_012';
+            break;
+        }
+        case 2:
+        {
+            $key = 'setup_014';
+            break;
+        }
+        case 3:
+        {
+            $key = 'setup_015';
+            break;
+        }
     }
-    case 2:
-    {
-      $key = 'setup_014';
-      break;
+
+    if ($key != '') {
+        $file = '';
+        if ($item != '') {
+            $file = '<b>' . $item . '</b>';
+        }
+
+        $state = $I18N->msg($key, '<span class="rex-error">', '</span>', rex_absPath($file));
     }
-    case 3:
-    {
-      $key = 'setup_015';
-      break;
-    }
-  }
 
-  if($key != '')
-  {
-    $file = '';
-    if($item != '')
-      $file = '<b>'. $item .'</b>';
-
-    $state = $I18N->msg($key, '<span class="rex-error">', '</span>', rex_absPath($file));
-  }
-
-  return $state;
+    return $state;
 }
 
 function _rex_is_writable($item)
 {
-  // Fehler unterdrücken, falls keine Berechtigung
-  if (@ is_dir($item))
-  {
-    if (!@ is_writable($item . '/.'))
-    {
-      return 1;
+    // Fehler unterdrücken, falls keine Berechtigung
+    if (@ is_dir($item)) {
+        if (!@ is_writable($item . '/.')) {
+            return 1;
+        }
     }
-  }
-  // Fehler unterdrücken, falls keine Berechtigung
-  elseif (@ is_file($item))
-  {
-    if (!@ is_writable($item))
-    {
-      return 2;
+    // Fehler unterdrücken, falls keine Berechtigung
+    elseif (@ is_file($item)) {
+        if (!@ is_writable($item)) {
+            return 2;
+        }
+    } else {
+        return 3;
     }
-  }
-  else
-  {
-    return 3;
-  }
 
-  return 0;
+    return 0;
 }
 
-function rex_getAttributes($name,$content,$default = null)
+function rex_getAttributes($name, $content, $default = null)
 {
-  $prop = unserialize($content);
-  if (isset($prop[$name])) return $prop[$name];
-  return $default;
+    $prop = unserialize($content);
+    if (isset($prop[$name])) {
+        return $prop[$name];
+    }
+    return $default;
 }
 
-function rex_setAttributes($name,$value,$content)
+function rex_setAttributes($name, $value, $content)
 {
-  $prop = unserialize($content);
-  $prop[$name] = $value;
-  return serialize($prop);
+    $prop = unserialize($content);
+    $prop[$name] = $value;
+    return serialize($prop);
 }
 
 /**
@@ -135,119 +131,137 @@ function rex_setAttributes($name,$value,$content)
  */
 function rex_tabindex($html = true)
 {
-  global $REX;
+    global $REX;
 
-  if (empty($REX['TABINDEX']))
-  {
-    $REX['TABINDEX'] = 0;
-  }
+    if (empty($REX['TABINDEX'])) {
+        $REX['TABINDEX'] = 0;
+    }
 
-  if($html === true)
-  {
-    return ' tabindex="'. ++$REX['TABINDEX'] .'"';
-  }
-  return ++$REX['TABINDEX'];
+    if ($html === true) {
+        return ' tabindex="' . ++$REX['TABINDEX'] . '"';
+    }
+    return ++$REX['TABINDEX'];
 }
 
 
 function array_insert($array, $index, $value)
 {
-  // In PHP5 akzeptiert array_merge nur arrays. Deshalb hier $value als Array verpacken
-  return array_merge(array_slice($array, 0, $index), array($value), array_slice($array, $index));
+    // In PHP5 akzeptiert array_merge nur arrays. Deshalb hier $value als Array verpacken
+    return array_merge(array_slice($array, 0, $index), array($value), array_slice($array, $index));
 }
 
 function rex_message($message, $cssClass, $sorround_tag)
 {
-  $return = '';
+    $return = '';
 
-  $return = '<div class="rex-message"><'. $sorround_tag .' class="'. $cssClass .'">';
+    $return = '<div class="rex-message"><' . $sorround_tag . ' class="' . $cssClass . '">';
 
-  if ($sorround_tag != 'p')
-    $return .= '<p>';
+    if ($sorround_tag != 'p') {
+        $return .= '<p>';
+    }
 
-  $return .= '<span>'. $message .'</span>';
+    $return .= '<span>' . $message . '</span>';
 
-  if ($sorround_tag != 'p')
-    $return .= '</p>';
+    if ($sorround_tag != 'p') {
+        $return .= '</p>';
+    }
 
-  $return .= '</'. $sorround_tag .'></div>';
+    $return .= '</' . $sorround_tag . '></div>';
 
-  return $return;
+    return $return;
 }
 
 function rex_info($message, $cssClass = null, $sorround_tag = null)
 {
-  if(!$cssClass) $cssClass = 'rex-info';
-  if(!$sorround_tag) $sorround_tag = 'div';
-  return rex_message($message, $cssClass, $sorround_tag);
+    if (!$cssClass) {
+        $cssClass = 'rex-info';
+    }
+    if (!$sorround_tag) {
+        $sorround_tag = 'div';
+    }
+    return rex_message($message, $cssClass, $sorround_tag);
 }
 
 function rex_warning($message, $cssClass = null, $sorround_tag = null)
 {
-  if(!$cssClass) $cssClass = 'rex-warning';
-  if(!$sorround_tag) $sorround_tag = 'div';
-  return rex_message($message, $cssClass, $sorround_tag);
+    if (!$cssClass) {
+        $cssClass = 'rex-warning';
+    }
+    if (!$sorround_tag) {
+        $sorround_tag = 'div';
+    }
+    return rex_message($message, $cssClass, $sorround_tag);
 }
 
 function rex_info_block($message, $cssClass = null, $sorround_tag = null)
 {
-  if(!$cssClass) $cssClass = 'rex-info-block';
-  if(!$sorround_tag) $sorround_tag = 'div';
-  return rex_message_block($message, $cssClass, $sorround_tag);
+    if (!$cssClass) {
+        $cssClass = 'rex-info-block';
+    }
+    if (!$sorround_tag) {
+        $sorround_tag = 'div';
+    }
+    return rex_message_block($message, $cssClass, $sorround_tag);
 }
 
 function rex_warning_block($message, $cssClass = null, $sorround_tag = null)
 {
-  if(!$cssClass) $cssClass = 'rex-warning-block';
-  if(!$sorround_tag) $sorround_tag = 'div';
-  return rex_message_block($message, $cssClass, $sorround_tag);
+    if (!$cssClass) {
+        $cssClass = 'rex-warning-block';
+    }
+    if (!$sorround_tag) {
+        $sorround_tag = 'div';
+    }
+    return rex_message_block($message, $cssClass, $sorround_tag);
 }
 
 function rex_message_block($message, $cssClass, $sorround_tag)
 {
-  return '<div class="rex-message-block">
-            <'. $sorround_tag .' class="'. $cssClass .'">
-              <div class="rex-message-content">
-                '. $message .'
-              </div>
-            </'. $sorround_tag .'>
-          </div>';
+    return '<div class="rex-message-block">
+                        <' . $sorround_tag . ' class="' . $cssClass . '">
+                            <div class="rex-message-content">
+                                ' . $message . '
+                            </div>
+                        </' . $sorround_tag . '>
+                    </div>';
 }
 
 function rex_content_block($content)
 {
-  return '<div class="rex-content-block"><div class="rex-content-block-content">'. $content .'</div></div>';
+    return '<div class="rex-content-block"><div class="rex-content-block-content">' . $content . '</div></div>';
 }
 
 function rex_accesskey($title, $key)
 {
-  global $REX;
+    global $REX;
 
-  if($key && $REX['USER']->hasPerm('accesskeys[]'))
-    return ' accesskey="'. $key .'" title="'. $title .' ['. $key .']"';
+    if ($key && $REX['USER']->hasPerm('accesskeys[]')) {
+        return ' accesskey="' . $key . '" title="' . $title . ' [' . $key . ']"';
+    }
 
-  return ' title="'. $title .'"';
+    return ' title="' . $title . '"';
 }
 
 function rex_ini_get($val)
 {
-  $val = trim(ini_get($val));
-  if ($val != '') {
-    $last = strtolower($val{strlen($val)-1});
-  } else {
-    $last = '';
-  }
-  switch($last) {
-      // The 'G' modifier is available since PHP 5.1.0
-      case 'g':
-          $val *= 1024;
-      case 'm':
-          $val *= 1024;
-      case 'k':
-          $val *= 1024;
-  }
+    $val = trim(ini_get($val));
+    if ($val != '') {
+        $last = strtolower($val{
+            strlen($val) - 1});
+    } else {
+        $last = '';
+    }
+    switch ($last) {
+            // The 'G' modifier is available since PHP 5.1.0
+            case 'g':
+                    $val *= 1024;
+            case 'm':
+                    $val *= 1024;
+            case 'k':
+                    $val *= 1024;
+    }
 
-  return $val;
+    return $val;
 }
 
 /**
@@ -255,30 +269,31 @@ function rex_ini_get($val)
  */
 function rex_translate($text, $I18N_Catalogue = null, $use_htmlspecialchars = true)
 {
-  if(!$I18N_Catalogue)
-  {
-    global $REX, $I18N;
+    if (!$I18N_Catalogue) {
+        global $REX, $I18N;
 
-    if(!$I18N)
-      $I18N = rex_create_lang($REX['LANG']);
+        if (!$I18N) {
+            $I18N = rex_create_lang($REX['LANG']);
+        }
 
-    if(!$I18N)
-      trigger_error('Unable to create language "'. $REX['LANG'] .'"', E_USER_ERROR);
+        if (!$I18N) {
+            trigger_error('Unable to create language "' . $REX['LANG'] . '"', E_USER_ERROR);
+        }
 
-    return rex_translate($text, $I18N, $use_htmlspecialchars);
-  }
+        return rex_translate($text, $I18N, $use_htmlspecialchars);
+    }
 
-  $tranKey = 'translate:';
-  $transKeyLen = strlen($tranKey);
-  if(substr($text, 0, $transKeyLen) == $tranKey)
-  {
-    $text = $I18N_Catalogue->msg(substr($text, $transKeyLen));
-  }
+    $tranKey = 'translate:';
+    $transKeyLen = strlen($tranKey);
+    if (substr($text, 0, $transKeyLen) == $tranKey) {
+        $text = $I18N_Catalogue->msg(substr($text, $transKeyLen));
+    }
 
-  if($use_htmlspecialchars)
-    return htmlspecialchars($text);
+    if ($use_htmlspecialchars) {
+        return htmlspecialchars($text);
+    }
 
-  return $text;
+    return $text;
 }
 
 /**
@@ -286,15 +301,15 @@ function rex_translate($text, $I18N_Catalogue = null, $use_htmlspecialchars = tr
  */
 function rex_redirect($article_id, $clang = '', $params = array())
 {
-  global $REX;
+    global $REX;
 
-  // Alle OBs schließen
-  while(@ob_end_clean());
+    // Alle OBs schließen
+    while (@ob_end_clean());
 
-  $divider = '&';
+    $divider = '&';
 
-  header('Location: '. rex_getUrl($article_id, $clang, $params, $divider));
-  exit();
+    header('Location: ' . rex_getUrl($article_id, $clang, $params, $divider));
+    exit();
 }
 
 /**
@@ -303,91 +318,85 @@ function rex_redirect($article_id, $clang = '', $params = array())
  */
 function rex_split_string($string)
 {
-  $spacer = '@@@REX_SPACER@@@';
-  $result = array();
+    $spacer = '@@@REX_SPACER@@@';
+    $result = array();
 
-  // TODO mehrfachspaces hintereinander durch einfachen ersetzen
-  $string = ' ' . trim($string) . ' ';
+    // TODO mehrfachspaces hintereinander durch einfachen ersetzen
+    $string = ' ' . trim($string) . ' ';
 
-  // Strings mit Quotes heraussuchen
-  $pattern = '!(["\'])(.*)\\1!U';
-  preg_match_all($pattern, $string, $matches);
-  $quoted = isset ($matches[2]) ? $matches[2] : array();
+    // Strings mit Quotes heraussuchen
+    $pattern = '!(["\'])(.*)\\1!U';
+    preg_match_all($pattern, $string, $matches);
+    $quoted = isset ($matches[2]) ? $matches[2] : array();
 
-  // Strings mit Quotes maskieren
-  $string = preg_replace($pattern, $spacer, $string);
+    // Strings mit Quotes maskieren
+    $string = preg_replace($pattern, $spacer, $string);
 
-  // ----------- z.b. 4 "av c" 'de f' ghi
-  if (strpos($string, '=') === false)
-  {
-    $parts = explode(' ', $string);
-    foreach ($parts as $part)
-    {
-      if (empty ($part))
-        continue;
+    // ----------- z.b. 4 "av c" 'de f' ghi
+    if (strpos($string, '=') === false) {
+        $parts = explode(' ', $string);
+        foreach ($parts as $part) {
+            if (empty ($part)) {
+                continue;
+            }
 
-      if ($part == $spacer)
-      {
-        $result[] = array_shift($quoted);
-      }
-      else
-      {
-        $result[] = $part;
-      }
+            if ($part == $spacer) {
+                $result[] = array_shift($quoted);
+            } else {
+                $result[] = $part;
+            }
+        }
     }
-  }
-  // ------------ z.b. a=4 b="av c" y='de f' z=ghi
-  else
-  {
-    $parts = explode(' ', $string);
-    foreach ($parts as $part)
-    {
-      if(empty($part))
-        continue;
+    // ------------ z.b. a=4 b="av c" y='de f' z=ghi
+    else {
+        $parts = explode(' ', $string);
+        foreach ($parts as $part) {
+            if (empty($part)) {
+                continue;
+            }
 
-      $variable = explode('=', $part);
+            $variable = explode('=', $part);
 
-      if (empty ($variable[0]) || empty ($variable[1]))
-        continue;
+            if (empty ($variable[0]) || empty ($variable[1])) {
+                continue;
+            }
 
-      $var_name = $variable[0];
-      $var_value = $variable[1];
+            $var_name = $variable[0];
+            $var_value = $variable[1];
 
-      if ($var_value == $spacer)
-      {
-        $var_value = array_shift($quoted);
-      }
+            if ($var_value == $spacer) {
+                $var_value = array_shift($quoted);
+            }
 
-      $result[$var_name] = $var_value;
+            $result[$var_name] = $var_value;
+        }
     }
-  }
-  return $result;
+    return $result;
 }
 
 function rex_put_file_contents($path, $content)
 {
-  global $REX;
+    global $REX;
 
-  $writtenBytes = file_put_contents($path, $content);
-  @ chmod($path, $REX['FILEPERM']);
+    $writtenBytes = file_put_contents($path, $content);
+    @ chmod($path, $REX['FILEPERM']);
 
-  return $writtenBytes;
+    return $writtenBytes;
 }
 
 function rex_get_file_contents($path)
 {
-  return file_get_contents($path);
+    return file_get_contents($path);
 }
 
 function rex_replace_dynamic_contents($path, $content)
 {
-  if(file_exists($path) && $fcontent = rex_get_file_contents($path))
-  {
-    $content = "// --- DYN\n". trim($content) ."\n// --- /DYN";
-    $fcontent = preg_replace("@(\/\/.---.DYN.*\/\/.---.\/DYN)@s", $content, $fcontent, -1, $count);
-    return $count && rex_put_file_contents($path, $fcontent);
-  }
-  return false;
+    if (file_exists($path) && $fcontent = rex_get_file_contents($path)) {
+        $content = "// --- DYN\n" . trim($content) . "\n// --- /DYN";
+        $fcontent = preg_replace("@(\/\/.---.DYN.*\/\/.---.\/DYN)@s", $content, $fcontent, -1, $count);
+        return $count && rex_put_file_contents($path, $fcontent);
+    }
+    return false;
 }
 
 /**
@@ -400,7 +409,7 @@ function rex_replace_dynamic_contents($path, $content)
  * @param $orderBy Sortierung des ResultSets
  * @param $id_field Name des Primaerschluessels der Tabelle
  */
-function rex_organize_priorities($tableName, $priorColumnName, $whereCondition = '', $orderBy = '', $id_field='id')
+function rex_organize_priorities($tableName, $priorColumnName, $whereCondition = '', $orderBy = '', $id_field = 'id')
 {
 //  // Datenbankvariable initialisieren
 //  $qry = 'SET @count='. ($startBy - 1);
@@ -419,45 +428,44 @@ function rex_organize_priorities($tableName, $priorColumnName, $whereCondition =
 //  $sql = rex_sql::getInstance();
 //  $sql->setQuery($qry);
 
-  $qry = 'select * from '.$tableName;
-  if($whereCondition != '')
-    $qry .= ' WHERE '. $whereCondition;
-  if($orderBy != '')
-    $qry .= ' ORDER BY '. $orderBy;
+    $qry = 'select * from ' . $tableName;
+    if ($whereCondition != '') {
+        $qry .= ' WHERE ' . $whereCondition;
+    }
+    if ($orderBy != '') {
+        $qry .= ' ORDER BY ' . $orderBy;
+    }
 
-  $gu = rex_sql::factory();
-  $gr = rex_sql::factory();
-  $gr->setQuery($qry);
-  for ($i = 0; $i < $gr->getRows(); $i ++)
-  {
-      $gu->setQuery('update '.$tableName.' set '.$priorColumnName.'='.($i+1).' where '.$id_field.'='.$gr->getValue($id_field));
-      $gr->next();
-  }
+    $gu = rex_sql::factory();
+    $gr = rex_sql::factory();
+    $gr->setQuery($qry);
+    for ($i = 0; $i < $gr->getRows(); $i ++) {
+            $gu->setQuery('update ' . $tableName . ' set ' . $priorColumnName . '=' . ($i + 1) . ' where ' . $id_field . '=' . $gr->getValue($id_field));
+            $gr->next();
+    }
 }
 
 function rex_lang_is_utf8()
 {
-  return true;
+    return true;
 }
 
 // ------------------------------------- Allgemeine PHP Functions
 
 function rex_highlight_string($string, $return = false)
 {
-  $s = '<p class="rex-code">'. highlight_string($string, true) .'</p>';
-  if($return)
-  {
-    return $s;
-  }
-  echo $s;
+    $s = '<p class="rex-code">' . highlight_string($string, true) . '</p>';
+    if ($return) {
+        return $s;
+    }
+    echo $s;
 }
 
 function rex_highlight_file($filename, $return = false)
 {
-  $s = '<p class="rex-code">'. highlight_file($filename, true) .'</p>';
-  if($return)
-  {
-    return $s;
-  }
-  echo $s;
+    $s = '<p class="rex-code">' . highlight_file($filename, true) . '</p>';
+    if ($return) {
+        return $s;
+    }
+    echo $s;
 }

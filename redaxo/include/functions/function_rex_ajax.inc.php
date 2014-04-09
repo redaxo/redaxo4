@@ -12,5 +12,5 @@
  */
 function rex_isXmlHttpRequest()
 {
-  return $_SERVER['X_REQUESTED_WITH'] == 'XMLHttpRequest';
+    return $_SERVER['X_REQUESTED_WITH'] == 'XMLHttpRequest';
 }

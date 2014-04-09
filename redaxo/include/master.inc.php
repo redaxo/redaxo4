@@ -9,15 +9,16 @@
 define('REX_MIN_PHP_VERSION', '5.3.0');
 
 if (version_compare(PHP_VERSION, REX_MIN_PHP_VERSION) < 0) {
-  // out the error directly instead of trigger_error() to be 100% sure it is displayed and not hidden within any logfile
-  echo 'PHP version >=' . REX_MIN_PHP_VERSION . ' needed!';
-  exit();
+    // out the error directly instead of trigger_error() to be 100% sure it is displayed and not hidden within any logfile
+    echo 'PHP version >=' . REX_MIN_PHP_VERSION . ' needed!';
+    exit();
 }
 
 // -----------------
 
-if (!$REX['GG'])
-  $REX['GG'] = false;
+if (!$REX['GG']) {
+    $REX['GG'] = false;
+}
 
 // ----------------- SERVER VARS
 
@@ -76,10 +77,10 @@ $REX['USE_MD5'] = "false"; // String: "true"/"false"/"fronted"/"backend"
 $REX['MEDIA_DIR'] = 'files';
 $REX['MEDIA_ADDON_DIR'] = 'files/addons';
 
-$REX['INCLUDE_PATH']   = realpath($REX['HTDOCS_PATH'].'redaxo/include');
-$REX['GENERATED_PATH'] = realpath($REX['HTDOCS_PATH'].'redaxo/include/generated');
+$REX['INCLUDE_PATH']   = realpath($REX['HTDOCS_PATH'] . 'redaxo/include');
+$REX['GENERATED_PATH'] = realpath($REX['HTDOCS_PATH'] . 'redaxo/include/generated');
 $REX['FRONTEND_PATH']  = realpath($REX['HTDOCS_PATH']);
-$REX['MEDIAFOLDER']    = realpath($REX['HTDOCS_PATH'].$REX['MEDIA_DIR']);
+$REX['MEDIAFOLDER']    = realpath($REX['HTDOCS_PATH'] . $REX['MEDIA_DIR']);
 
 // Prefixes
 $REX['TABLE_PREFIX']  = 'rex_';
@@ -106,19 +107,18 @@ $REX['START_PAGE'] = 'structure';
 // Zeitzone setzen
 $REX['TIMEZONE'] = 'Europe/Berlin';
 
-if(function_exists("date_default_timezone_set"))
-{
-  date_default_timezone_set($REX['TIMEZONE']);
+if (function_exists('date_default_timezone_set')) {
+    date_default_timezone_set($REX['TIMEZONE']);
 }
 
 // ----------------- OTHER STUFF
 $REX['SYSTEM_ADDONS']                   = array('import_export', 'metainfo', 'be_search', 'image_manager');
 
 // ----------------- MEDIA RELATED
-$REX['MEDIAPOOL']['BLOCKED_EXTENSIONS'] = array('.php','.php3','.php4','.php5','.php6','.phtml','.pl','.asp','.aspx','.cfm','.jsp');
-$REX['MEDIAPOOL']['IMAGE_EXTENSIONS']   = array('gif','jpeg','jpg','png','bmp');
-$REX['MEDIAPOOL']['IMAGE_TYPES']        = array('image/gif','image/jpg','image/jpeg','image/png','image/x-png','image/pjpeg','image/bmp');
-$REX['MEDIAPOOL']['ALLOWED_DOCTYPES']   = array('bmp','css','doc','docx','eps','gif','gz','jpg','mov','mp3','ogg','pdf','png','ppt','pptx','pps','ppsx','rar','rtf','swf','tar','tif','txt','wma','xls','xlsx','zip');
+$REX['MEDIAPOOL']['BLOCKED_EXTENSIONS'] = array('.php', '.php3', '.php4', '.php5', '.php6', '.phtml', '.pl', '.asp', '.aspx', '.cfm', '.jsp');
+$REX['MEDIAPOOL']['IMAGE_EXTENSIONS']   = array('gif', 'jpeg', 'jpg', 'png', 'bmp');
+$REX['MEDIAPOOL']['IMAGE_TYPES']        = array('image/gif', 'image/jpg', 'image/jpeg', 'image/png', 'image/x-png', 'image/pjpeg', 'image/bmp');
+$REX['MEDIAPOOL']['ALLOWED_DOCTYPES']   = array('bmp', 'css', 'doc', 'docx', 'eps', 'gif', 'gz', 'jpg', 'mov', 'mp3', 'ogg', 'pdf', 'png', 'ppt', 'pptx', 'pps', 'ppsx', 'rar', 'rtf', 'swf', 'tar', 'tif', 'txt', 'wma', 'xls', 'xlsx', 'zip');
 
 // ----------------- DB1
 $REX['DB']['1']['HOST'] = "localhost";
@@ -184,17 +184,22 @@ $REX['VARIABLES'][] = 'rex_var_media';
 session_cache_limiter(false);
 
 // ----------------- default values
-if (!isset($REX['NOFUNCTIONS'])) $REX['NOFUNCTIONS'] = false;
+if (!isset($REX['NOFUNCTIONS'])) {
+    $REX['NOFUNCTIONS'] = false;
+}
 
 // ----------------- INCLUDE FUNCTIONS
-if(!$REX['NOFUNCTIONS']) include_once ($REX['INCLUDE_PATH'].'/functions.inc.php');
+if (!$REX['NOFUNCTIONS']) {
+    include_once $REX['INCLUDE_PATH'] . '/functions.inc.php';
+}
 
 // ----- SET CLANG
-include_once $REX['INCLUDE_PATH'].'/clang.inc.php';
+include_once $REX['INCLUDE_PATH'] . '/clang.inc.php';
 
-$REX['CUR_CLANG']  = rex_request('clang','rex-clang-id', $REX['START_CLANG_ID']);
+$REX['CUR_CLANG']  = rex_request('clang', 'rex-clang-id', $REX['START_CLANG_ID']);
 
-if(rex_request('article_id', 'int') == 0)
-  $REX['ARTICLE_ID'] = $REX['START_ARTICLE_ID'];
-else
-  $REX['ARTICLE_ID'] = rex_request('article_id','rex-article-id', $REX['NOTFOUND_ARTICLE_ID']);
+if (rex_request('article_id', 'int') == 0) {
+    $REX['ARTICLE_ID'] = $REX['START_ARTICLE_ID'];
+} else {
+    $REX['ARTICLE_ID'] = rex_request('article_id', 'rex-article-id', $REX['NOTFOUND_ARTICLE_ID']);
+}

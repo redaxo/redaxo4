@@ -21,32 +21,30 @@ $plugins = array('agk_skin');
 
 $ADDONS    = rex_read_addons_folder();
 $PLUGINS   = array();
-foreach($ADDONS as $_addon)
-  $PLUGINS[$_addon] = rex_read_plugins_folder($_addon);
+foreach ($ADDONS as $_addon) {
+    $PLUGINS[$_addon] = rex_read_plugins_folder($_addon);
+}
 
 $pluginManager = new rex_pluginManager($PLUGINS, $addonname);
 
-foreach($plugins as $pluginname)
-{
-  // plugin installieren
-  if(($instErr = $pluginManager->install($pluginname)) !== true)
-  {
-    $error = $instErr;
-  }
+foreach ($plugins as $pluginname) {
+    // plugin installieren
+    if (($instErr = $pluginManager->install($pluginname)) !== true) {
+        $error = $instErr;
+    }
 
-  // plugin aktivieren
-  if ($error == '' && ($actErr = $pluginManager->activate($pluginname)) !== true)
-  {
-    $error = $actErr;
-  }
+    // plugin aktivieren
+    if ($error == '' && ($actErr = $pluginManager->activate($pluginname)) !== true) {
+        $error = $actErr;
+    }
 
-  if($error != '')
-  {
-    break;
-  }
+    if ($error != '') {
+        break;
+    }
 }
 
-if ($error != '')
-  $REX['ADDON']['installmsg']['be_style'] = $error;
-else
-  $REX['ADDON']['install']['be_style'] = true;
+if ($error != '') {
+    $REX['ADDON']['installmsg']['be_style'] = $error;
+} else {
+    $REX['ADDON']['install']['be_style'] = true;
+}

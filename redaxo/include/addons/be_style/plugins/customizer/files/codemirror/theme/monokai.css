@@ -24,6 +24,6 @@
 
 .cm-s-monokai .CodeMirror-activeline-background {background: #373831 !important;}
 .cm-s-monokai .CodeMirror-matchingbracket {
-  text-decoration: underline;
-  color: white !important;
+    text-decoration: underline;
+    color: white !important;
 }

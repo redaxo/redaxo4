@@ -11,7 +11,8 @@
 
 $error = '';
 
-if ($error != '')
-  $REX['ADDON']['installmsg']['cronjob'] = $error;
-else
-  $REX['ADDON']['install']['cronjob'] = true;
+if ($error != '') {
+    $REX['ADDON']['installmsg']['cronjob'] = $error;
+} else {
+    $REX['ADDON']['install']['cronjob'] = true;
+}

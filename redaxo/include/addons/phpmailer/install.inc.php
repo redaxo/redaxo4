@@ -12,7 +12,8 @@
 
 $error = '';
 
-if ($error != '')
-  $REX['ADDON']['installmsg']['phpmailer'] = $error;
-else
-  $REX['ADDON']['install']['phpmailer'] = true;
+if ($error != '') {
+    $REX['ADDON']['installmsg']['phpmailer'] = $error;
+} else {
+    $REX['ADDON']['install']['phpmailer'] = true;
+}

@@ -12,15 +12,14 @@
 
 $error = '';
 
-if($error == '')
-{
-  if (!extension_loaded('xml'))
-  {
-    $error = 'Missing required PHP-Extension "xml"';
-  }
+if ($error == '') {
+    if (!extension_loaded('xml')) {
+        $error = 'Missing required PHP-Extension "xml"';
+    }
 }
 
-if ($error != '')
-  $REX['ADDON']['installmsg']['rss_reader'] = $error;
-else
-  $REX['ADDON']['install']['rss_reader'] = true;
+if ($error != '') {
+    $REX['ADDON']['installmsg']['rss_reader'] = $error;
+} else {
+    $REX['ADDON']['install']['rss_reader'] = true;
+}

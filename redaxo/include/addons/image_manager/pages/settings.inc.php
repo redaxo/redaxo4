@@ -18,22 +18,25 @@ $old_syntax = rex_request('old_syntax', 'int');
 
 $config_file = rex_path::addonData('image_manager', 'settings.inc.php');
 
-if ($func == 'update')
-{
-  if($jpg_quality > 100) $jpg_quality = 100;
-  else if ($jpg_quality < 0) $jpg_quality = 0;
+if ($func == 'update') {
+    if ($jpg_quality > 100) {
+        $jpg_quality = 100;
+    } elseif ($jpg_quality < 0) {
+        $jpg_quality = 0;
+    }
 
-  $REX['ADDON']['image_manager']['jpg_quality'] = $jpg_quality;
+    $REX['ADDON']['image_manager']['jpg_quality'] = $jpg_quality;
 
-  $content = '<?php
+    $content = '<?php
 
-$REX[\'ADDON\'][\'image_manager\'][\'jpg_quality\'] = '.$jpg_quality.';
+$REX[\'ADDON\'][\'image_manager\'][\'jpg_quality\'] = ' . $jpg_quality . ';
 ';
 
-  if(rex_file::put($config_file, $content) !== false)
-    echo rex_info($I18N->msg('imanager_config_saved'));
-  else
-    echo rex_warning($I18N->msg('imanager_config_not_saved'));
+    if (rex_file::put($config_file, $content) !== false) {
+        echo rex_info($I18N->msg('imanager_config_saved'));
+    } else {
+        echo rex_warning($I18N->msg('imanager_config_not_saved'));
+    }
 }
 
 echo '
@@ -42,35 +45,35 @@ echo '
 
 
 
-  <div class="rex-form">
+    <div class="rex-form">
 
-<h2 class="rex-hl2">'. $I18N->msg('imanager_subpage_config') .'</h2>
+<h2 class="rex-hl2">' . $I18N->msg('imanager_subpage_config') . '</h2>
 
 <form action="index.php" method="post">
 
-    <fieldset class="rex-form-col-1">
-      <div class="rex-form-wrapper">
-      <input type="hidden" name="page" value="image_manager" />
-      <input type="hidden" name="subpage" value="settings" />
-      <input type="hidden" name="func" value="update" />
+        <fieldset class="rex-form-col-1">
+            <div class="rex-form-wrapper">
+            <input type="hidden" name="page" value="image_manager" />
+            <input type="hidden" name="subpage" value="settings" />
+            <input type="hidden" name="func" value="update" />
 
-      <div class="rex-form-row rex-form-element-v2">
-        <p class="rex-form-text">
-          <label for="jpg_quality">'. $I18N->msg('imanager_jpg_quality') .' [0-100]</label>
-          <input class="rex-form-text" type="text" id="jpg_quality" name="jpg_quality" value="'. htmlspecialchars($REX['ADDON']['image_manager']['jpg_quality']).'" />
-        </p>
-      </div>
+            <div class="rex-form-row rex-form-element-v2">
+                <p class="rex-form-text">
+                    <label for="jpg_quality">' . $I18N->msg('imanager_jpg_quality') . ' [0-100]</label>
+                    <input class="rex-form-text" type="text" id="jpg_quality" name="jpg_quality" value="' . htmlspecialchars($REX['ADDON']['image_manager']['jpg_quality']) . '" />
+                </p>
+            </div>
 
-      <div class="rex-form-row rex-form-element-v2">
-        <p class="rex-form-submit">
-          <input type="submit" class="rex-form-submit" name="sendit" value="'.$I18N->msg('update').'" />
-        </p>
-      </div>
+            <div class="rex-form-row rex-form-element-v2">
+                <p class="rex-form-submit">
+                    <input type="submit" class="rex-form-submit" name="sendit" value="' . $I18N->msg('update') . '" />
+                </p>
+            </div>
+        </div>
+            </fieldset>
+    </form>
     </div>
-      </fieldset>
-  </form>
-  </div>
 
 
 </div>
-  ';
+    ';

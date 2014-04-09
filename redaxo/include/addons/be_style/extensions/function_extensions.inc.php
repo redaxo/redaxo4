@@ -8,13 +8,12 @@
  */
 function rex_be_add_page($params)
 {
-  if(rex_extension_is_registered('BE_STYLE_PAGE_CONTENT'))
-  {
-    global $REX;
+    if (rex_extension_is_registered('BE_STYLE_PAGE_CONTENT')) {
+        global $REX;
 
-    $mypage = 'be_style';
-    $REX['ADDON']['name'][$mypage] = 'Backend Style';
-  }
+        $mypage = 'be_style';
+        $REX['ADDON']['name'][$mypage] = 'Backend Style';
+    }
 }
 
 /**
@@ -24,14 +23,12 @@ function rex_be_add_page($params)
  */
 function rex_be_style_css_add($params)
 {
-  global $REX;
-  $addon = "be_style";
-  foreach(OOPlugin::getAvailablePlugins($addon) as $plugin)
-  {
-    if (file_exists('../'.$REX['MEDIA_ADDON_DIR'].'/'.$addon.'/plugins/'.$plugin.'/css_main.css'))
-    {
-      $params["subject"] .= "\n".'  <link rel="stylesheet" type="text/css" href="../'.$REX['MEDIA_ADDON_DIR'].'/'.$addon.'/plugins/'.$plugin.'/css_main.css" media="screen, projection, print" />';
+    global $REX;
+    $addon = 'be_style';
+    foreach (OOPlugin::getAvailablePlugins($addon) as $plugin) {
+        if (file_exists('../' . $REX['MEDIA_ADDON_DIR'] . '/' . $addon . '/plugins/' . $plugin . '/css_main.css')) {
+            $params['subject'] .= "\n" . '  <link rel="stylesheet" type="text/css" href="../' . $REX['MEDIA_ADDON_DIR'] . '/' . $addon . '/plugins/' . $plugin . '/css_main.css" media="screen, projection, print" />';
+        }
     }
-  }
-  return $params["subject"];
+    return $params['subject'];
 }
