@@ -26,17 +26,41 @@ if($PERMALL)
 
   // ---- Dateien aus der DB lesen
   $db = rex_sql::factory();
-  $db->setQuery('SELECT filename FROM '. $REX['TABLE_PREFIX'].'file');
+  $db->setQuery('SELECT * FROM '. $REX['TABLE_PREFIX'].'file');
   $db_files = array();
+  $db_filenames = array();
 
-  for($i=0;$i<$db->getRows();$i++)
-  {
-    $db_files[] = $db->getValue('filename');
-    $db->next();
+  foreach($db->getArray() as $db_file) {
+    $db_filenames[] = $db_file["filename"];
+    $db_files[] = $db_file;
   }
 
-  $diff_files = array_diff($folder_files, $db_files);
+  $diff_files = array_diff($folder_files, $db_filenames);
   $diff_count = count($diff_files);
+
+  // Extra - filesize/width/height DB-Filesystem Sync
+  foreach($db_files as $db_file) {
+
+    $file_filesize = filesize($REX['MEDIAFOLDER'].'/'.$db_file["filename"]);
+    if ($db_file["filesize"] != $file_filesize) {
+
+      $file_sql = rex_sql::factory();
+      // $file_sql->debugsql = 1;
+      $file_sql->setTable($REX['TABLE_PREFIX'].'file');
+      $file_sql->setWhere('filename="'. mysql_real_escape_string($db_file["filename"]).'"');
+      $file_sql->setValue('filesize', $file_filesize);
+
+      if ($db_file["width"] > 0) {
+        if($size = @getimagesize($REX['MEDIAFOLDER'] .'/'. $db_file["filename"])) {
+          $file_sql->setValue('width', $size[0]);
+          $file_sql->setValue('height', $size[1]);
+        }
+      }
+      $file_sql->update();
+      rex_deleteCacheMedia($db_file["filename"]);
+    }
+
+  }
 
   if(rex_post('save', 'boolean') && rex_post('sync_files', 'boolean'))
   {
