@@ -27,6 +27,10 @@ Version 4.6.0 (2014-XX-XX)
     - Exports können vom Server heruntergeladen werden
     - Beim Export können die Tabellen ausgewählt werden
   * rex_navigation: Zusätzlicher Filteroperator "regex"
+  * Image Manager
+    - pdf2img entfernt, als effect angelegt. Diverse Formate (.pdf,.eps,.psd) sind nun möglich
+    - Bildtyperkennung nun über finfo. Bilder müssen nicht unbedingt die richtige Extension haben
+    - Bei Fehlern werden nun immer Errorbilder ausgegeben kein Text.
 
   Bugfixes
   * MetaInfo: Defaultwerte für Felder mit Mehrfachwerten (Checkbox, Multiple-Select) werden beim hinzufügen nicht vorbelegt.
