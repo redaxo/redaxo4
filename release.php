@@ -76,6 +76,7 @@ function buildRelease($name = null, $version = null)
         './_db_schema.mwb',
         './test',
         './bin',
+        './redaxo/include/data',
         './redaxo/include/generated',
         './redaxo/include/addons',
         './' . $cfg_path,
@@ -85,7 +86,8 @@ function buildRelease($name = null, $version = null)
     );
     // Addons die vorinstalliert sein sollen
     $preinstallAddons = array(
-        'be_style',
+      'be_style',
+      'install',
     );
     // Plugins die vorinstalliert sein sollen
     $preinstallPlugins = array(
@@ -169,6 +171,7 @@ function buildRelease($name = null, $version = null)
         // das kopieren würde sehr lange dauern und ist unnötig
         $manual_dirs = array(
             $dest . '/files',
+            $dest . '/redaxo/include/data',
             $dest . '/redaxo/include/generated',
             $dest . '/redaxo/include/generated/articles',
             $dest . '/redaxo/include/generated/templates',
@@ -189,6 +192,7 @@ function buildRelease($name = null, $version = null)
         // Entpacker verwendet wird
         $manual_dirs = array(
             $dest . '/files',
+            $dest . '/redaxo/include/data',
             $dest . '/redaxo/include/generated/articles',
             $dest . '/redaxo/include/generated/templates',
             $dest . '/redaxo/include/generated/files',
