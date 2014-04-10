@@ -87,7 +87,6 @@ function buildRelease($name = null, $version = null)
     // Addons die vorinstalliert sein sollen
     $preinstallAddons = array(
       'be_style',
-      'install',
     );
     // Plugins die vorinstalliert sein sollen
     $preinstallPlugins = array(
