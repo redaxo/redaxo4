@@ -68,6 +68,12 @@ if ($function == 'export') {
         $header      = '';
         $ext         = $exporttype == 'sql' ? '.sql' : '.tar.gz';
         $export_path = getImportDir() . '/';
+        if (!is_dir($export_path)) {
+            rex_dir::copy(
+                rex_path::addon('import_export', 'backup'),
+                rex_path::addonData('import_export', 'backups')
+            );
+        }
 
         if (file_exists($export_path . $filename . $ext)) {
             $i = 1;
