@@ -26,7 +26,7 @@ class rex_tar extends tar
     {
         // call constructor to omit warnings instead of unset vars..
 
-        $this->self();
+        $this->rex_tar();
         // Clear any values from previous tar archives
         unset($this->filename);
         unset($this->isGzipped);
