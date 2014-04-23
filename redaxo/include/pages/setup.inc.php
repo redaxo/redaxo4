@@ -630,7 +630,7 @@ function rex_setup_dropREXtables()
 
                     // apply 4.3 patches to database
                     if ($err_msg == '') {
-                    $err_msg .= rex_setup_import($REX['INCLUDE_PATH'] . '/install/update4_x_to_4_5.sql');
+                    $err_msg .= rex_setup_import($REX['INCLUDE_PATH'] . '/install/update4_x_to_4_6.sql');
                     }
                 }
             } elseif ($dbanlegen == 3) {
@@ -664,7 +664,7 @@ function rex_setup_dropREXtables()
             // ----- volle Datenbank, alte DB löschen / drop
             rex_setup_setDBcharset('utf8 COLLATE utf8_general_ci');
 
-            $import_sql = $REX['INCLUDE_PATH'] . '/install/redaxo4_5.sql';
+            $import_sql = $REX['INCLUDE_PATH'] . '/install/redaxo4_6.sql';
 
             $db = rex_sql::factory();
             foreach ($requiredTables as $table) {
@@ -682,7 +682,7 @@ function rex_setup_dropREXtables()
             // ----- leere Datenbank neu einrichten
             rex_setup_setDBcharset('utf8 COLLATE utf8_general_ci');
 
-            $import_sql = $REX['INCLUDE_PATH'] . '/install/redaxo4_5.sql';
+            $import_sql = $REX['INCLUDE_PATH'] . '/install/redaxo4_6.sql';
 
             if ($err_msg == '') {
             $err_msg .= rex_setup_import($import_sql);

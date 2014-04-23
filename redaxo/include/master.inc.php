@@ -124,7 +124,7 @@ $REX['MEDIAPOOL']['ALLOWED_DOCTYPES']   = array('bmp', 'css', 'doc', 'docx', 'ep
 $REX['DB']['1']['HOST'] = "localhost";
 $REX['DB']['1']['LOGIN'] = "root";
 $REX['DB']['1']['PSW'] = "";
-$REX['DB']['1']['NAME'] = "redaxo_4_5_0";
+$REX['DB']['1']['NAME'] = "redaxo_4_6_0";
 $REX['DB']['1']['PERSISTENT'] = false;
 
 // ----------------- DB2 - if necessary
