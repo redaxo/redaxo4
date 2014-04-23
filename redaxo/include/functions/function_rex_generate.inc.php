@@ -179,7 +179,7 @@ function rex_generateArticleMeta($article_id, $clang = null)
         $content .= '?>';
 
         $article_file = $REX['GENERATED_PATH'] . "/articles/$article_id.$_clang.article";
-        if (rex_put_file_contents($article_file, $content) === false) {
+        if (rex_file::put($article_file, $content) === false) {
             return $I18N->msg('article_could_not_be_generated') . ' ' . $I18N->msg('check_rights_in_directory') . $REX['GENERATED_PATH'] . '/articles/';
         }
 
@@ -227,7 +227,7 @@ function rex_generateArticleContent($article_id, $clang = null)
             )
         );
 
-        if (rex_put_file_contents($article_content_file, $article_content) === false) {
+        if (rex_file::put($article_content_file, $article_content) === false) {
             return $I18N->msg('article_could_not_be_generated') . ' ' . $I18N->msg('check_rights_in_directory') . $REX['GENERATED_PATH'] . '/articles/';
         }
     }
@@ -449,7 +449,7 @@ function rex_generateLists($re_id, $clang = null)
         $content .= "\n?>";
 
         $article_list_file = $REX['GENERATED_PATH'] . "/articles/$re_id.$_clang.alist";
-        if (rex_put_file_contents($article_list_file, $content) === false) {
+        if (rex_file::put($article_list_file, $content) === false) {
             return $I18N->msg('article_could_not_be_generated') . ' ' . $I18N->msg('check_rights_in_directory') . $REX['GENERATED_PATH'] . '/articles/';
         }
 
@@ -466,7 +466,7 @@ function rex_generateLists($re_id, $clang = null)
         $content .= "\n?>";
 
         $article_categories_file = $REX['GENERATED_PATH'] . "/articles/$re_id.$_clang.clist";
-        if (rex_put_file_contents($article_categories_file, $content) === false) {
+        if (rex_file::put($article_categories_file, $content) === false) {
             return $I18N->msg('article_could_not_be_generated') . ' ' . $I18N->msg('check_rights_in_directory') . $REX['GENERATED_PATH'] . '/articles/';
         }
     }
@@ -604,7 +604,7 @@ function rex_generateMedia($filename)
     $content .= '?>';
 
     $media_file = $REX['GENERATED_PATH'] . "/files/$filename.media";
-    if (rex_put_file_contents($media_file, $content)) {
+    if (rex_file::put($media_file, $content)) {
         return true;
     }
 
@@ -638,7 +638,7 @@ function rex_generateMediaCategory($category_id)
     $content .= '?>';
 
     $cat_file = $REX['GENERATED_PATH'] . "/files/$category_id.mcat";
-    if (rex_put_file_contents($cat_file, $content)) {
+    if (rex_file::put($cat_file, $content)) {
         return true;
     }
 
@@ -668,7 +668,7 @@ function rex_generateMediaList($category_id)
     $content .= '?>';
 
     $list_file = $REX['GENERATED_PATH'] . "/files/$category_id.mlist";
-    if (rex_put_file_contents($list_file, $content)) {
+    if (rex_file::put($list_file, $content)) {
         return true;
     }
 
@@ -699,7 +699,7 @@ function rex_generateMediaCategoryList($category_id)
     $content .= '?>';
 
     $list_file = $REX['GENERATED_PATH'] . "/files/$category_id.mclist";
-    if (rex_put_file_contents($list_file, $content)) {
+    if (rex_file::put($list_file, $content)) {
         return true;
     }
 
@@ -729,7 +729,7 @@ function rex_generateMediaExtensionList($extension)
     $content .= '?>';
 
     $list_file = $REX['GENERATED_PATH'] . "/files/$extension.mextlist";
-    if (rex_put_file_contents($list_file, $content)) {
+    if (rex_file::put($list_file, $content)) {
         return true;
     }
 
@@ -1202,7 +1202,7 @@ function rex_generateTemplate($template_id)
         foreach ($REX['VARIABLES'] as $var) {
             $content = $var->getTemplate($content);
         }
-        if (rex_put_file_contents($templateFile, $content) !== false) {
+        if (rex_file::put($templateFile, $content) !== false) {
             return true;
         } else {
             trigger_error('Unable to generate template ' . $template_id . '!', E_USER_ERROR);
