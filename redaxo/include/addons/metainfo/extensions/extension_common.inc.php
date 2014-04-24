@@ -63,6 +63,8 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
                 // Neue Notation mit | als Trenner
                 $dbvalues = explode('|', $activeItem->getValue($name));
             }
+        } else {
+            $dbvalues = (array) $sqlFields->getValue('default');
         }
 
         if ($title != '') {
