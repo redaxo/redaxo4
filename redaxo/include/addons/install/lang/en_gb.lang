@@ -57,7 +57,7 @@ install_info_addon_deleted = AddOn-Version of "{0}" has been deleted!
 install_warning_addon_zip_not_extracted = The Zip-File could not be extracted in the AddOn-Folder!
 
 install_warning_zip_wrong_checksum = The checksum of the Zip-File is wrong!
-install_warning_zip_wrong_format = The Zip-File has a wrong format!
+install_warning_zip_wrong_format = The Zip-File has a wrong format! The AddOn-Folder-Name is different to the The AddOn-Key.
 
 install_to_addon_page = To AddOn-page
 
