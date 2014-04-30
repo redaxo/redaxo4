@@ -7,7 +7,7 @@ angehandelt.
 Änderungen im Detail:
 ---------------------------------------------------------------------------------
 
-Version 4.6.0 (2014-XX-XX)
+Version 4.6.0 (2014-04-30)
 
   Neu
   * Utility-Klassen aus REDAXO 5 portiert: rex_dir, rex_file, rex_finder, rex_pager, rex_path, rex_socket, rex_string, rex_timer, rex_validator
