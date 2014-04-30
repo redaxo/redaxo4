@@ -37,6 +37,12 @@ Version 4.6.0 (2014-XX-XX)
   * Wenn zlib.output_compression aktiviert ist, wurde teilweise ein falscher Content-Length Header gesendet
   * Artikel verschieben: Online-Status bleibt erhalten und Kategoriename wird richtig gesetzt
 
+  Info für zukünfige Versionen
+
+  * class.compat.inc wird entfernt werden
+  * rex_resize Unterstützung wird aus dem Code entfernt werden
+
+
 Version 4.5.1 (2013-11-21)
 
   Wichtig: Eine Sicherheitslücke zum TinyMCE geschlossen.
