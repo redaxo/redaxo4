@@ -134,6 +134,13 @@ class rex_article extends rex_article_base
             // Inhalt ueber sql generierens
             $CONTENT = parent::getArticle($curctype);
         }
+        
+        // ----- EXTENSION POINT
+        $CONTENT = rex_register_extension_point('ART_CONTENT', $CONTENT,
+            array (
+               'article' => &$this,
+            )
+        );
 
         return $CONTENT;
     }
