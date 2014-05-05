@@ -70,6 +70,7 @@ function buildRelease($name = null, $version = null)
     $ignoreFiles = array(
         './.gitmodules',
         './.gitignore',
+        './.htaccess',
         './release.php',
         './release.xml',
         './_db_schema.png',
