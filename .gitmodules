@@ -1,9 +1,9 @@
 [submodule "redaxo/include/addons/xform"]
 	path = redaxo/include/addons/xform
-	url = https://github.com/dergel/redaxo4_xform.git
+	url = https://github.com/yakamara/redaxo4_xform.git
 [submodule "redaxo/include/addons/textile/vendor"]
 	path = redaxo/include/addons/textile/vendor
 	url = https://github.com/textile/php-textile.git
 [submodule "redaxo/include/addons/community"]
 	path = redaxo/include/addons/community
-	url = https://github.com/dergel/redaxo4_community.git
+	url = https://github.com/yakamara/redaxo4_community.git
