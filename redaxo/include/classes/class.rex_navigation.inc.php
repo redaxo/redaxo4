@@ -136,11 +136,11 @@ class rex_navigation
             if ($art = OOArticle::getArticleById($this->current_article_id)) {
                 if (!$art->isStartpage()) {
                     $lis .= '<li class="rex-lvl' . $i . '">' . htmlspecialchars($art->getName()) . '</li>';
-            }
                 } else {
                     $cat = OOCategory::getCategoryById($this->current_article_id);
                     $lis .= '<li class="rex-lvl' . $i . '">' . htmlspecialchars($cat->getName()) . '</li>';
                 }
+            }
         }
 
         return '<ul class="rex-breadcrumb">' . $lis . '</ul>';

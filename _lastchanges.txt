@@ -7,6 +7,11 @@ angehandelt.
 Änderungen im Detail:
 ---------------------------------------------------------------------------------
 
+Version 4.6.1 (2014-XX-XX)
+
+  Bugfixes
+  * rex_navigation::getBreadcrumb gab den aktuellen Artikel nicht aus
+
 Version 4.6.0 (2014-04-30)
 
   Neu
