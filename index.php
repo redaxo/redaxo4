@@ -51,10 +51,7 @@ if ($REX['SETUP']) {
 $REX['ARTICLE'] = new rex_article;
 $REX['ARTICLE']->setCLang($REX['CUR_CLANG']);
 
-if ($REX['SETUP']) {
-    header('Location: redaxo/index.php');
-    exit();
-} elseif ($REX['ARTICLE']->setArticleId($REX['ARTICLE_ID'])) {
+if ($REX['ARTICLE']->setArticleId($REX['ARTICLE_ID'])) {
     echo $REX['ARTICLE']->getArticleTemplate();
 } else {
     echo 'Kein Startartikel selektiert / No starting Article selected. Please click here to enter <a href="redaxo/index.php">redaxo</a>';
