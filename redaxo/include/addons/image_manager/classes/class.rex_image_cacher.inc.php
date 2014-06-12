@@ -22,7 +22,7 @@ class rex_image_cacher
         $cache_files = glob($original_cache_file . '*');
 
         // ----- check for cache file
-        if (count($cache_files) == 1) {
+        if (is_array($cache_files) && count($cache_files) == 1) {
             $cache_file = $cache_files[0];
 
             // time of cache
