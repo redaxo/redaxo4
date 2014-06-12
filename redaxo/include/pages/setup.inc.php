@@ -535,7 +535,7 @@ function rex_setup_dropREXtables()
                             <div class="rex-form-row">
                                 <p class="rex-form-col-a rex-form-text">
                                     <label for="redaxo_db_user_pass">' . $I18N->msg('setup_028') . '</label>
-                                    <input class="rex-form-text" type="text" id="redaxo_db_user_pass" name="redaxo_db_user_pass" value="' . htmlspecialchars($redaxo_db_user_pass) . '"' . rex_tabindex() . ' />
+                                    <input class="rex-form-text" type="password" id="redaxo_db_user_pass" name="redaxo_db_user_pass" value="' . htmlspecialchars($redaxo_db_user_pass) . '"' . rex_tabindex() . ' />
                                 </p>
                             </div>
 

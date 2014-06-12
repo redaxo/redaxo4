@@ -272,7 +272,9 @@ div.rex-form-setup-step-database div.rex-form-row p input.rex-form-submit {
 div.rex-form-setup-admin div.rex-form-row p.rex-form-text input {
     width: 200px;
 }
-
+div#rex-form-setup-step-2 div.rex-form-row p input.rex-form-submit {
+    margin-left: 170px;
+}
 
 
 /*    Login **********************************************************************
@@ -316,7 +318,8 @@ div#rex-form-structure-category tr.rex-metainfo-cat p textarea {
 div#rex-form-structure-category tr.rex-metainfo-cat p.rex-form-select select {
     width: 346px;
 }
-div#rex-form-structure-category tr.rex-metainfo-cat label {
+div#rex-form-structure-category tr.rex-metainfo-cat label, 
+div#rex-form-structure-category tr.rex-metainfo-cat .rex-form-label {
     padding-left: 0px;
     margin-right: 5px;
 }
@@ -579,6 +582,9 @@ div#rex-form-export div.rex-form-row div.rex-form-checkboxes {
 div#rex-form-export div.rex-form-row div.rex-form-checkboxes-wrapper {
     float: none;
     width: 300px;
+}
+div#rex-form-export div.rex-form-row div.rex-form-checkboxes-wrapper input.rex-form-checkbox {
+    margin-left: 15px;
 }
 
 
