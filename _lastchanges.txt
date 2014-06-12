@@ -9,8 +9,16 @@ angehandelt.
 
 Version 4.6.1 (2014-XX-XX)
 
+  Neu
+  * image_manager: image_output effect ergänzt
+
   Bugfixes
   * rex_navigation::getBreadcrumb gab den aktuellen Artikel nicht aus
+  * image_manager: png Transparenzen gingen verloren
+  * image_manager: wenn Cache nicht verfügbar, dann wird Bild nun neu berechnet
+
+  optisch
+  * Checkboxen sind nun bündig zu anderen Feldern
 
 Version 4.6.0 (2014-04-30)
 
