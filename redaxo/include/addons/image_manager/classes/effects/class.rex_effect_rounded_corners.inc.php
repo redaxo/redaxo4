@@ -141,34 +141,7 @@ class rex_effect_rounded_corners extends rex_effect_abstract
             }
         }
 
-        // Transparenz erhalten
-        //$this->keepTransparent($des);
-        //imagecopyresampled($des, $gdimage, 0, 0, $offset_width, $offset_height, $this->params['width'], $this->params['height'], $this->params['width'], $this->params['height']);
-
-        //$gdimage = $des;
-        //$this->image->refreshDimensions();
     }
-
-
-    function keepTransparent($des)
-    {
-      $image = $this->image;
-        if ($image->getFormat() == 'PNG') {
-            imagealphablending($des, false);
-            imagesavealpha($des, true);
-        } elseif ($image->getFormat() == 'GIF') {
-          $gdimage = & $image->getImage();
-            $colorTransparent = imagecolortransparent($gdimage);
-            imagepalettecopy($gdimage, $des);
-            if ($colorTransparent > 0) {
-                imagefill($des, 0, 0, $colorTransparent);
-                imagecolortransparent($des, $colorTransparent);
-            }
-            imagetruecolortopalette($des, true, 256);
-        }
-    }
-
-
 
     function getParams()
     {

@@ -92,26 +92,6 @@ class rex_effect_crop extends rex_effect_abstract
     }
 
 
-    function keepTransparent($des)
-    {
-        $image = $this->image;
-        if ($image->getFormat() == 'PNG') {
-            imagealphablending($des, false);
-            imagesavealpha($des, true);
-        } elseif ($image->getFormat() == 'GIF') {
-            $gdimage = & $image->getImage();
-            $colorTransparent = imagecolortransparent($gdimage);
-            imagepalettecopy($gdimage, $des);
-            if ($colorTransparent > 0) {
-                imagefill($des, 0, 0, $colorTransparent);
-                imagecolortransparent($des, $colorTransparent);
-            }
-            imagetruecolortopalette($des, true, 256);
-        }
-    }
-
-
-
     function getParams()
     {
         global $REX, $I18N;

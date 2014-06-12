@@ -96,7 +96,6 @@ class rex_effect_resize extends rex_effect_abstract
             return;
         }
 
-        // Transparenz erhalten
         $this->keepTransparent($des);
         imagecopyresampled($des, $gdimage, 0, 0, 0, 0, $this->params['width'], $this->params['height'], $w, $h);
 
@@ -145,25 +144,6 @@ class rex_effect_resize extends rex_effect_abstract
         } elseif (!empty($this->params['width'])) {
             $img_factor  = $w / $this->params['width'];
             $this->params['height'] = ceil($h / $img_factor);
-        }
-    }
-
-
-    function keepTransparent($des)
-    {
-        $image = $this->image;
-        if ($image->getFormat() == 'PNG') {
-            imagealphablending($des, false);
-            imagesavealpha($des, true);
-        } elseif ($image->getFormat() == 'GIF') {
-            $gdimage = & $image->getImage();
-            $colorTransparent = imagecolortransparent($gdimage);
-            imagepalettecopy($gdimage, $des);
-            if ($colorTransparent > 0) {
-                imagefill($des, 0, 0, $colorTransparent);
-                imagecolortransparent($des, $colorTransparent);
-            }
-            imagetruecolortopalette($des, true, 256);
         }
     }
 

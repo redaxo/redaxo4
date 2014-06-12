@@ -2,8 +2,8 @@
 
 class rex_effect_abstract
 {
-    var $image = array(); // rex_image
-    var $params = array(); // effekt parameter
+    var $image = []; // rex_image
+    var $params = []; // effekt parameter
 
     function setImage(&$image)
     {
@@ -26,5 +26,29 @@ class rex_effect_abstract
     function getParams()
     {
         // returns an array of parameters which are required for the effect
+    }
+
+    function keepTransparent($des)
+    {
+        $image = $this->image;
+
+        if ($image->getFormat() == 'png') {
+
+            imagealphablending($des, false);
+            imagesavealpha($des, true);
+
+        } elseif ($image->getFormat() == 'gif') {
+
+            $gdimage = & $image->getImage();
+            $colorTransparent = imagecolortransparent($gdimage);
+            imagepalettecopy($gdimage, $des);
+
+            if ($colorTransparent > 0) {
+                imagefill($des, 0, 0, $colorTransparent);
+                imagecolortransparent($des, $colorTransparent);
+
+            }
+            imagetruecolortopalette($des, true, 256);
+        }
     }
 }
