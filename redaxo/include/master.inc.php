@@ -203,3 +203,8 @@ if (rex_request('article_id', 'int') == 0) {
 } else {
     $REX['ARTICLE_ID'] = rex_request('article_id', 'rex-article-id', $REX['NOTFOUND_ARTICLE_ID']);
 }
+
+// general config file call
+if(file_exists($REX['HTDOCS_PATH'].'files/config.inc.php')){
+  include_once $REX['HTDOCS_PATH'].'files/config.inc.php';
+}
