@@ -135,6 +135,13 @@ class rex_article extends rex_article_base
             $CONTENT = parent::getArticle($curctype);
 
         }
+        
+        // ----- EXTENSION POINT
+        $CONTENT = rex_register_extension_point('ART_CONTENT', $CONTENT,
+            array (
+               'article' => &$this,
+            )
+        );
 
         $CONTENT = rex_register_extension_point('ART_CONTENT', $CONTENT,
             array (
