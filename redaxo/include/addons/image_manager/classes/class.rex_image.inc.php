@@ -37,9 +37,8 @@ class rex_image
     {
         if (!isset($this->img['src'])) {
             $this->gifsupport = function_exists('imagegif');
-
             // if mimetype detected and in imagemap -> change format
-            if ( ($finfo = new finfo(FILEINFO_MIME_TYPE)) ) {
+            if ( class_exists("finfo") && ($finfo = new finfo(FILEINFO_MIME_TYPE)) ) {
                 if ( ($ftype = @$finfo->file($this->img['filepath'])) ) {
                     if (array_key_exists($ftype, $this->image_mimetype_map)) {
                         $this->img['format'] = $this->image_mimetype_map[$ftype];
