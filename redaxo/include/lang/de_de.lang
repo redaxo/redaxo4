@@ -46,7 +46,7 @@ logged_in_as  =  Angemeldet als
 # redaxo/include/classes/class.article.inc.php
 add_block  =  Block hinzufügen
 edit  =  editieren
-delete  =  Löschen
+delete  =  löschen
 no_editing_rights = Keine Editiererlaubnis
 no_article_available  =  Kein Artikel vorhanden
 module_doesnt_exist =  Dieses Modul existiert nicht!
