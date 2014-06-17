@@ -99,16 +99,15 @@ class rex_article extends rex_article_base
 
     /*public*/ function getArticle($curctype = -1)
     {
-        // bc
-        if ($this->viasql) {
-            return parent::getArticle($curctype);
-        }
-
         global $REX;
 
         $this->ctype = $curctype;
 
-        if (!$this->getSlice && $this->article_id != 0) {
+        // bc
+        if ($this->viasql) {
+            $CONTENT = parent::getArticle($curctype);
+
+        } elseif (!$this->getSlice && $this->article_id != 0) {
             // ----- start: article caching
             ob_start();
             ob_implicit_flush(0);
@@ -130,10 +129,19 @@ class rex_article extends rex_article_base
             // ----- end: article caching
             $CONTENT = ob_get_contents();
             ob_end_clean();
+
         } else {
             // Inhalt ueber sql generierens
             $CONTENT = parent::getArticle($curctype);
+
         }
+
+        $CONTENT = rex_register_extension_point('ART_CONTENT', $CONTENT,
+            array (
+                'curctype' => $curctype,
+                'article' => &$this,
+            )
+        );
 
         return $CONTENT;
     }
