@@ -138,7 +138,7 @@ class rex_article extends rex_article_base
 
         $CONTENT = rex_register_extension_point('ART_CONTENT', $CONTENT,
             array (
-                'curctype' => $curctype,
+                'ctype' => $curctype,
                 'article' => &$this,
             )
         );
