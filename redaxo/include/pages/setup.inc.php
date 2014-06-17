@@ -589,6 +589,11 @@ function rex_setup_dropREXtables()
             $REX['TABLE_PREFIX'] . 'user',
         );
 
+        rex_dir::copy(
+            rex_path::addon('import_export', 'backup'),
+            rex_path::addonData('import_export', 'backups')
+        );
+
         if ($dbanlegen == 4) {
             // ----- vorhandenen seite updaten
                 $info_msg = '';
