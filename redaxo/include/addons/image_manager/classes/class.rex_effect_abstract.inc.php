@@ -2,8 +2,8 @@
 
 class rex_effect_abstract
 {
-    var $image = []; // rex_image
-    var $params = []; // effekt parameter
+    var $image = array(); // rex_image
+    var $params = array(); // effekt parameter
 
     function setImage(&$image)
     {
