@@ -56,6 +56,8 @@ class rex_image
 
             } elseif ($this->img['format'] == 'png') {
                 $this->img['src'] = @imagecreatefrompng($this->img['filepath']);
+                imagealphablending($this->img['src'], false);
+                imagesavealpha($this->img['src'], true);
 
             } elseif ($this->img['format'] == 'gif') {
                 if ($this->gifsupport) {
