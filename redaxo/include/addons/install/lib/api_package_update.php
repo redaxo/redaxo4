@@ -51,9 +51,9 @@ class rex_api_install_package_update extends rex_api_install_package_download
             $archivePath = rex_path::addonData('install', $this->addonkey . '/');
             rex_dir::create($archivePath);
             $archive = $archivePath . strtolower(preg_replace('/[^a-z0-9-_.]/i', '_', OOAddon::getVersion($this->addonkey))) . '.zip';
-            rex_install_helper::copyDirToArchive($path, $archive);
+            rex_install_archive::copyDirToArchive($path, $archive);
             if (is_dir($assets)) {
-                rex_install_helper::copyDirToArchive($assets, $archive, 'assets');
+                rex_install_archive::copyDirToArchive($assets, $archive, 'assets');
             }
         }
 

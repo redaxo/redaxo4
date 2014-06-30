@@ -19,6 +19,7 @@ Version 4.6.1 (2014-XX-XX)
   * image_manager: wenn Cache nicht verfügbar, dann wird Bild nun neu berechnet
   * image_manager: wenn finfo Klasse nicht vorhanden, wird skript nicht abgebrochen.
   * setup/import_export: Übernahme der Demo in den data Ordner ging nicht
+  * Installer: Zip entpacken/packen funktionierte in manchen Umgebungen nicht
 
   optisch
   * Checkboxen sind nun bündig zu anderen Feldern
