@@ -4,7 +4,7 @@
 
 $mypage = 'install';
 
-$REX['ADDON']['version'][$mypage] = '1.0.0';
+$REX['ADDON']['version'][$mypage] = '1.0.1';
 $REX['ADDON']['author'][$mypage] = 'Gregor Harlan';
 $REX['ADDON']['supportpage'][$mypage] = 'redaxo.org/de/forum';
 

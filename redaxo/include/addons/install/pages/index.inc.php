@@ -23,7 +23,7 @@ switch ($subpage) {
 $dir = $REX['INCLUDE_PATH'] . '/addons/install/lib/';
 require_once $dir . 'webservice.php';
 require_once $dir . 'packages.php';
-require_once $dir . 'helper.php';
+require_once $dir . 'archive.php';
 require_once $dir . 'exception.php';
 require_once $dir . 'api_package_download.php';
 require_once $dir . 'api_package_add.php';

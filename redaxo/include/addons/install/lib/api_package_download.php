@@ -25,10 +25,10 @@ abstract class rex_api_install_package_download
         $this->checkPreConditions();
         $archivefile = rex_install_webservice::getArchive($this->file['path']);
         $message = '';
-        $this->archive = "phar://$archivefile/" . $this->addonkey;
+        $this->archive = $archivefile;
         if ($this->file['checksum'] != md5_file($archivefile)) {
             $message = $I18N->msg('install_warning_zip_wrong_checksum');
-        } elseif (!file_exists($this->archive)) {
+        } elseif (!file_exists("phar://$archivefile/" . $this->addonkey)) {
             $message = $I18N->msg('install_warning_zip_wrong_format');
         } elseif (is_string($msg = $this->doAction())) {
             $message = $msg;
@@ -54,7 +54,7 @@ abstract class rex_api_install_package_download
     {
         global $I18N;
 
-        if (!rex_dir::copy($this->archive, $dir)) {
+        if (!rex_install_archive::extract($this->archive, $dir, $this->addonkey)) {
             rex_dir::delete($dir);
             return $I18N->msg('install_warning_addon_zip_not_extracted');
         }
