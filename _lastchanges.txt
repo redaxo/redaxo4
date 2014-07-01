@@ -10,7 +10,6 @@ angehandelt.
 Version 4.6.1 (2014-XX-XX)
 
   Neu
-  * image_manager: image_output effect ergänzt
   * EP: ART_CONTENT ergänzt
 
   Bugfixes
