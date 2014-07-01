@@ -14,7 +14,7 @@ $mypage = 'image_manager';
 
 $REX['ADDON']['name'][$mypage] = 'Image Manager';
 $REX['ADDON']['perm'][$mypage] = 'image_manager[]';
-$REX['ADDON']['version'][$mypage] = '1.2';
+$REX['ADDON']['version'][$mypage] = '1.2.1';
 $REX['ADDON']['author'][$mypage] = 'Markus Staab, Jan Kristinus';
 $REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
 $REX['PERM'][] = 'image_manager[]';
