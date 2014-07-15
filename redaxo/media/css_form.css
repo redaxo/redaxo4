@@ -137,6 +137,9 @@ div.rex-form div.rex-form-row p select,
 div.rex-form div.rex-form-row p textarea {
     width: 456px;
 }
+div.rex-form div.rex-form-row p.rex-form-label-right label {
+    width: 436px;
+}
 div.rex-form div.rex-form-row p textarea.rex-form-textarea-v2 {
     width: 94%;
 }
@@ -236,6 +239,11 @@ div.rex-form fieldset.rex-form-col-2 div.rex-form-row p.rex-form-password input,
 div.rex-form fieldset.rex-form-col-2 div.rex-form-row p select,
 div.rex-form fieldset.rex-form-col-2 div.rex-form-row p textarea {
     width: 200px;
+}
+
+div.rex-area-col-2 fieldset.rex-form-col-1 div.rex-form-row p.rex-form-label-right label,
+div.rex-form fieldset.rex-form-col-2 div.rex-form-row p.rex-form-label-right label {
+    width: 180px;
 }
 
 
