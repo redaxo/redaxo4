@@ -144,6 +144,19 @@ div#rex-navi-path ul li {
     font-weight: bold;
 }
 
+/*    Piped ***********************************************************************
+*******************************************************************************/
+.rex-navi-piped {
+    margin: 0;
+    padding-left: 0;
+    list-style: none;
+}
+.rex-navi-piped > * {
+    display: inline;
+    padding: 0 5px 0 6px;
+    font-weight: bold;
+}
+
 /*    Sprachen, Content (Editiermodus, Metadaten, Anzeigen) **********************
 *******************************************************************************/
 div.rex-content-header {

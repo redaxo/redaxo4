@@ -530,7 +530,8 @@ div#rex-navi-page ul li a,
 #rex-title .rex-navi ul li a,
 div#rex-clang ul li a,
 div.rex-content-header ul li a,
-div#rex-navi-footer ul li {
+div#rex-navi-footer ul li, 
+.rex-navi-piped > * {
     background-image: url(../media/pipe_c2.gif);
     background-position: 0px 2px;
 }
@@ -538,7 +539,8 @@ div#rex-navi-page ul li.rex-navi-first a,
 #rex-title .rex-navi ul li.rex-navi-first a,
 div#rex-clang ul li.rex-navi-first a,
 div.rex-content-header ul li.rex-navi-first a,
-div#rex-navi-footer ul li.rex-navi-first {
+div#rex-navi-footer ul li.rex-navi-first, 
+.rex-navi-piped > *:first-child {
     background: none;
 }
 
