@@ -11,7 +11,7 @@ ob_start();
 ob_implicit_flush(0);
 
 // ----------------- MAGIC QUOTES CHECK
-include './redaxo/include/functions/function_rex_mquotes.inc.php';
+require_once './redaxo/include/functions/function_rex_mquotes.inc.php';
 
 // --------------------------- ini settings
 
@@ -38,10 +38,10 @@ $REX['GG'] = true;
 
 // setzte pfad und includiere klassen und funktionen
 $REX['HTDOCS_PATH'] = './';
-include './redaxo/include/master.inc.php';
+require_once './redaxo/include/master.inc.php';
 
 // ----- INCLUDE ADDONS
-include_once $REX['INCLUDE_PATH'] . '/addons.inc.php';
+require_once $REX['INCLUDE_PATH'] . '/addons.inc.php';
 
 if ($REX['SETUP']) {
     header('Location:redaxo/');
