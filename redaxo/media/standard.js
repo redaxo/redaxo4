@@ -314,7 +314,7 @@ function openREXLinklist(id, param)
 
     for (ii = 0; ii < sourcelength; ii++) {
         if (source.options[ii].selected) {
-            param = '&action=link_details&file_name='+ source.options[ii].value;
+            param = '&category_id='+ source.options[ii].value;
             break;
         }
     }
