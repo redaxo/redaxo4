@@ -72,27 +72,19 @@ $func_body .= 'var linkid = link.replace("redaxo://","");
 
 $navi_path = '<ul id="rex-navi-path">';
 
-if ($category_id == 0)
-{
+if ($category_id == 0) {
     $isRoot = true;
     $category = false;
-}
-elseif (is_object(OOArticle::getArticleById($category_id)))
-{
+} elseif (is_object(OOArticle::getArticleById($category_id))) {
     $article = OOArticle::getArticleById($category_id);
-    if ($article->getCategory())
-    {
+    if ($article->getCategory()) {
         $isRoot = false;
         $category = $article->getCategory();
-    }
-    else
-    {
+    } else {
         $isRoot = true;
         $category = false;
     }
-}
-else
-{
+} else {
     $isRoot = true;
     $category = false;
 }
