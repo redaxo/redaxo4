@@ -26,11 +26,34 @@ abstract class rex_api_install_package_download
         $archivefile = rex_install_webservice::getArchive($this->file['path']);
         $message = '';
         $this->archive = $archivefile;
-        if ($this->file['checksum'] != md5_file($archivefile)) {
-            $message = $I18N->msg('install_warning_zip_wrong_checksum');
-        } elseif (!file_exists("phar://$archivefile/" . $this->addonkey)) {
+
+        if (class_exists("ZipArchive")) {
+            $success = false;
+            $zip = new ZipArchive;
+            if ($zip->open($archivefile) === TRUE) {
+                for ($i = 0; $i < $zip->numFiles; $i++) {
+                    $filename = $zip->getNameIndex($i);
+                    if (substr($filename,0,strlen($this->addonkey.'/')) != $this->addonkey.'/') {
+                        $zip->deleteIndex($i);
+                    } else {
+                        $success = true;
+                    }
+                }
+                $zip->close();
+            }
+
+            if (!$success) {
+                $message = $I18N->msg('install_warning_zip_wrong_format');
+            }
+
+        } else if (!file_exists("phar://$archivefile/" . $this->addonkey)) {
             $message = $I18N->msg('install_warning_zip_wrong_format');
-        } elseif (is_string($msg = $this->doAction())) {
+        }
+
+        if ($message != "") {
+        } else if ($this->file['checksum'] != md5_file($archivefile)) {
+            $message = $I18N->msg('install_warning_zip_wrong_checksum');
+        } else if (is_string($msg = $this->doAction())) {
             $message = $msg;
         }
         rex_file::delete($archivefile);
