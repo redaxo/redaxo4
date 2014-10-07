@@ -1312,7 +1312,7 @@ function setValue($value)
     function getSaveValue()
     {
         $value = $this->getValue();
-        return $value ? $value : $this->defaultSaveValue;
+        return $value !== '' ? $value : $this->defaultSaveValue;
     }
 
     function getValue()
