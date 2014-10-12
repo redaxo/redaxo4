@@ -108,9 +108,10 @@ class i18n
                 'I18N_MISSING_TRANSLATION',
                 $key,
                 array(
-                    'msg'  => $msg,
-                    'i18N' => $this,
-                    'args' => func_get_args()
+                    'msg'     => $msg,
+                    'i18N'    => $this,
+                    'args'    => func_get_args(),
+                    'request' => $_REQUEST
                 )
             );
         }
