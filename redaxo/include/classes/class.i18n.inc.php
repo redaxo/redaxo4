@@ -104,16 +104,16 @@ class i18n
             $msg = $this->text[$key];
         } else {
             $msg = "[translate:$key]";
-            rex_register_extension_point(
-                'I18N_MISSING_TRANSLATION',
-                $key,
-                array(
-                    'msg'     => $msg,
-                    'i18N'    => $this,
-                    'args'    => func_get_args(),
-                    'request' => $_REQUEST
-                )
-            );
+            $msg = rex_register_extension_point(
+                       'I18N_MISSING_TRANSLATION',
+                       $key,
+                       array(
+                           'msg'     => $msg,
+                           'i18N'    => $this,
+                           'args'    => func_get_args(),
+                           'request' => $_REQUEST
+                       )
+                   );
         }
 
         $patterns = array ();
