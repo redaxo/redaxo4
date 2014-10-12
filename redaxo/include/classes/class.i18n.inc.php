@@ -110,8 +110,7 @@ class i18n
                        array(
                            'msg'     => $msg,
                            'i18N'    => $this,
-                           'args'    => func_get_args(),
-                           'request' => $_REQUEST
+                           'args'    => func_get_args()
                        )
                    );
         }
