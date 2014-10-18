@@ -101,17 +101,19 @@ class i18n
         }
 
         if ($this->hasMsg($key)) {
-            $this->msg = $this->text[$key];
+            $msg = $this->text[$key];
         } else {
-            $this->msg = "[translate:$key]";
-            $this = rex_register_extension_point(
+            $msg = "[translate:$key]";
+            $msg = rex_register_extension_point(
                        'I18N_MISSING_TRANSLATION',
-                       $this,
+                       $msg,
                        array(
-                           'args' => func_get_args()
+                           'i18n' => $this,
+                           'args' => func_get_args(),
+                           'key'  => $key
                        )
                    );
-        }
+       }
 
         $patterns = array ();
         $replacements = array ();
@@ -123,7 +125,7 @@ class i18n
             $replacements[] = $args[$i];
         }
 
-        return preg_replace($patterns, $replacements, $this->msg);
+        return preg_replace($patterns, $replacements, $msg);
     }
 
     /**
