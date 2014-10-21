@@ -16,12 +16,13 @@ $REX['ADDON']['author'][$mypage] = 'Umsetzung: Jan Kristinus';
 $REX['ADDON']['supportpage'][$mypage] = 'www.redaxo.org/de/forum';
 
 // --- DYN
-$REX['ADDON']['be_style']['plugin_customizer']['labelcolor'] = '#47a1ce';
-$REX['ADDON']['be_style']['plugin_customizer']['codemirror_theme'] = 'eclipse';
+$REX['ADDON']['be_style']['plugin_customizer']['labelcolor'] = "#47a1ce";
+$REX['ADDON']['be_style']['plugin_customizer']['codemirror_theme'] = "eclipse";
 $REX['ADDON']['be_style']['plugin_customizer']['codemirror'] = 1;
 $REX['ADDON']['be_style']['plugin_customizer']['showlink'] = 1;
-$REX['ADDON']['be_style']['plugin_customizer']['textarea'] = 1;
+$REX['ADDON']['be_style']['plugin_customizer']['textarea'] = 0;
 $REX['ADDON']['be_style']['plugin_customizer']['liquid'] = 0;
+$REX['ADDON']['be_style']['plugin_customizer']['nav_flyout'] = 0;
 // --- /DYN
 
 if ($REX['REDAXO']) {
@@ -101,9 +102,12 @@ if ($REX['REDAXO']) {
         if ($REX['ADDON']['be_style']['plugin_customizer']['liquid']) {
             $params['subject']['class'][] = 'rex-layout-liquid';
         }
+        if ($REX['ADDON']['be_style']['plugin_customizer']['nav_flyout']) {
+            $params['subject']['class'][] = 'be-style-customizer-nav-flyout';
+        }
         return $params['subject'];
     }
-    if ($REX['ADDON']['be_style']['plugin_customizer']['textarea'] || $REX['ADDON']['be_style']['plugin_customizer']['liquid']) {
+    if ($REX['ADDON']['be_style']['plugin_customizer']['textarea'] || $REX['ADDON']['be_style']['plugin_customizer']['liquid'] || $REX['ADDON']['be_style']['plugin_customizer']['nav_flyout']) {
         rex_register_extension('PAGE_BODY_ATTR', 'rex_be_style_customizer_body');
     }
 

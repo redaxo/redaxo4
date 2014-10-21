@@ -21,3 +21,4 @@ customizer_update = save settings
 customizer_projectname = project name
 customizer_textarea = wide textarea on template and module page
 customizer_liquid = liquid layout
+customizer_nav_flyout = navigation with flyout

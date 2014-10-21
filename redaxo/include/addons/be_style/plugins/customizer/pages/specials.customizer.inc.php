@@ -54,6 +54,11 @@ if ($func == 'update') {
         $REX['ADDON']['be_style']['plugin_customizer']['liquid'] = 1;
     }
 
+    $REX['ADDON']['be_style']['plugin_customizer']['nav_flyout'] = 0;
+    if (rex_request('customizer-nav-flyout') == 1) {
+        $REX['ADDON']['be_style']['plugin_customizer']['nav_flyout'] = 1;
+    }
+
     $content = '
 $REX[\'ADDON\'][\'be_style\'][\'plugin_customizer\'][\'labelcolor\'] = "' . $REX['ADDON']['be_style']['plugin_customizer']['labelcolor'] . '";
 $REX[\'ADDON\'][\'be_style\'][\'plugin_customizer\'][\'codemirror_theme\'] = "' . $REX['ADDON']['be_style']['plugin_customizer']['codemirror_theme'] . '";
@@ -61,6 +66,7 @@ $REX[\'ADDON\'][\'be_style\'][\'plugin_customizer\'][\'codemirror\'] = ' . $REX[
 $REX[\'ADDON\'][\'be_style\'][\'plugin_customizer\'][\'showlink\'] = ' . $REX['ADDON']['be_style']['plugin_customizer']['showlink'] . ';
 $REX[\'ADDON\'][\'be_style\'][\'plugin_customizer\'][\'textarea\'] = ' . $REX['ADDON']['be_style']['plugin_customizer']['textarea'] . ';
 $REX[\'ADDON\'][\'be_style\'][\'plugin_customizer\'][\'liquid\'] = ' . $REX['ADDON']['be_style']['plugin_customizer']['liquid'] . ';
+$REX[\'ADDON\'][\'be_style\'][\'plugin_customizer\'][\'nav_flyout\'] = ' . $REX['ADDON']['be_style']['plugin_customizer']['nav_flyout'] . ';
     ';
 
     $config_file = $REX['INCLUDE_PATH'] . '/addons/be_style/plugins/customizer/config.inc.php';
@@ -167,6 +173,17 @@ echo '
                                         }
                                         echo ' />
                                         <label for="rex-form-agk-liquid">' . $I18N->msg('customizer_liquid') . '</label>
+                                    </p>
+                                </div>
+
+                                <div class="rex-form-row">
+                                    <p class="rex-form-col-a rex-form-checkbox">
+                                        <input class="rex-form-checkbox" type="checkbox" id="rex-form-agk-nav-flyout" name="customizer-nav-flyout" value="1" ';
+                                        if ($REX['ADDON']['be_style']['plugin_customizer']['nav_flyout']) {
+                                            echo 'checked="checked"';
+                                        }
+                                        echo ' />
+                                        <label for="rex-form-agk-nav-flyout">' . $I18N->msg('customizer_nav_flyout') . '</label>
                                     </p>
                                 </div>
 

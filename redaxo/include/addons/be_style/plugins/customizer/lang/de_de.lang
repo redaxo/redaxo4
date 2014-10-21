@@ -21,3 +21,4 @@ customizer_update = Einstellungen speichern
 customizer_projectname = Projektname
 customizer_textarea = breite Textarea unter Template und Module
 customizer_liquid = Liquid Layout
+customizer_nav_flyout = Navigation mit Flyout
