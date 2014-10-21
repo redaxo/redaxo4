@@ -1032,3 +1032,18 @@ div#rex-footer {
     font-size: 12px;
     line-height: 17px;
 }
+
+
+/*******************************************************************************
+MAIN NAVI DROPDOWN
+*******************************************************************************/
+#rex-navi-main .rex-navi-level-1 li:not(.rex-active):hover > .rex-navi-level-2 {
+    background: #14568a;
+    border-radius: 0 2px 0 0;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+    display: block;
+    margin: -22px 0 0 160px;
+    padding: 0;
+    position: absolute;
+    z-index: 999;
+}
