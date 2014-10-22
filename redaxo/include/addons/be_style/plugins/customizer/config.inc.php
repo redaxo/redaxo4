@@ -20,7 +20,7 @@ $REX['ADDON']['be_style']['plugin_customizer']['labelcolor'] = "#47a1ce";
 $REX['ADDON']['be_style']['plugin_customizer']['codemirror_theme'] = "eclipse";
 $REX['ADDON']['be_style']['plugin_customizer']['codemirror'] = 1;
 $REX['ADDON']['be_style']['plugin_customizer']['showlink'] = 1;
-$REX['ADDON']['be_style']['plugin_customizer']['textarea'] = 0;
+$REX['ADDON']['be_style']['plugin_customizer']['textarea'] = 1;
 $REX['ADDON']['be_style']['plugin_customizer']['liquid'] = 0;
 $REX['ADDON']['be_style']['plugin_customizer']['nav_flyout'] = 0;
 // --- /DYN
