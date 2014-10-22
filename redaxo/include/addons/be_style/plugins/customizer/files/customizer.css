@@ -37,6 +37,9 @@ h1.be-style-customizer-title.be-style-customizer-small {
     min-width: none;
     box-shadow: none;
 }
+.be-style-customizer-nav-flyout #rex-navi-main dd > ul > li .rex-navi-level-2 a {
+    white-space: nowrap;
+}
 
 #rex-page-module.be-style-customizer-textarea-big #rex-wrapper textarea,
 #rex-page-template.be-style-customizer-textarea-big #rex-wrapper textarea {
