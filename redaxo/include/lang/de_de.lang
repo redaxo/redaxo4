@@ -430,7 +430,7 @@ setup_006 = Setup starten und Lizenzbestimmungen akzeptieren
 setup_step1 = Setup: Schritt 1 von 5
 setup_010 = Die PHP-Version des Servers ist veraltet ({0}), bitte aktualisieren Sie auf eine höhere Version (mindestens 5.3.0, neueste empfohlen)
 setup_010_1 = Die benötigte PHP-Extension <strong>{0}</strong> wurde nicht gefunden!
-setup_011 = {0}Fehler{1} | Benötigte System-Addons fehlen
+setup_011 = {0}Fehler{1} | Benötigte System-AddOns fehlen
 setup_012 = {0}Fehler{1} | Das Verzeichnis {2} ist weder beschreibar noch ausführbar!
 setup_014 = {0}Fehler{1} | Die Datei {2} ist nicht beschreibbar!
 setup_015 = {0}Fehler{1} | Die aufgelisteten Dateien und/oder Verzeichnisse existieren nicht oder es besteht keine Schreibberechtigung. {2} Bitte korrigieren Sie dies und starten das Setup erneut.
@@ -498,7 +498,7 @@ setup_no_js_security_msg = Prüfen Sie, ob Dateien aus dem Ordner redaxo/include
 setup_create_db = Datenbank anlegen?
 
 # redaxo\include\pages\addon.inc.php
-addon = AddOn
+addon = AddOns
 addon_help = Hilfe für
 addon_no_help_file = Keine Hilfedatei gefunden
 addon_back = zurück
@@ -561,7 +561,7 @@ credits_name = AddOn
 credits_version = Version
 credits_author = Autor
 credits_supportpage = Hilfe
-credits_addon_inactive = Addon inaktiv
+credits_addon_inactive = AddOn inaktiv
 credits_caption = Liste der verwendeten AddOns/PlugIns
 credits_summary = Auflistung aller verwendeten AddOns/PlugIns
 
