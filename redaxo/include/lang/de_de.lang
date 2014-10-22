@@ -498,7 +498,7 @@ setup_no_js_security_msg = Prüfen Sie, ob Dateien aus dem Ordner redaxo/include
 setup_create_db = Datenbank anlegen?
 
 # redaxo\include\pages\addon.inc.php
-addon = AddOn
+addon = AddOns
 addon_help = Hilfe für
 addon_no_help_file = Keine Hilfedatei gefunden
 addon_back = zurück
