@@ -773,7 +773,8 @@ class OOMedia
             // ----- EXTENSION POINT
             rex_register_extension_point('MEDIA_DELETED', '',
                 array(
-                    'filename' => $filename
+                    'file_id' => $this->getId(), 
+                    'filename' => $this->getFileName()
                 )
             );
 
