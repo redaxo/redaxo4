@@ -378,8 +378,8 @@ function rex_setup_dropREXtables()
         $redaxo_db_create          = rex_post('redaxo_db_create', 'boolean');
 
         // einfache anführungszeichen und dollarzeichen maskieren
-        $search = array("'", '$');
-        $destroy = array("\\'", '\\$');
+        $search = array("'", '$', '\\');
+        $destroy = array("\\'", '\\$', '\\\\\\');
 
         $replace = array(
             'search' => array(
