@@ -95,8 +95,8 @@ class rex_effect_workspace extends rex_effect_abstract
 
         $trans = false;
         if ($this->params['set_transparent'] != 'colored') {
-            if ($this->image->img['format'] != 'GIF' && $this->image->img['format'] != 'PNG') {
-                $this->image->img['format'] = 'PNG';
+            if ($this->image->img['format'] != 'gif' && $this->image->img['format'] != 'png') {
+                $this->image->img['format'] = 'png';
             }
             $trans = true;
         }
