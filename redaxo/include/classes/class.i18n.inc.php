@@ -42,7 +42,7 @@ class i18n
     /**
      * Sucht im angegebenden Ordner nach eine Sprachdatei der aktuellen Sprache und fügt diese dem Sprachkatalog an
      *
-     * @param $searchPath Pfad in dem die Sprachdatei gesucht werden soll
+     * @param string $searchPath Pfad in dem die Sprachdatei gesucht werden soll
      */
     function appendFile($searchPath)
     {
@@ -80,7 +80,7 @@ class i18n
     /**
      * Durchsucht den Sprachkatalog nach einem Schlüssel und gibt die dazugehörige Übersetzung zurück
      *
-     * @param $key Zu suchender Schlüssel
+     * @param string $key Zu suchender Schlüssel
      */
     function msg($key)
     {

@@ -131,7 +131,7 @@ class rex_install_webservice
         $path = strpos($path, '?') === false ? rtrim($path, '/') . '/?' : $path . '&';
         $path .= 'rex_version=' . $REX['VERSION'] . '.' . $REX['SUBVERSION'];
         if (OOAddon::getProperty('install', 'api_login')) {
-            $path .= '&api_login=' . OOAddon::getProperty('install', 'api_login') . '&api_key=' . OOAddon::getProperty('install', 'api_key');
+            $path .= '&api_login=' . urlencode(OOAddon::getProperty('install', 'api_login')) . '&api_key=' . urlencode(OOAddon::getProperty('install', 'api_key'));
         }
         return $path;
     }

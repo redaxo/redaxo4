@@ -80,7 +80,7 @@ function rex_deleteCacheArticleMeta($id, $clang = null)
             continue;
         }
 
-        @unlink($cachePath . $id . '.' . $_clang . '.article');
+        rex_file::delete($cachePath . $id . '.' . $_clang . '.article');
     }
 }
 
@@ -104,7 +104,7 @@ function rex_deleteCacheArticleContent($id, $clang = null)
             continue;
         }
 
-        @unlink($cachePath . $id . '.' . $_clang . '.content');
+        rex_file::delete($cachePath . $id . '.' . $_clang . '.content');
     }
 }
 
@@ -128,8 +128,8 @@ function rex_deleteCacheArticleLists($id, $clang = null)
             continue;
         }
 
-        @unlink($cachePath . $id . '.' . $_clang . '.alist');
-        @unlink($cachePath . $id . '.' . $_clang . '.clist');
+        rex_file::delete($cachePath . $id . '.' . $_clang . '.alist');
+        rex_file::delete($cachePath . $id . '.' . $_clang . '.clist');
     }
 }
 
@@ -486,7 +486,7 @@ function rex_deleteCacheMedia($filename)
     global $REX;
 
     $cachePath = $REX['GENERATED_PATH'] . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR;
-    @unlink($cachePath . $filename . '.media');
+    rex_file::delete($cachePath . $filename . '.media');
     rex_deleteCacheMediaLists();
 }
 
@@ -502,7 +502,7 @@ function rex_deleteCacheMediaCategory($category_id)
     global $REX;
 
     $cachePath = $REX['GENERATED_PATH'] . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR;
-    @unlink($cachePath . $category_id . '.mcat');
+    rex_file::delete($cachePath . $category_id . '.mcat');
     rex_deleteCacheMediaCategoryLists();
 }
 
@@ -520,13 +520,13 @@ function rex_deleteCacheMediaLists()
     $glob = glob($cachePath . '*.mlist');
     if (is_array($glob)) {
         foreach ($glob as $file)
-            @unlink($file);
+            rex_file::delete($file);
     }
 
     $glob = glob($cachePath . '*.mextlist');
     if (is_array($glob)) {
         foreach ($glob as $file)
-            @unlink($file);
+            rex_file::delete($file);
     }
 }
 
@@ -542,7 +542,7 @@ function rex_deleteCacheMediaList($category_id)
     global $REX;
 
     $cachePath = $REX['GENERATED_PATH'] . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR;
-    @unlink($cachePath . $category_id . '.mlist');
+    rex_file::delete($cachePath . $category_id . '.mlist');
 }
 
 /**
@@ -558,7 +558,7 @@ function rex_deleteCacheMediaCategoryLists()
     $glob = glob($cachePath . '*.mclist');
     if (is_array($glob)) {
         foreach ($glob as $file)
-            @unlink($file);
+            rex_file::delete($file);
     }
 }
 
@@ -574,7 +574,7 @@ function rex_deleteCacheMediaCategoryList($category_id)
     global $REX;
 
     $cachePath = $REX['GENERATED_PATH'] . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR;
-    @unlink($cachePath . $category_id . '.mclist');
+    rex_file::delete($cachePath . $category_id . '.mclist');
 }
 
 /**
@@ -817,7 +817,7 @@ function rex_deleteDir($file, $delete_folders = false)
 /**
  * Lösch allen Datei in einem Ordner
  *
- * @param $file Pfad zum Ordner
+ * @param string $file Pfad zum Ordner
  *
  * @return TRUE bei Erfolg, sonst FALSE
  */
@@ -844,9 +844,15 @@ function rex_deleteFiles($file)
                     continue;
                 }
 
-                if (!@ unlink($file)) {
+                $file2delete = $file.DIRECTORY_SEPARATOR.$filename;
+
+                if (@ is_dir($file2delete)) {
+                    continue;
+                }
+
+                if (!@ unlink($file2delete)) {
                     if ($debug) {
-                        echo "Unable to delete file '$file'<br />\n";
+                        echo "Unable to delete file '$file2delete'<br />\n";
                     }
 
                     return false;
