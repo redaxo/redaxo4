@@ -18,7 +18,7 @@ require_once dirname(__FILE__) . '/../functions/function_rex_extensions.inc.php'
 require $REX['INCLUDE_PATH'] . '/layout/top.php';
 
 $page = rex_request('page', 'string');
-$subpage = rex_request('subpage', 'string');
+$subpage = rex_request('subpage', 'string', 'types');
 $func = rex_request('func', 'string');
 $msg = '';
 
@@ -29,21 +29,20 @@ if ($subpage == 'clear_cache') {
 
 rex_title('Image Manager', $REX['ADDON']['pages']['image_manager']);
 
+if ($msg != '') {
+    echo rex_info($msg);
+}
+
 // Include Current Page
 switch ($subpage) {
-    case 'types' :
+    case 'overview' :
     case 'effects' :
     case 'settings' :
         break;
 
     default:
-    {
-        if ($msg != '') {
-            echo rex_info($msg);
-        }
+        $subpage = 'types';
 
-        $subpage = 'overview';
-    }
 }
 
 require dirname(__FILE__) . '/' . $subpage . '.inc.php';
