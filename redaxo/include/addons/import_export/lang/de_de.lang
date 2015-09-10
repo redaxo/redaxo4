@@ -38,6 +38,7 @@ im_export_download_file = Datei herunterladen
 
 im_export_file_could_not_be_generated  = Datei konnte nicht erstellt werden.
 im_export_file_generated_in  = Daten wurden gesichert in
+im_export_check_rights_in_directory = Bitte überprüfe die Ordnerrechte
 
 im_export_proceed_db_import = Bestehende Daten (Artikel, Templates, Module,...) gehen verloren. Fortfahren ?
 im_export_proceed_file_import = Bestehende Dateien werden gelöscht. Fortfahren ?

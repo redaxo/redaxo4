@@ -38,6 +38,7 @@ im_export_download_file = Download file
 
 im_export_file_could_not_be_generated = File could not be generated.
 im_export_file_generated_in = File has been generated in
+im_export_check_rights_in_directory = Please check the folder permission
 
 im_export_proceed_db_import = Current data (articles, templates, modules, ...) will be deleted. Are you sure?
 im_export_proceed_file_import = Current files will be deleted. Are you sure?
