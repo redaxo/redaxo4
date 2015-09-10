@@ -72,6 +72,7 @@ class rex_list
     var $tableColumnGroups;
 
     // --------- Link Attributes
+    var $path;
     var $linkAttributes;
 
     // --------- Pagination Attributes
@@ -125,6 +126,7 @@ class rex_list
         $this->tableColumnGroups = array();
 
         // --------- Link Attributes
+        $this->path = 'index.php';
         $this->linkAttributes = array();
 
         // --------- Pagination Attributes
@@ -277,6 +279,11 @@ class rex_list
     function getFormAttributes()
     {
         return $this->formAttributes;
+    }
+
+    function setPath($url)
+    {
+      $this->path = $url;
     }
 
     function addLinkAttribute($columnName, $attrName, $attrValue)
@@ -674,7 +681,7 @@ class rex_list
                 $paramString .= '&' . $name . '=' . urlencode($value);
             }
         }
-        return str_replace('&', '&amp;', 'index.php?list=' . $this->getName() . $paramString);
+        return str_replace('&', '&amp;', $this->path . '?list=' . $this->getName() . $paramString);
     }
 
     /**
@@ -708,7 +715,7 @@ class rex_list
                 $paramString .= '&' . $name . '=' . urlencode($this->replaceVariables($value));
             }
         }
-        return str_replace('&', '&amp;', 'index.php?list=' . $this->getName() . $paramString);
+        return str_replace('&', '&amp;', $this->path . '?list=' . $this->getName() . $paramString);
     }
 
     // ---------------------- Pagination
