@@ -21,7 +21,7 @@ class rex_api_install_package_update extends rex_api_install_package_download
 
     public function doAction()
     {
-        global $I18N;
+        global $I18N, $REX; // $REX is needed for update.inc.php
 
         $path = rex_path::addon($this->addonkey);
         $temppath = rex_path::addon('.new.' . $this->addonkey);

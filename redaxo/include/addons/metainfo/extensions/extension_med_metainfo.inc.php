@@ -71,5 +71,5 @@ function rex_a62_metainfo_form($params)
         }
     }
 
-    return _rex_a62_metainfo_form('med_', $params, '_rex_a62_metainfo_med_handleSave');
+    return $params['subject'] . _rex_a62_metainfo_form('med_', $params, '_rex_a62_metainfo_med_handleSave');
 }
