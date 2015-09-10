@@ -18,7 +18,6 @@ $info         = rex_request('info', 'string');
 $warning      = rex_request('warning', 'string');
 $args         = rex_request('args', 'array');
 
-
 // -------------- Additional Args
 $arg_url = '';
 $arg_fields = '';
@@ -78,7 +77,7 @@ $subline = array(
     array('add_file', $I18N->msg('pool_file_insert')),
 );
 
-if ($PERMALL) {
+if ($REX['USER']->isAdmin()) {
     $subline[] = array('categories', $I18N->msg('pool_cat_list'));
     $subline[] = array('sync', $I18N->msg('pool_sync_files'));
 }
@@ -210,8 +209,8 @@ if ($content != '') {
 } else {
     switch ($subpage) {
         case 'add_file'  : $file = 'mediapool.upload.inc.php'; break;
-        case 'categories': $file = 'mediapool.structure.inc.php'; break;
-        case 'sync'      : $file = 'mediapool.sync.inc.php'; break;
+        case 'categories': $file = 'mediapool.structure.inc.php'; if ($REX['USER']->isAdmin()) break;
+        case 'sync'      : $file = 'mediapool.sync.inc.php'; if ($REX['USER']->isAdmin()) break;
         default          : $file = 'mediapool.media.inc.php'; break;
     }
 

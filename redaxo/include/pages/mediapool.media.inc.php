@@ -11,6 +11,10 @@
 $thumbs = true;
 $image_manager = OOAddon::isAvailable('image_manager');
 $image_resize = OOAddon::isAvailable('image_resize');
+if($subpage != "detail") {
+    $subpage = "";
+}
+
 
 // *************************************** KATEGORIEN CHECK UND AUSWAHL
 
