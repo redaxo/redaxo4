@@ -210,6 +210,8 @@ class rex_sql
         } else {
             $this->error = mysql_error($this->identifier);
             $this->errno = mysql_errno($this->identifier);
+            
+            rex_register_extension_point('REX_SQL_ERROR', $this);
         }
 
         if ($this->debugsql || $this->error != '') {
