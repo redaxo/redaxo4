@@ -95,6 +95,8 @@ class rex_form
 
     /**
      * Methode zum erstellen von rex_form Instanzen
+     *
+     * @return static
      */
     static /*public*/ function factory($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false, $class = null)
     {
@@ -243,6 +245,8 @@ class rex_form
 
     /**
      * Fuegt dem Formular ein Text-Feld hinzu
+     *
+     * @return rex_form_element
      */
     /*public*/ function &addTextField($name, $value = null, $attributes = array())
     {
@@ -270,6 +274,7 @@ class rex_form
     /**
      * Fuegt dem Formular ein Read-Only-Feld hinzu.
      * Dazu wird ein span-Element verwendet.
+     * @return rex_form_element
      */
     /*public*/ function &addReadOnlyField($name, $value = null, $attributes = array())
     {
@@ -341,6 +346,8 @@ class rex_form
 
     /**
      * Fuegt dem Formular ein Select/Auswahl-Feld hinzu.
+     *
+     * @return rex_form_select_element
      */
     /*public*/ function &addSelectField($name, $value = null, $attributes = array())
     {
@@ -1304,7 +1311,7 @@ class rex_form_element
         $this->defaultSaveValue = $value;
     }
 
-function setValue($value)
+    function setValue($value)
     {
         $this->value = $value;
     }

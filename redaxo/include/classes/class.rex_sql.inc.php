@@ -232,8 +232,8 @@ class rex_sql
     /**
      * Setzt den Wert eine Spalte
      *
-     * @param $feldname Spaltenname
-     * @param $wert Wert
+     * @param string $feldname Spaltenname
+     * @param string $wert Wert
      */
     /*public*/ function setValue($feldname, $wert)
     {
@@ -720,9 +720,9 @@ class rex_sql
     /**
      * Escaped den übergebenen Wert für den DB Query
      *
-     * @param $value den zu escapenden Wert
-     * @param $delimiter Delimiter der verwendet wird, wenn es sich bei $value um einen String handelt
-     * @param $force Escapen erzwingen, unabhängig davon ob es ein nummerischer Wert ist
+     * @param string $value den zu escapenden Wert
+     * @param string $delimiter Delimiter der verwendet wird, wenn es sich bei $value um einen String handelt
+     * @param boolean $force Escapen erzwingen, unabhängig davon ob es ein nummerischer Wert ist
      */
     /*public*/ function escape($value, $delimiter = '', $force = false)
     {
@@ -815,6 +815,11 @@ class rex_sql
         return $REX['MYSQL_VERSION'];
     }
 
+    /**
+     * @param int  $DBID
+     * @param string $class
+     * @return static
+     */
     static /*public*/ function factory($DBID = 1, $class = null)
     {
         // keine spezielle klasse angegeben -> default klasse verwenden?

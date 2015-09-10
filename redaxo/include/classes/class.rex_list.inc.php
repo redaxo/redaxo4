@@ -149,6 +149,14 @@ class rex_list
         $this->init();
     }
 
+    /**
+     * @param string $query
+     * @param int    $rowsPerPage
+     * @param string $listName
+     * @param bool   $debug
+     * @param string $class
+     * @return static
+     */
     static function factory($query, $rowsPerPage = 30, $listName = null, $debug = false, $class = null)
     {
         // keine spezielle klasse angegeben -> default klasse verwenden?
