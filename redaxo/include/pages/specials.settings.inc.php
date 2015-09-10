@@ -65,8 +65,8 @@ if ($func == 'setup') {
         $REX['DEFAULT_TEMPLATE_ID'] = $neu_defaulttemplateid;
     }
 
-    $search = array('\\"', "'", '$');
-    $destroy = array('"', "\\'", '\\$');
+    $search = array('\\"', "'", '$', '\\');
+    $destroy = array('"', "\\'", '\\$', '\\\\');
     $replace = array(
         'search' => array(
             "@(REX\['ERROR_EMAIL'\].?\=.?).*$@m",
