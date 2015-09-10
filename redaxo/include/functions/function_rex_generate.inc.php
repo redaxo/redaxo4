@@ -817,7 +817,7 @@ function rex_deleteDir($file, $delete_folders = false)
 /**
  * Lösch allen Datei in einem Ordner
  *
- * @param $file Pfad zum Ordner
+ * @param string $file Pfad zum Ordner
  *
  * @return TRUE bei Erfolg, sonst FALSE
  */
@@ -844,9 +844,15 @@ function rex_deleteFiles($file)
                     continue;
                 }
 
-                if (!@ unlink($file)) {
+                $file2delete = $file.DIRECTORY_SEPARATOR.$filename;
+
+                if (@ is_dir($file2delete)) {
+                    continue;
+                }
+
+                if (!@ unlink($file2delete)) {
                     if ($debug) {
-                        echo "Unable to delete file '$file'<br />\n";
+                        echo "Unable to delete file '$file2delete'<br />\n";
                     }
 
                     return false;
