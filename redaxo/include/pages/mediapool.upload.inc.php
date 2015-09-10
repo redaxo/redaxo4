@@ -55,7 +55,7 @@ if ($media_method == 'add_file') {
                     echo $js;
                     // echo "\nself.close();\n";
                     echo '</script>';
-                    exit;
+                    return;
                 } elseif ($return['ok'] == 1) {
                     header('Location:index.php?page=mediapool&info=' . urlencode($return['msg']) . '&opener_input_field=' . $opener_input_field);
                     exit;
