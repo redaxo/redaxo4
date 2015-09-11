@@ -7,9 +7,9 @@ class rex_image
     var $gifsupport = false;
 
     var $image_mimetype_map = array(
-        'image/jpeg' => 'jpg',
-        'image/jpg' => 'jpg',
-        'image/pjpeg' => 'jpg',
+        'image/jpeg' => 'jpeg',
+        'image/jpg' => 'jpeg',
+        'image/pjpeg' => 'jpeg',
         'image/vnd.wap.wbmp' => 'wbmp',
         'image/png' => 'png',
         'image/gif' => 'gif'
@@ -31,6 +31,9 @@ class rex_image
         $this->img['filepath'] = $filepath;
         $this->img['quality'] = $REX['ADDON']['image_manager']['jpg_quality'];
         $this->img['format'] = strtolower(OOMedia::_getExtension($this->img['filepath']));
+        if ($this->img['format'] == 'jpg'){
+            $this->img['format'] = 'jpeg';
+        }
     }
 
     public function prepare()
@@ -42,7 +45,6 @@ class rex_image
                 if ( ($ftype = @$finfo->file($this->img['filepath'])) ) {
                     if (array_key_exists($ftype, $this->image_mimetype_map)) {
                         $this->img['format'] = $this->image_mimetype_map[$ftype];
-
                     }
 
                 }
@@ -50,8 +52,7 @@ class rex_image
             }
 
             // ----- detect image format
-            if ($this->img['format'] == 'jpg' || $this->img['format'] == 'jpeg') {
-                $this->img['format'] = 'jpeg';
+            if ($this->img['format'] == 'jpeg') {
                 $this->img['src'] = @imagecreatefromjpeg($this->img['filepath']);
 
             } elseif ($this->img['format'] == 'png') {
@@ -179,7 +180,7 @@ class rex_image
         }
 
         // output image
-        if ($this->img['format'] == 'jpg' || $this->img['format'] == 'jpeg') {
+        if ($this->img['format'] == 'jpeg') {
             imagejpeg($this->img['src'], $saveToFileName, $this->img['quality']);
         } elseif ($this->img['format'] == 'png') {
             if (isset($saveToFileName)) {

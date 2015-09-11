@@ -100,8 +100,10 @@ class rex_image_cacher
         $REX['USE_GZIP'] = 'false';
 
             // send file
+        $format = $image->getFormat();
+
         $image->sendHeader();
-        $format = $image->getFormat() == 'JPG' ? 'jpeg' : strtolower($image->getFormat());
+
         rex_send_file($cacheFile, 'image/' . $format, 'frontend');
 
         $REX['USE_GZIP'] = $tmp;
