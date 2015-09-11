@@ -177,7 +177,7 @@ if ($function == 'add' or $function == 'edit') {
         $m_sql = rex_sql::factory();
         $m_sql->setQuery('SELECT id, name FROM ' . $REX['TABLE_PREFIX'] . 'module ORDER BY name');
         foreach ($m_sql->getArray() as $m) {
-            $modul_select->addOption(rex_translate($m['name']), $m['id']);
+            $modul_select->addOption(rex_translate($m['name'], $I18N, false), $m['id']);
         }
 
         // Kategorien
