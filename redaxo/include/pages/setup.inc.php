@@ -303,7 +303,7 @@ function rex_setup_dropREXtables()
             $REX['GENERATED_PATH'] . DIRECTORY_SEPARATOR . 'templates',
             $REX['GENERATED_PATH'] . DIRECTORY_SEPARATOR . 'files',
             $REX['MEDIAFOLDER'],
-            $REX['MEDIAFOLDER'] . DIRECTORY_SEPARATOR . '.redaxo',
+            //$REX['MEDIAFOLDER'] . DIRECTORY_SEPARATOR . '.redaxo',
         );
 
         foreach ($REX['SYSTEM_ADDONS'] as $system_addon) {
@@ -378,8 +378,8 @@ function rex_setup_dropREXtables()
         $redaxo_db_create          = rex_post('redaxo_db_create', 'boolean');
 
         // einfache anführungszeichen und dollarzeichen maskieren
-        $search = array("'", '$');
-        $destroy = array("\\'", '\\$');
+        $search = array("'", '$', '\\');
+        $destroy = array("\\'", '\\$', '\\\\');
 
         $replace = array(
             'search' => array(

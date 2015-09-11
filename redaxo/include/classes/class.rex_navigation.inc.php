@@ -434,6 +434,7 @@ class rex_be_navigation
         global $REX, $I18N;
         $s = '<dl class="rex-navi">';
         if (is_array($this->pages)) {
+            $this->pages = rex_register_extension_point('REX_BE_NAVI_OUTPUT', $this->pages);
             foreach ($this->pages as $block => $blockPages) {
                 // PHP4 compat notation
                 $n = $this->_getNavigation($this->pages[$block], 0, $block);
