@@ -408,4 +408,51 @@ class OOArticleSlice
     {
         return self::_getSliceWhere('id = ' . $this->_re_article_slice_id . ' AND clang = ' . $this->_clang . ' AND revision = ' . $this->_revision);
     }
+
+    public static function getSortedSlices($articleId, $clang = false, $moduleId = 0) {
+        $slices = array();
+        $slicesTmp = OOArticleSlice::getSlicesForArticle($articleId, $clang);
+
+        if ($slicesTmp) {
+            if (is_array($slicesTmp)) {
+                $sliceMap = array();
+                $sliceRefMap = array();
+
+                foreach ($slicesTmp as $slice) {
+                    $sliceMap[$slice->getId()] = $slice;
+                    $sliceRefMap[$slice->_re_article_slice_id] = $slice->getId();
+                }
+
+                $nextSlice = $sliceMap[$sliceRefMap[0]];
+
+                while ($nextSlice) {
+                    $slices[] = $nextSlice;
+
+                    if (!isset($sliceRefMap[$nextSlice->getId()])) {
+                        break;
+                    }
+
+                    $nextSlice = $sliceMap[$sliceRefMap[$nextSlice->getId()]];
+                }
+            } else {
+                $slices = array($slicesTmp);
+            }
+        }
+
+        if ($moduleId > 0) {
+            $moduleSlices = array();
+
+            foreach($slices as $slice) {
+                if ($slice->getModuleId() == $moduleId) {
+                    $moduleSlices[] = $slice;
+                }
+            }
+
+            return $moduleSlices;
+        } else {
+            return $slices;
+        }
+    }
+
+
 }
