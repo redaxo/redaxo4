@@ -204,6 +204,8 @@ class rex_image
     {
         if (!$file) {
             $file = dirname(__FILE__) . '/../media/warning.jpg';
+            $this->img['file'] = 'warning.jpg';
+            $this->img['format'] = 'jpeg';
         }
 
         // ----- EXTENSION POINT
