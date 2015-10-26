@@ -6,14 +6,38 @@ Alle weiteren AddOns mit geplanten Änderungen etc. werden hier nicht abgehandel
 Änderungen im Detail:
 ---------------------------------------------------------------------------------
 
-Version 4.6.2 (2014-xx-xx)
+Version 4.6.2 (2015-10-xx)
 
   Neu
   * Customizer PlugIn
     - Option das Submenü als Flyout anzuzeigen
+  * EP: I18N_MISSING_TRANSLATION
+  * EP: REX_SQL_ERROR
+  * EP: REX_BE_NAVI_OUTPUT
+  * medienpool: sync und kategorien bearbeiten darf nur der admin.
+  * getSortedSlices in OOArticleSlice ergänzt
 
   Bugfixes
   * Installer: Zip entpacken/packen funktionierte in manchen Umgebungen nicht
+  * Linkmap angepasst
+  * rex_form: Wert 0 wurde nicht gespeichert
+  * EP: MEDIA_DELETED fehlerhafte Übergabe der Parameter
+  * image_manager
+    - workspace. Durch falsch format bezeichnung ging der workspace effekt nicht
+    - Anzeige der Subpages korrigiert
+    - grayscale effekt über IMG_FILTER_GRAYSCALE
+    - falscher header bei jpg
+  * rex_deleteFiles korrigiert
+  * urlencode für Api-Login-Parameter war nicht gesetzt
+  * global $REX in update.inc.php gesetzt. fehlte
+  * setup optimierungen.
+  * Templates: Modulnamen wurden nicht immer richtig dargestellt
+
+  Info
+  * Textkorrekturen
+  * Checkbox-Label angepasst
+  * Update phpmailer
+
 
 Version 4.6.1 (2014-06-01)
 
