@@ -26,6 +26,7 @@ abstract class rex_api_install_package_download
         $archivefile = rex_install_webservice::getArchive($this->file['path']);
         $message = '';
         $this->archive = $archivefile;
+        $checksum = md5_file($archivefile);
 
         if (class_exists("ZipArchive")) {
             $success = false;
@@ -51,7 +52,7 @@ abstract class rex_api_install_package_download
         }
 
         if ($message != "") {
-        } else if ($this->file['checksum'] != md5_file($archivefile)) {
+        } else if ($this->file['checksum'] != $checksum) {
             $message = $I18N->msg('install_warning_zip_wrong_checksum');
         } else if (is_string($msg = $this->doAction())) {
             $message = $msg;
