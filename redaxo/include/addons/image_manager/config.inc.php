@@ -48,7 +48,7 @@ if (!function_exists('image_manager_init')) {
         global $REX;
 
         //--- handle image request
-        $rex_img_file = rex_get('rex_img_file', 'string');
+        $rex_img_file = basename(rex_get('rex_img_file', 'string'));
         $rex_img_type = rex_get('rex_img_type', 'string');
         $rex_img_init = false;
         if ($rex_img_file != '' && $rex_img_type != '') {
