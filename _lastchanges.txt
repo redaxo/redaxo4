@@ -8,6 +8,9 @@ Alle weiteren AddOns mit geplanten Änderungen etc. werden hier nicht abgehandel
 
 Version 4.6.2 (2015-10-xx)
 
+  Wichtig
+  * Sicherheitslücke geschlossen: Über den Image-Manager war es möglich, Bilder außerhalb des Filesordners abzurufen
+
   Neu
   * Customizer PlugIn
     - Option das Submenü als Flyout anzuzeigen
