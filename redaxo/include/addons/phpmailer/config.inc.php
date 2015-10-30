@@ -23,5 +23,7 @@ if ($REX['REDAXO']) {
     $I18N->appendFile($REX['INCLUDE_PATH'] . '/addons/' . $mypage . '/lang/');
 }
 
+require_once $REX['INCLUDE_PATH'] . '/addons/phpmailer/classes/class.smtp.php';
+require_once $REX['INCLUDE_PATH'] . '/addons/phpmailer/classes/class.pop3.php';
 require_once $REX['INCLUDE_PATH'] . '/addons/phpmailer/classes/class.phpmailer.php';
 require_once $REX['INCLUDE_PATH'] . '/addons/phpmailer/classes/class.rex_mailer.inc.php';
