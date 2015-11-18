@@ -164,6 +164,7 @@ $REX['EXTPERM'][] = 'publishArticle[]';
 $REX['EXTPERM'][] = 'publishCategory[]';
 $REX['EXTPERM'][] = 'article2startpage[]';
 $REX['EXTPERM'][] = 'article2category[]';
+$REX['EXTPERM'][] = 'editMediaCategories[]';
 
 // ----- extras
 $REX['EXTRAPERM'] = array();
