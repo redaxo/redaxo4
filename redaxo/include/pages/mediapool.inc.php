@@ -77,8 +77,10 @@ $subline = array(
     array('add_file', $I18N->msg('pool_file_insert')),
 );
 
-if ($REX['USER']->isAdmin()) {
+if ($REX['USER']->isAdmin() || $REX['USER']->hasPerm('editMediaCategories[]')) {
     $subline[] = array('categories', $I18N->msg('pool_cat_list'));
+}
+if ($REX['USER']->isAdmin()) {
     $subline[] = array('sync', $I18N->msg('pool_sync_files'));
 }
 
@@ -209,7 +211,7 @@ if ($content != '') {
 } else {
     switch ($subpage) {
         case 'add_file'  : $file = 'mediapool.upload.inc.php'; break;
-        case 'categories': $file = 'mediapool.structure.inc.php'; if ($REX['USER']->isAdmin()) break;
+        case 'categories': $file = 'mediapool.structure.inc.php'; if ($REX['USER']->isAdmin() || $REX['USER']->hasPerm('editMediaCategories[]')) break;
         case 'sync'      : $file = 'mediapool.sync.inc.php'; if ($REX['USER']->isAdmin()) break;
         default          : $file = 'mediapool.media.inc.php'; break;
     }
