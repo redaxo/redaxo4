@@ -5,6 +5,8 @@
  * @version svn:$Id$
  */
 
+include_once $REX['INCLUDE_PATH'] . '/functions/php7-mysql-shim/mysql.php';
+
 // ----------------- TIMER
 include_once $REX['INCLUDE_PATH'] . '/functions/function_rex_time.inc.php';
 

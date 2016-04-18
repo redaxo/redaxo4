@@ -111,6 +111,8 @@ if (function_exists('date_default_timezone_set')) {
     date_default_timezone_set($REX['TIMEZONE']);
 }
 
+error_reporting(error_reporting() ^ E_STRICT ^ E_DEPRECATED);
+
 // ----------------- OTHER STUFF
 $REX['SYSTEM_ADDONS']                   = array('import_export', 'metainfo', 'be_search', 'image_manager', 'install');
 
