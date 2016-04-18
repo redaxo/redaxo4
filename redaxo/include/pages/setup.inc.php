@@ -285,9 +285,9 @@ function rex_setup_dropREXtables()
         }
 
         // -------------------------- EXTENSION CHECK
-        foreach (array('session', 'mysql', 'pcre') as $extension) {
+        foreach (array('session', PHP_VERSION_ID >= 70000 ? 'mysqli' : 'mysql', 'pcre') as $extension) {
             if (!extension_loaded($extension)) {
-            $MSG['err'] .= '<li>' . $I18N->msg('setup_010_1', $extension) . '</li>';
+                $MSG['err'] .= '<li>' . $I18N->msg('setup_010_1', $extension) . '</li>';
             }
         }
 
