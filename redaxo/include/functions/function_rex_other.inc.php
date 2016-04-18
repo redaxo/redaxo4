@@ -380,6 +380,7 @@ function rex_put_file_contents($path, $content)
 
     $writtenBytes = file_put_contents($path, $content);
     @ chmod($path, $REX['FILEPERM']);
+    rex_file::invalidateCache($path);
 
     return $writtenBytes;
 }

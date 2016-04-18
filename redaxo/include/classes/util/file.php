@@ -62,6 +62,7 @@ class rex_file
 
         if (file_put_contents($file, $content) !== false) {
             @chmod($file, $REX['FILEPERM']);
+            self::invalidateCache($file);
             return true;
         }
 
@@ -115,10 +116,23 @@ class rex_file
             if (rex_dir::isWritable($dstdir) && (!file_exists($dstfile) || is_writable($dstfile)) && copy($srcfile, $dstfile)) {
                 touch($dstfile, filemtime($srcfile));
                 @chmod($dstfile, $REX['FILEPERM']);
+                self::invalidateCache($dstfile);
                 return true;
             }
         }
         return false;
+    }
+
+    /**
+     * Invalidates the opcache for the given file
+     *
+     * @param string $file
+     */
+    public static function invalidateCache($file)
+    {
+        if (function_exists('opcache_invalidate')) {
+            opcache_invalidate($file);
+        }
     }
 
     /**
