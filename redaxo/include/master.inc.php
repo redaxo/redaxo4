@@ -27,7 +27,7 @@ $REX['SETUP'] = true;
 $REX['SERVER'] = "www.redaxo.org";
 $REX['SERVERNAME'] = "REDAXO";
 $REX['VERSION'] = "4";
-$REX['SUBVERSION'] = "6";
+$REX['SUBVERSION'] = "7";
 $REX['MINORVERSION'] = "dev";
 $REX['ERROR_EMAIL'] = "";
 $REX['FILEPERM'] = octdec(664); // oktaler wert
@@ -126,7 +126,7 @@ $REX['MEDIAPOOL']['ALLOWED_DOCTYPES']   = array('bmp', 'css', 'doc', 'docx', 'ep
 $REX['DB']['1']['HOST'] = "localhost";
 $REX['DB']['1']['LOGIN'] = "root";
 $REX['DB']['1']['PSW'] = "";
-$REX['DB']['1']['NAME'] = "redaxo_4_6_0";
+$REX['DB']['1']['NAME'] = 'redaxo_4_7';
 $REX['DB']['1']['PERSISTENT'] = false;
 
 // ----------------- DB2 - if necessary

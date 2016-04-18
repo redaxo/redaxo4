@@ -6,8 +6,9 @@ Alle weiteren AddOns mit geplanten Änderungen etc. werden hier nicht abgehandel
 Änderungen im Detail:
 ---------------------------------------------------------------------------------
 
-Version 4.6.3 (2016-XX-XX)
+Version 4.7.0 (2016-04-18)
 
+  Neu
   * PHP 7 Unterstützung
   * Neues Recht editMediaCategories[]
 
