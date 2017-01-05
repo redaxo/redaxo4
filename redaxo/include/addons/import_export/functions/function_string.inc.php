@@ -192,7 +192,7 @@ if (!function_exists('readSqlDump')) {
    {
       if (is_file($file) && is_readable($file)) {
          $ret = array ();
-         $sqlsplit = '';
+         $sqlsplit = array();
          $fileContent = file_get_contents($file);
          PMA_splitSqlFile($sqlsplit, $fileContent, '');
 
