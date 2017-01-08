@@ -49,7 +49,7 @@ if ($addonkey && isset($addons[$addonkey])) {
         $redaxo_select->setAttribute('class', 'rex-form-select');
         $redaxo_select->setSize(4);
         $redaxo_select->setMultiple(true);
-        $redaxo_select->addOption('5.0.x', '5.0.x');
+        $redaxo_select->addOption('4.7.x', '4.7.x');
         $redaxo_select->addOption('4.6.x', '4.6.x');
         $redaxo_select->addOption('4.5.x', '4.5.x');
         $redaxo_select->addOption('4.4.x', '4.4.x');
