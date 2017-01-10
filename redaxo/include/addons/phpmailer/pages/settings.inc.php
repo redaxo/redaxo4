@@ -26,9 +26,7 @@ $smtpauth         = rex_post('smtpauth',  'string', $smtpauth_default);
 $smtpsecure       = rex_post('smtpsecure', 'string', $testMailer->SMTPSecure);
 $priority         = rex_post('priority',  'int',    $testMailer->Priority);
 
-if ($smtpauth != 'true') {
-    $smtpauth = 'false';
-}
+$smtpauth = 'true' === $smtpauth;
 
 $message = '';
 
@@ -83,9 +81,9 @@ $sel_smtpauth = new rex_select();
 $sel_smtpauth->setId('smtpauth');
 $sel_smtpauth->setName('smtpauth');
 $sel_smtpauth->setSize(1);
-$sel_smtpauth->setSelected($smtpauth);
+$sel_smtpauth->setSelected($smtpauth ? 'true' : 'false');
 foreach (array('false', 'true') as $type) {
-$sel_smtpauth->addOption($type, $type);
+    $sel_smtpauth->addOption($type, $type);
 }
 
 $sel_encoding = new rex_select();
