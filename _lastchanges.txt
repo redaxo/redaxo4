@@ -6,6 +6,19 @@ Alle weiteren AddOns mit geplanten Änderungen etc. werden hier nicht abgehandel
 Änderungen im Detail:
 ---------------------------------------------------------------------------------
 
+Version 4.7.1 (2017-01-XX)
+
+  Wichtig
+  * PHPMailer-Update (5.2.21) mit Security-Fixes (remote code execution vulnerability)
+    Mehr Informationen: https://github.com/PHPMailer/PHPMailer/wiki/About-the-CVE-2016-10033-and-CVE-2016-10045-vulnerabilities
+
+  Bugfixes
+  * PHP 7.1: Setup, SQL-Import und teilweise Installation von Addons schlug fehl
+  * Deprecated/Strict-Notices wurden nicht korrekt unterdrückt
+  * PHPMailer: SMTPAuth-Einstellung wurde nicht korrekt gespeichert/angezeigt
+  * Installer: Version 4.7 fehlte bei den REDAXO-Versionen beim Upload von Addons
+
+
 Version 4.7.0 (2016-04-19)
 
   Neu
