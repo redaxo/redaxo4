@@ -53,10 +53,10 @@ function rex_a256_search_mpool_query($params)
     }
 
     $qry = $params['subject'];
-    $category_id = $params['category_id'];
+    $category_id = (int) $params['category_id'];
 
     $qry = str_replace('f.category_id=' . $category_id, '1=1', $qry);
-    $where = " (f.filename LIKE '%" . $media_name . "%' OR f.title LIKE '%" . $media_name . "%')";
+    $where = " (f.filename LIKE '%" . mysql_real_escape_string($media_name) . "%' OR f.title LIKE '%" . mysql_real_escape_string($media_name) . "%')";
 
     $searchmode = OOAddon::getProperty('be_search', 'searchmode', 'local');
 
@@ -72,7 +72,7 @@ function rex_a256_search_mpool_query($params)
         // local search - categorie and subcategories
     } else {
         $where .= ' AND f.category_id = c.id  ';
-        $where .= " AND (c.path LIKE '%|" . $params['category_id'] . "|%' OR c.id=" . $params['category_id'] . ') ';
+        $where .= " AND (c.path LIKE '%|" . $category_id . "|%' OR c.id=" . $category_id . ') ';
         $qry = str_replace('FROM ', 'FROM ' . $REX['TABLE_PREFIX'] . 'file_category c,', $qry);
         $qry = str_replace('WHERE ', 'WHERE ' . $where . ' AND ', $qry);
 

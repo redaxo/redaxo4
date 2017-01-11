@@ -11,6 +11,7 @@ Version 4.7.1 (2017-01-XX)
   Wichtig
   * PHPMailer-Update (5.2.21) mit Security-Fixes (remote code execution vulnerability)
     Mehr Informationen: https://github.com/PHPMailer/PHPMailer/wiki/About-the-CVE-2016-10033-and-CVE-2016-10045-vulnerabilities
+  * be_search: SQL-Injections waren möglich (für eingeloggte Benutzer)
 
   Bugfixes
   * PHP 7.1: Setup, SQL-Import und teilweise Installation von Addons schlug fehl

@@ -61,14 +61,16 @@ function rex_a256_search_structure($params)
     // da sonst bei vorherigen headerweiterleitungen
     // auch gesucht wuerde
     if ($a256_article_name_post != '') {
+        $search = rex_sql::factory();
+
         $qry = '
         SELECT id
         FROM ' . $REX['TABLE_PREFIX'] . 'article
         WHERE
             clang = ' . $a256_clang . ' AND
             (
-                name LIKE "%' . $a256_article_name . '%" OR
-                catname LIKE "%' . $a256_article_name . '%"
+                name LIKE "%' . $search->escape($a256_article_name) . '%" OR
+                catname LIKE "%' . $search->escape($a256_article_name) . '%"
             )';
 
         switch (OOAddon::getProperty('be_search', 'searchmode', 'local')) {
@@ -81,7 +83,6 @@ function rex_a256_search_structure($params)
             }
         }
 
-        $search = rex_sql::factory();
 //    $search->debugsql = true;
         $search->setQuery($qry);
         $foundRows = $search->getRows();
