@@ -347,6 +347,7 @@ function buildRelease($name = null, $version = null)
 
     $phar = new PharData('release/' . $name . '.zip');
     $phar->buildFromDirectory(dirname(__FILE__) . '/' . $dest);
+    $phar->compressFiles(Phar::GZ);
 
     echo PHP_EOL . '> FINISHED' . PHP_EOL;
 }
