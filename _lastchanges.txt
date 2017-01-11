@@ -6,7 +6,7 @@ Alle weiteren AddOns mit geplanten Änderungen etc. werden hier nicht abgehandel
 Änderungen im Detail:
 ---------------------------------------------------------------------------------
 
-Version 4.7.1 (2017-01-XX)
+Version 4.7.1 (2017-01-11)
 
   Wichtig
   * PHPMailer-Update (5.2.21) mit Security-Fixes (remote code execution vulnerability)
