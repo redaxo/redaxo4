@@ -59,19 +59,19 @@ $REX['MOD_REWRITE'] = false;
 
 // activate gzip output support
 // reduces amount of data need to be send to the client, but increases cpu load of the server
-$REX['USE_GZIP'] = "false"; // String: "true"/"false"/"fronted"/"backend"
+$REX['USE_GZIP'] = "false"; // String: "true"/"false"/"frontend"/"backend"
 
 // activate e-tag support
 // tag content with a cache key to improve usage of client cache
-$REX['USE_ETAG'] = "false"; // String: "true"/"false"/"fronted"/"backend"
+$REX['USE_ETAG'] = "false"; // String: "true"/"false"/"frontend"/"backend"
 
 // activate last-modified support
 // tag content with a last-modified timestamp to improve usage of client cache
-$REX['USE_LAST_MODIFIED'] = "false"; // String: "true"/"false"/"fronted"/"backend"
+$REX['USE_LAST_MODIFIED'] = "false"; // String: "true"/"false"/"frontend"/"backend"
 
 // activate md5 checksum support
 // allow client to validate content integrity
-$REX['USE_MD5'] = "false"; // String: "true"/"false"/"fronted"/"backend"
+$REX['USE_MD5'] = "false"; // String: "true"/"false"/"frontend"/"backend"
 
 // versch. Pfade
 $REX['MEDIA_DIR'] = 'files';
