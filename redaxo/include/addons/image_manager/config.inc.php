@@ -83,7 +83,11 @@ if (!function_exists('image_manager_init')) {
 
         if ($subject['rex_img_init']) {
             // prevent session locking trough other addons
-            session_abort();
+            if (function_exists('session_abort')) {
+                session_abort();
+            } else {
+                session_write_close();
+            }
             
             $image         = new rex_image($imagepath);
             $image_cacher  = new rex_image_cacher($cachepath);
