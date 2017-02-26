@@ -40,6 +40,16 @@ class OOArticleSlice
     /*
      * Constructor
      */
+
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of OOArticleSlice()
+    /*public*/ function __construct($id, $article_id, $clang, $ctype, $modultyp_id, $re_article_slice_id, $next_article_slice_id, $createdate, $updatedate, $createuser, $updateuser, $revision, $values, $files, $filelists, $links, $linklists, $php, $html)
+    {
+        $this->OOArticleSlice($id, $article_id, $clang, $ctype, $modultyp_id, $re_article_slice_id, $next_article_slice_id, $createdate, $updatedate, $createuser, $updateuser, $revision, $values, $files, $filelists, $links, $linklists, $php, $html);
+    }
+
+    // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     /*public*/ function OOArticleSlice(
         $id, $article_id, $clang, $ctype, $modultyp_id,
         $re_article_slice_id, $next_article_slice_id,

@@ -16,6 +16,15 @@
     var $config;
     var $funcCache;
 
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_dashboard_component_base()
+    function __construct($id, $cache_options = array())
+    {
+        $this->rex_dashboard_component_base($id, $cache_options);
+    }
+
+     // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     function rex_dashboard_component_base($id, $cache_options = array())
     {
         $this->id = $id;

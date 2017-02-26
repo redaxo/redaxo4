@@ -38,6 +38,16 @@ class rex_form
     /**
      * Diese Konstruktor sollte nicht verwendet werden. Instanzen muessen ueber die facotry() Methode erstellt werden!
      */
+
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_form()
+    /*protected*/ function __construct($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false)
+    {
+        $this->rex_form($tableName, $fieldset, $whereCondition, $method, $debug);
+    }
+
+    // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     /*protected*/ function rex_form($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false)
     {
         global $REX;
@@ -1284,6 +1294,16 @@ class rex_form_element
     /** @var rex_validator */
     protected $validator;
 
+
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_form_element()
+    function __construct($tag, &$table, $attributes = array(), $separateEnding = false)
+    {
+        $this->rex_form_element($tag, $table, $attributes, $separateEnding);
+    }
+
+    // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     function rex_form_element($tag, &$table, $attributes = array(), $separateEnding = false)
     {
         $this->value = null;
@@ -1562,6 +1582,15 @@ class rex_form_control_element extends rex_form_element
     var $resetElelement;
     var $abortElement;
 
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_form_control_element()
+    function __construct(&$table, $saveElement = null, $applyElement = null, $deleteElement = null, $resetElement = null, $abortElement = null)
+    {
+        $this->rex_form_control_element($table, $saveElement, $applyElement, $deleteElement, $resetElement, $abortElement);
+    }
+
+    // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     function rex_form_control_element(&$table, $saveElement = null, $applyElement = null, $deleteElement = null, $resetElement = null, $abortElement = null)
     {
         parent::rex_form_element('', $table);
@@ -1687,6 +1716,16 @@ class rex_form_select_element extends rex_form_element
 
     // 1. Parameter nicht genutzt, muss aber hier stehen,
     // wg einheitlicher Konstrukturparameter
+
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_form_select_element()
+    function __construct($tag = '', &$table, $attributes = array())
+    {
+        $this->rex_form_select_element($tag, $table, $attributes);
+    }
+
+    // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     function rex_form_select_element($tag = '', &$table, $attributes = array())
     {
         parent::rex_form_element('', $table, $attributes);
@@ -1758,6 +1797,16 @@ class rex_form_prio_element extends rex_form_select_element
 
     // 1. Parameter nicht genutzt, muss aber hier stehen,
     // wg einheitlicher Konstrukturparameter
+
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_form_prio_element()
+    function __construct($tag = '', &$table, $attributes = array())
+    {
+        $this->rex_form_prio_element($tag, $table, $attributes);
+    }
+
+    // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     function rex_form_prio_element($tag = '', &$table, $attributes = array())
     {
         parent::rex_form_select_element('', $table, $attributes);
@@ -1847,6 +1896,16 @@ class rex_form_options_element extends rex_form_element
 
     // 1. Parameter nicht genutzt, muss aber hier stehen,
     // wg einheitlicher Konstrukturparameter
+
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_form_options_element()
+    function __construct($tag = '', &$table, $attributes = array())
+    {
+        $this->rex_form_options_element($tag, $table, $attributes);
+    }
+
+    // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     function rex_form_options_element($tag = '', &$table, $attributes = array())
     {
         parent::rex_form_element($tag, $table, $attributes);
@@ -1909,6 +1968,16 @@ class rex_form_checkbox_element extends rex_form_options_element
 {
     // 1. Parameter nicht genutzt, muss aber hier stehen,
     // wg einheitlicher Konstrukturparameter
+
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_form_checkbox_element()
+    function __construct($tag = '', &$table, $attributes = array())
+    {
+        $this->rex_form_checkbox_element($tag, $table, $attributes);
+    }
+
+    // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     function rex_form_checkbox_element($tag = '', &$table, $attributes = array())
     {
         parent::rex_form_options_element('', $table, $attributes);
@@ -1964,6 +2033,16 @@ class rex_form_radio_element extends rex_form_options_element
 {
     // 1. Parameter nicht genutzt, muss aber hier stehen,
     // wg einheitlicher Konstrukturparameter
+
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_form_radio_element()
+    function __construct($tag = '', &$table, $attributes = array())
+    {
+        $this->rex_form_radio_element($tag, $table, $attributes);
+    }
+
+    // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     function rex_form_radio_element($tag = '', &$table, $attributes = array())
     {
         parent::rex_form_options_element('', $table, $attributes);
@@ -2010,6 +2089,16 @@ class rex_form_element_container extends rex_form_element
 
     // 1. Parameter nicht genutzt, muss aber hier stehen,
     // wg einheitlicher Konstrukturparameter
+
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_form_element_container()
+    function __construct($tag = '', &$table, $attributes = array())
+    {
+        $this->rex_form_element_container($tag, $table, $attributes);
+    }
+
+    // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     function rex_form_element_container($tag = '', &$table, $attributes = array())
     {
         parent::rex_form_element('', $table, $attributes);
@@ -2140,6 +2229,16 @@ class rex_form_widget_media_element extends rex_form_element
 
     // 1. Parameter nicht genutzt, muss aber hier stehen,
     // wg einheitlicher Konstrukturparameter
+
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_form_widget_media_element()
+    function __construct($tag = '', &$table, $attributes = array())
+    {
+        $this->rex_form_widget_media_element($tag, $table, $attributes);
+    }
+
+    // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     function rex_form_widget_media_element($tag = '', &$table, $attributes = array())
     {
         parent::rex_form_element('', $table, $attributes);
@@ -2181,6 +2280,16 @@ class rex_form_widget_medialist_element extends rex_form_element
 
     // 1. Parameter nicht genutzt, muss aber hier stehen,
     // wg einheitlicher Konstrukturparameter
+
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_form_widget_medialist_element()
+    function __construct($tag = '', &$table, $attributes = array())
+    {
+        $this->rex_form_widget_medialist_element($tag, $table, $attributes);
+    }
+
+    // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     function rex_form_widget_medialist_element($tag = '', &$table, $attributes = array())
     {
         parent::rex_form_element('', $table, $attributes);
@@ -2220,6 +2329,16 @@ class rex_form_widget_linkmap_element extends rex_form_element
 
     // 1. Parameter nicht genutzt, muss aber hier stehen,
     // wg einheitlicher Konstrukturparameter
+
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_form_widget_linkmap_element()
+    function __construct($tag = '', &$table, $attributes = array())
+    {
+        $this->rex_form_widget_linkmap_element($tag, $table, $attributes);
+    }
+
+    // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     function rex_form_widget_linkmap_element($tag = '', &$table, $attributes = array())
     {
         parent::rex_form_element('', $table, $attributes);
@@ -2248,6 +2367,16 @@ class rex_form_widget_linklist_element extends rex_form_element
 
     // 1. Parameter nicht genutzt, muss aber hier stehen,
     // wg einheitlicher Konstrukturparameter
+
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_form_widget_linklist_element()
+    function __construct($tag = '', &$table, $attributes = array())
+    {
+        $this->rex_form_widget_linklist_element($tag, $table, $attributes);
+    }
+
+    // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     function rex_form_widget_linklist_element($tag = '', &$table, $attributes = array())
     {
         parent::rex_form_element('', $table, $attributes);
@@ -2277,6 +2406,15 @@ class rex_form_raw_element extends rex_form_element
 {
     var $html;
 
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_form_raw_element()
+    function __construct($html = '')
+    {
+        $this->rex_form_raw_element($html);
+    }
+
+    // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     function rex_form_raw_element($html = '')
     {
         $this->html = $html;

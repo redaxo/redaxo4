@@ -24,6 +24,15 @@ class rex_sql
     var $error; // Fehlertext
     var $errno; // Fehlernummer
 
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_sql()
+    /*private*/ function __construct($DBID = 1)
+    {
+        $this->rex_sql($DBID);
+    }
+
+    // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     /*private*/ function rex_sql($DBID = 1)
     {
         global $REX;

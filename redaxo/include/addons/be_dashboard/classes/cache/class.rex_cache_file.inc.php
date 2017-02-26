@@ -32,6 +32,16 @@ class rex_file_cache extends rex_cache
      *
      * @see rex_cache
      */
+
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_file_cache()
+    /*public*/ function __construct($options = array())
+    {
+        $this->rex_file_cache($options);
+    }
+
+     // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     /*public*/ function rex_file_cache($options = array())
     {
         global $REX;

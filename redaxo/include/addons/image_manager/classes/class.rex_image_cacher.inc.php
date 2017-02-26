@@ -4,6 +4,15 @@ class rex_image_cacher
 {
     var $cache_path;
 
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_image_cacher()
+    function __construct($cache_path)
+    {
+        $this->rex_image_cacher($cache_path);
+    }
+
+    // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     function rex_image_cacher($cache_path)
     {
         global $REX;

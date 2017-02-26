@@ -14,6 +14,15 @@ class rex_a62_tableManager
     var $tableName;
     var $DBID;
 
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_a62_tableManager()
+    function __construct($tableName, $DBID = 1)
+    {
+        $this->rex_a62_tableManager($tableName, $DBID);
+    }
+
+    // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     function rex_a62_tableManager($tableName, $DBID = 1)
     {
         $this->tableName = $tableName;

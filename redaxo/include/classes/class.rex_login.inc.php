@@ -10,6 +10,15 @@
 
 class rex_login_sql extends rex_sql
 {
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_login_sql()
+    function __construct($DBID = 1)
+    {
+        $this->rex_login_sql($DBID);
+    }
+
+    // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     function rex_login_sql($DBID = 1)
     {
         parent::rex_sql($DBID);
@@ -193,6 +202,15 @@ class rex_login
     var $cache;
     var $login_status;
 
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_login()
+    /*public*/ function __construct()
+    {
+        $this->rex_login();
+    }
+
+    // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     /*public*/ function rex_login()
     {
         $this->DB = 1;
@@ -488,6 +506,15 @@ class rex_backend_login extends rex_login
 {
     var $tableName;
 
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_backend_login()
+    /*public*/ function __construct($tableName)
+    {
+        $this->rex_backend_login($tableName);
+    }
+
+    // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     /*public*/ function rex_backend_login($tableName)
     {
         global $REX;

@@ -5,6 +5,15 @@
     var $value;
     var $attributes;
 
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_input()
+    /*public*/ function __construct()
+    {
+        $this->rex_input();
+    }
+
+    // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     /*public*/ function rex_input()
     {
         $this->value = '';

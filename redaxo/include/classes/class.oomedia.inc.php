@@ -51,6 +51,16 @@ class OOMedia
     /**
      * @access protected
      */
+
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of OOMedia()
+    function __construct($id = null)
+    {
+        $this->OOMedia($id);
+    }
+
+    // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     function OOMedia($id = null)
     {
         $this->getMediaById($id);

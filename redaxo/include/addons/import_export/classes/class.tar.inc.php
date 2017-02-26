@@ -77,6 +77,16 @@ class tar
 
 
     // Class Constructor -- Does nothing...
+
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of tar()
+    function __construct()
+    {
+        $this->tar();
+    }
+
+    // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     function tar()
     {
         $this->files = array();
