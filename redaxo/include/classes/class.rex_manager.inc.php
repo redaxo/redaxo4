@@ -12,6 +12,16 @@
      *
      * @param $i18nPrefix Sprachprefix aller I18N Sprachschlüssel
      */
+
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_baseManager()
+    function __construct($i18nPrefix)
+    {
+        $this->rex_baseManager($i18nPrefix);
+    }
+
+    // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     function rex_baseManager($i18nPrefix)
     {
         $this->i18nPrefix = $i18nPrefix;
@@ -326,6 +336,15 @@ class rex_addonManager extends rex_baseManager
 {
     var $configArray;
 
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_addonManager()
+    function __construct($configArray)
+    {
+        $this->rex_addonManager($configArray);
+    }
+
+    // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     function rex_addonManager($configArray)
     {
         $this->configArray = $configArray;
@@ -397,6 +416,14 @@ class rex_pluginManager extends rex_baseManager
     var $configArray;
     var $addonName;
 
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_pluginManager()
+    function __construct($configArray, $addonName)
+    {
+        $this->rex_pluginManager($configArray, $addonName);
+    }
+
+    // this is the deprecated old style constructor kept for compat reasons. 
     function rex_pluginManager($configArray, $addonName)
     {
         $this->configArray = & $configArray;

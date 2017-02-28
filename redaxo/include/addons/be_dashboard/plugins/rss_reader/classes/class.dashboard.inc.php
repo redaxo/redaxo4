@@ -12,6 +12,15 @@
 
 class rex_rss_reader_component extends rex_dashboard_component
 {
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_rss_reader_component()
+    function __construct()
+    {
+        $this->rex_rss_reader_component();
+    }
+
+     // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     function rex_rss_reader_component()
     {
         // default cache lifetime in seconds
@@ -48,6 +57,15 @@ class rex_rss_reader_component extends rex_dashboard_component
 
 class rex_rss_reader_component_config extends rex_dashboard_component_config
 {
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_rss_reader_component_config()
+    function __construct()
+    {
+        $this->rex_rss_reader_component_config();
+    }
+
+     // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     function rex_rss_reader_component_config()
     {
         $defaultSettings = array(

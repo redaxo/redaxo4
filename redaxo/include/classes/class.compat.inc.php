@@ -14,6 +14,15 @@ class sql extends rex_sql
 {
     var $select;
 
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of sql()
+    function __construct($DBID = 1)
+    {
+        $this->sql($DBID);
+    }
+
+    // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     function sql($DBID = 1)
     {
         parent::rex_sql($DBID);
@@ -70,6 +79,15 @@ class sql extends rex_sql
 class select extends rex_select
 {
 
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of select()
+    function __construct()
+    {
+        $this->select();
+    }
+
+    // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     function select()
     {
         parent::rex_select();
@@ -135,6 +153,15 @@ class select extends rex_select
 class article extends rex_article
 {
 
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of article()
+    function __construct($article_id = null, $clang = null)
+    {
+        $this->article($article_id, $clang);
+    }
+
+    // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     function article($article_id = null, $clang = null)
     {
         parent::rex_article($article_id, $clang);

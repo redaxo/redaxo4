@@ -13,6 +13,15 @@ class rex_article extends rex_article_base
     // bc schalter
     var $viasql;
 
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_article()
+    /*public*/ function __construct($article_id = null, $clang = null)
+    {
+        $this->rex_article($article_id, $clang);
+    }
+
+    // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     /*public*/ function rex_article($article_id = null, $clang = null)
     {
         $this->viasql = false;

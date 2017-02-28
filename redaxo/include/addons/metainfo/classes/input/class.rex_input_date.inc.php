@@ -6,6 +6,15 @@ class rex_input_date extends rex_input
     var $monthSelect;
     var $daySelect;
 
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_input_date()
+    function __construct()
+	{
+        $this->rex_input_date();
+    }
+
+    // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     function rex_input_date()
     {
         parent::rex_input();

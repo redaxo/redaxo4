@@ -8,6 +8,15 @@
 
 class OOArticle extends OORedaxo
 {
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of OOArticle()
+    /*protected*/ function __construct($params = false, $clang = false)
+    {
+        $this->OOArticle($params, $clang);
+    }
+
+    // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     /*protected*/ function OOArticle($params = false, $clang = false)
     {
         parent :: OORedaxo($params, $clang);

@@ -47,6 +47,15 @@ class rex_navigation
     var $current_article_id = -1; // Aktueller Artikel
     var $current_category_id = -1; // Aktuelle Katgorie
 
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_navigation()
+    /*private*/ function __construct()
+    {
+        $this->rex_navigation();
+    }
+
+    // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     /*private*/ function rex_navigation()
     {
         // nichts zu tun
@@ -702,6 +711,15 @@ class rex_be_page extends rex_be_page_container
     var $requiredPermissions;
     var $path;
 
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_be_page()
+    function __construct($title, $activateCondition = array(), $hidden = false)
+    {
+        $this->rex_be_page($title, $activateCondition, $hidden);
+    }
+
+    // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     function rex_be_page($title, $activateCondition = array(), $hidden = false)
     {
         $this->title = $title;
@@ -875,6 +893,15 @@ class rex_be_main_page extends rex_be_page_container
     var $block;
     var $page;
 
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_be_main_page()
+    function __construct($block, /*rex_be_page*/ $page)
+    {
+        $this->rex_be_main_page($block, $page);
+    }
+
+    // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     function rex_be_main_page($block, /*rex_be_page*/ $page)
     {
         $this->block = $block;
@@ -926,6 +953,15 @@ class rex_be_main_page extends rex_be_page_container
 
 class rex_be_popup_page extends rex_be_page
 {
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_be_popup_page()
+    function __construct($title, $onclick = '', $activateCondition = array())
+    {
+        $this->rex_be_popup_page($title, $onclick, $activateCondition);
+    }
+
+    // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     function rex_be_popup_page($title, $onclick = '', $activateCondition = array())
     {
         parent::rex_be_page($title, $activateCondition);

@@ -138,6 +138,15 @@ class rex_cronjob_manager_sql
     /*private*/ var $sql;
     /*private*/ var $manager;
 
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_cronjob_manager_sql()
+    /*private*/ function __construct(/*rex_cronjob_manager*/ $manager = null)
+    {
+        $this->rex_cronjob_manager_sql($manager);
+    }
+
+    // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     /*private*/ function rex_cronjob_manager_sql(/*rex_cronjob_manager*/ $manager = null)
     {
         $this->sql = rex_sql::factory();

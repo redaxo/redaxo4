@@ -33,6 +33,16 @@ define('REX_CACHE_CLEAN_ALL', 2);
      *
      * * lifetime (optional): The default life time (default value: 86400)
      */
+
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_cache()
+    function __construct($options = array())
+    {
+        $this->rex_cache($options);
+    }
+
+     // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     /*public*/function rex_cache($options = array())
     {
         $this->options = array_merge(array(

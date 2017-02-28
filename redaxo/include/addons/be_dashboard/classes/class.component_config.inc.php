@@ -16,6 +16,15 @@
     var $settings;
     var $settingsCache;
 
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_dashboard_component_config()
+    /*public*/ function __construct($defaultSettings)
+    {
+        $this->rex_dashboard_component_config($defaultSettings);
+    }
+
+     // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     /*public*/ function rex_dashboard_component_config($defaultSettings)
     {
         static $counter = 0;

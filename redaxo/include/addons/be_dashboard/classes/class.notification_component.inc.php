@@ -12,6 +12,15 @@
 
 /*abstract*/ class rex_notification_component extends rex_dashboard_component
 {
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_notification_component()
+    function __construct()
+    {
+        $this->rex_notification_component();
+    }
+
+     // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     function rex_notification_component()
     {
         global $I18N;

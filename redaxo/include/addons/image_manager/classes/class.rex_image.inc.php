@@ -15,6 +15,15 @@ class rex_image
         'image/gif' => 'gif'
     );
 
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_image()
+    function __construct($filepath)
+    {
+        $this->rex_image($filepath);
+    }
+
+    // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     function rex_image($filepath)
     {
         global $REX;

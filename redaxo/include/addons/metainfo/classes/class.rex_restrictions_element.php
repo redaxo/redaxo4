@@ -6,6 +6,16 @@ class rex_form_restrictons_element extends rex_form_select_element
 
     // 1. Parameter nicht genutzt, muss aber hier stehen,
     // wg einheitlicher Konstrukturparameter
+
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_form_restrictons_element()
+    function __construct($tag = '', /*rex_a62_tableExpander*/ &$table, $attributes = array())
+    {
+        $this->rex_form_restrictons_element($tag, $table, $attributes);
+    }
+
+    // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     function rex_form_restrictons_element($tag = '', /*rex_a62_tableExpander*/ &$table, $attributes = array())
     {
         global $I18N;

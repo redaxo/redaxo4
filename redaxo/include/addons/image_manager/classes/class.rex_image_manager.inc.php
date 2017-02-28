@@ -4,6 +4,16 @@ class rex_image_manager
 {
     var $image_cacher;
 
+
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_image_manager()
+    function __construct(rex_image_cacher $image_cacher)
+    {
+        $this->rex_image_manager($image_cacher);
+    }
+
+    // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     public function rex_image_manager(rex_image_cacher $image_cacher)
     {
         if (!rex_image_cacher::isValid($image_cacher)) {

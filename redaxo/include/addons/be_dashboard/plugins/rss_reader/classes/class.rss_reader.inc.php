@@ -31,6 +31,15 @@ require_once dirname(__FILE__) . '/../vendor/simplepie.inc.php';
  */
 class rex_rssReader extends SimplePie
 {
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_rssReader()
+    function __construct($feed_url = null, $cache_location = null, $cache_duration = null)
+    {
+        $this->rex_rssReader($feed_url, $cache_location, $cache_duration);
+    }
+
+     // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     function rex_rssReader($feed_url = null, $cache_location = null, $cache_duration = null)
     {
         global $REX;

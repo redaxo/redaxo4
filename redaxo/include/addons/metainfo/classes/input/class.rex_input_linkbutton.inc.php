@@ -5,6 +5,15 @@ class rex_input_linkbutton extends rex_input
     var $buttonId;
     var $categoryId;
 
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_input_linkbutton()
+    function __construct()
+    {
+        $this->rex_input_linkbutton();
+    }
+
+    // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     function rex_input_linkbutton()
     {
         parent::rex_input();

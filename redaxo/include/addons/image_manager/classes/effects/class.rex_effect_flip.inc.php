@@ -8,6 +8,15 @@ class rex_effect_flip extends rex_effect_abstract
 {
     var $options;
 
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_effect_flip()
+    function __construct()
+    {
+        $this->rex_effect_flip();
+    }
+
+    // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     function rex_effect_flip()
     {
         $this->options = array(

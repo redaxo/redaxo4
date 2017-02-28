@@ -9,6 +9,15 @@ class rex_effect_resize extends rex_effect_abstract
     var $options;
     var $script;
 
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_effect_resize()
+    function __construct()
+    {
+        $this->rex_effect_resize();
+    }
+
+    // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     function rex_effect_resize()
     {
 

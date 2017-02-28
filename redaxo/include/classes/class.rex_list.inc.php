@@ -85,6 +85,16 @@ class rex_list
      * @param $rowsPerPage Anzahl der Elemente pro Zeile
      * @param $listName Name der Liste
      */
+
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_list()
+    function __construct($query, $rowsPerPage = 30, $listName = null, $debug = false)
+    {
+        $this->rex_list($query, $rowsPerPage, $listName, $debug);
+    }
+
+    // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     function rex_list($query, $rowsPerPage = 30, $listName = null, $debug = false)
     {
         global $REX, $I18N;

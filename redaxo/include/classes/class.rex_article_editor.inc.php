@@ -11,6 +11,15 @@ class rex_article_editor extends rex_article
 {
     var $MODULESELECT;
 
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_article_editor()
+    /*public*/ function __construct($article_id = null, $clang = null)
+    {
+        $this->rex_article_editor($article_id, $clang);
+    }
+
+    // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     /*public*/ function rex_article_editor($article_id = null, $clang = null)
     {
         parent::rex_article($article_id, $clang);

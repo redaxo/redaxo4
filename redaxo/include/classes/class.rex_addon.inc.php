@@ -18,6 +18,16 @@
      *
      * @param string|array $namespace Namensraum des rex-Addons
      */
+
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_addon()
+    /*private*/ function __construct($namespace)
+    {
+        $this->rex_addon($namespace);
+    }
+
+    // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     /*private*/ function rex_addon($namespace)
     {
         global $REX;

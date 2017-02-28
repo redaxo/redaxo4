@@ -12,6 +12,15 @@
 
 class rex_version_checker_notification extends rex_dashboard_notification
 {
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_version_checker_notification()
+    function __construct()
+    {
+        $this->rex_version_checker_notification();
+    }
+
+     // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     function rex_version_checker_notification()
     {
         // default cache lifetime in seconds

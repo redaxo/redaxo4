@@ -17,6 +17,15 @@ class rex_select
     var $optgroups = array();
 
     ################ Konstruktor
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_select()
+    /*public*/ function __construct()
+    {
+        $this->rex_select();
+    }
+
+     // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     /*public*/ function rex_select()
     {
         $this->init();
@@ -334,6 +343,15 @@ class rex_category_select extends rex_select
     /*private*/ var $rootId;
     /*private*/ var $loaded;
 
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_category_select()
+    /*public*/ function __construct($ignore_offlines = false, $clang = false, $check_perms = true, $add_homepage = true)
+    {
+        $this->rex_category_select($ignore_offlines, $clang, $check_perms, $add_homepage);
+    }
+
+     // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     /*public*/ function rex_category_select($ignore_offlines = false, $clang = false, $check_perms = true, $add_homepage = true)
     {
         $this->ignore_offlines = $ignore_offlines;
@@ -471,6 +489,15 @@ class rex_mediacategory_select extends rex_select
     var $rootId;
     /*private*/ var $loaded;
 
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_mediacategory_select()
+    /*public*/ function __construct($check_perms = true)
+    {
+        $this->rex_mediacategory_select($check_perms);
+    }
+
+    // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     /*public*/ function rex_mediacategory_select($check_perms = true)
     {
         $this->check_perms = $check_perms;

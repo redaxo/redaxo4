@@ -32,6 +32,16 @@
     /*
      * Constructor
      */
+
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of OORedaxo()
+    /*protected*/ function __construct($params = false, $clang = false)
+    {
+        $this->OORedaxo($params, $clang);
+    }
+
+    // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     /*protected*/ function OORedaxo($params = false, $clang = false)
     {
         if ($params !== false) {

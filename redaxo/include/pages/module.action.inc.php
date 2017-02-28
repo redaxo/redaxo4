@@ -14,6 +14,15 @@ $ASTATUS[2] = 'DELETE';
 
 class rex_event_select extends rex_select
 {
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_event_select()
+    function __construct($options)
+    {
+        $this->rex_event_select($options);
+    }
+
+    // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     function rex_event_select($options)
     {
         global $I18N;

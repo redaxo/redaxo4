@@ -6,6 +6,15 @@ class rex_input_mediabutton extends rex_input
     var $categoryId;
     var $args = array();
 
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_input_mediabutton()
+    function __construct()
+    {
+        $this->rex_input_mediabutton();
+    }
+
+    // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     function rex_input_mediabutton()
     {
         parent::rex_input();

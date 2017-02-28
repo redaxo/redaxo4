@@ -32,6 +32,15 @@ class rex_article_base
     var $info;
     var $debug;
 
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_article_base()
+    /*private*/ function __construct($article_id = null, $clang = null)
+    {
+        $this->rex_article_base($article_id, $clang);
+    }
+
+    // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     /*private*/ function rex_article_base($article_id = null, $clang = null)
     {
         global $REX;

@@ -8,6 +8,16 @@
 
 class OOCategory extends OORedaxo
 {
+
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of OOCategory()
+    /*protected*/ function __construct($params = false, $clang = false)
+    {
+        $this->OOCategory($params, $clang);
+    }
+
+    // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     /*protected*/ function OOCategory($params = false, $clang = false)
     {
         parent :: OORedaxo($params, $clang);

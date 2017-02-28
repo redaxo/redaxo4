@@ -22,6 +22,16 @@ class rex_function_cache
      *
      * @param sfCache $cache An sfCache object instance
      */
+
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_function_cache()
+    /*public*/ function __construct(/*rex_cache_*/ $cache)
+    {
+        $this->rex_function_cache($cache);
+    }
+
+     // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     /*public*/ function rex_function_cache(/*rex_cache_*/ $cache)
     {
         $this->cache = $cache;

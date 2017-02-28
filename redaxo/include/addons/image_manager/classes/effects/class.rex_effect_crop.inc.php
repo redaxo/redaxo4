@@ -9,6 +9,15 @@
 class rex_effect_crop extends rex_effect_abstract
 {
 
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_effect_crop()
+    function __construct()
+    {
+        $this->rex_effect_crop();
+    }
+
+    // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     function rex_effect_crop()
     {
 

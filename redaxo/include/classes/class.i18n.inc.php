@@ -15,12 +15,22 @@ class i18n
     var $text;
     var $text_loaded;
 
-    /*
+     /*
      * Constructor
      * the locale must of the common form, eg. de_de, en_us or just plain en, de.
      * the searchpath is where the language files are located
      */
-    function i18n($locale = 'de_de', $searchpath)
+
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of i18n()
+    function __construct($locale = 'de_de', $searchpath)
+    {
+        $this->i18n($locale, $searchpath);
+    }
+
+     // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
+    function i18n($locale = 'de_de', $searchpath) 
     {
         $this->searchpath = $searchpath;
         $this->text = array ();

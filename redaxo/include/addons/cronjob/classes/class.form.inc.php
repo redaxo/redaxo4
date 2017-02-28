@@ -13,6 +13,15 @@ class rex_cronjob_form extends rex_form
 {
     /*private*/ var $mainFieldset;
 
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_cronjob_form()
+    /*protected*/ function __construct($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false)
+    {
+        $this->rex_cronjob_form($tableName, $fieldset, $whereCondition, $method, $debug);
+    }
+
+    // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     /*protected*/ function rex_cronjob_form($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false)
     {
         parent::rex_form($tableName, $fieldset, $whereCondition, $method, $debug);

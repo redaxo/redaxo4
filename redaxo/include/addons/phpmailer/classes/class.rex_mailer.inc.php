@@ -14,6 +14,15 @@ class rex_mailer extends PHPMailer
 {
     public $AdminBcc = '';
 
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_mailer()
+    function __construct()
+    {
+        $this->rex_mailer();
+    }
+
+     // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     function rex_mailer()
     {
         global $REX;

@@ -17,6 +17,15 @@
 
 class rex_stats_component extends rex_dashboard_component
 {
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_stats_component()
+    function __construct()
+    {
+        $this->rex_stats_component();
+    }
+
+     // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     function rex_stats_component()
     {
         global $I18N;
@@ -119,6 +128,15 @@ class rex_stats_component extends rex_dashboard_component
 
 class rex_articles_component extends rex_dashboard_component
 {
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_articles_component()
+    function __construct()
+    {
+        $this->rex_articles_component();
+    }
+
+     // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     function rex_articles_component()
     {
         global $I18N;
@@ -176,6 +194,15 @@ class rex_articles_component extends rex_dashboard_component
 
 class rex_media_component extends rex_dashboard_component
 {
+    // this is the new style constructor used by newer php versions.
+    // important: if you change the signatur of this method, change also the signature of rex_media_component()
+    function __construct()
+    {
+        $this->rex_media_component();
+    }
+
+     // this is the deprecated old style constructor kept for compat reasons. 
+    // important: if you change the signatur of this method, change also the signature of __construct()
     function rex_media_component()
     {
         global $I18N;
