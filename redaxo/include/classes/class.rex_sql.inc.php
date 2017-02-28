@@ -569,7 +569,8 @@ class rex_sql
      */
     /*public*/ function hasNext()
     {
-        return $this->counter != $this->rows;
+        #return $this->counter != $this->rows;
+        return (($this->counter) < ($this->rows-1));
     }
 
     /**
