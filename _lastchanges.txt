@@ -6,7 +6,7 @@ Alle weiteren AddOns mit geplanten Änderungen etc. werden hier nicht abgehandel
 Änderungen im Detail:
 ---------------------------------------------------------------------------------
 
-Version 4.7.2 (2017-XX-XX)
+Version 4.7.2 (2017-03-01)
 
   Bugfixes
   * Aktualisierung der php7-mysql-shim-Klasse
