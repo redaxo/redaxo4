@@ -6,6 +6,16 @@ Alle weiteren AddOns mit geplanten Änderungen etc. werden hier nicht abgehandel
 Änderungen im Detail:
 ---------------------------------------------------------------------------------
 
+Version 4.7.2 (2017-XX-XX)
+
+  Bugfixes
+  * Aktualisierung der php7-mysql-shim-Klasse
+    - Dadurch sind auch in PHP 7 wieder Datenbanknamen mit "-" möglich
+  * Nutzung der deprecated PHP4-Konstrukturen wird vermieden (@RexDude)
+  * In PHP 7 wurden teilweise Notices angezeigt
+  * Image Manager: Performanceeinbußen durch Session Locks werden vermindert durch frühzeitiges Abbrechen der Session
+
+
 Version 4.7.1 (2017-01-11)
 
   Wichtig
