@@ -119,7 +119,7 @@ function selectMedia(filename, alt)
 {
     <?php
     if ($opener_input_field != '') {
-        echo 'opener.document.getElementById("' . $opener_input_field . '").value = filename;';
+        echo 'opener.document.getElementById("' . htmlspecialchars($opener_input_field) . '").value = filename;';
     }
     ?>
     self.close();
