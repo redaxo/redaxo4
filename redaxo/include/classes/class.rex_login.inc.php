@@ -493,6 +493,9 @@ class rex_login
      */
     /*public*/ function sessionFixation()
     {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
         // 1. parameter ist erst seit php5.1 verfügbar
         if (version_compare(phpversion(), '5.1.0', '>=') == 1) {
             session_regenerate_id(true);
