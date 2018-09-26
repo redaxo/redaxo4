@@ -23,7 +23,7 @@ $arg_url = '';
 $arg_fields = '';
 foreach ($args as $arg_name => $arg_value) {
     $arg_url .= '&amp;args[' . urlencode($arg_name) . ']=' . urlencode($arg_value);
-    $arg_fields .= '<input type="hidden" name="args[' . $arg_name . ']" value="' . htmlspecialchars($arg_value) . '" />' . "\n";
+    $arg_fields .= '<input type="hidden" name="args[' . htmlspecialchars($arg_name) . ']" value="' . htmlspecialchars($arg_value) . '" />' . "\n";
 }
 
 // ----- opener_input_field setzen
