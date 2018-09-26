@@ -130,7 +130,7 @@ function selectMedialist(filename)
     <?php
         if (substr($opener_input_field, 0, 14) == 'REX_MEDIALIST_') {
             $id = substr($opener_input_field, 14, strlen($opener_input_field));
-            echo 'var medialist = "REX_MEDIALIST_SELECT_' . $id . '";
+            echo 'var medialist = "REX_MEDIALIST_SELECT_' . htmlspecialchars($id) . '";
 
                         var source = opener.document.getElementById(medialist);
                         var sourcelength = source.options.length;
@@ -140,7 +140,7 @@ function selectMedialist(filename)
                         option.value = filename;
 
                         source.options.add(option, sourcelength);
-                        opener.writeREXMedialist(' . $id . ');';
+                        opener.writeREXMedialist(' . htmlspecialchars($id) . ');';
 
         }
     ?>
@@ -151,7 +151,7 @@ function selectMediaListArray(files)
     <?php
         if (substr($opener_input_field, 0, 14) == 'REX_MEDIALIST_') {
             $id = substr($opener_input_field, 14, strlen($opener_input_field));
-            echo 'var medialist = "REX_MEDIALIST_SELECT_' . $id . '";
+            echo 'var medialist = "REX_MEDIALIST_SELECT_' . htmlspecialchars($id) . '";
 
                         var source = opener.document.getElementById(medialist);
                         var sourcelength = source.options.length;
@@ -171,7 +171,7 @@ function selectMediaListArray(files)
                             }
                         }
 
-                        opener.writeREXMedialist(' . $id . ');';
+                        opener.writeREXMedialist(' . htmlspecialchars($id) . ');';
 
         }
     ?>
