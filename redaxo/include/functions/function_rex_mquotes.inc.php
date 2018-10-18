@@ -11,7 +11,7 @@ if (!get_magic_quotes_gpc()) {
     {
         if (is_array($theArray)) {
             reset($theArray);
-            while (list($Akey, $AVal) = each($theArray)) {
+            foreach ($theArray as $Akey=>$AVal) {
                 if (is_array($AVal)) {
                     addSlashesOnArray($theArray[$Akey]);
                 } else {
