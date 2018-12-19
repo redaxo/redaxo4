@@ -30,6 +30,11 @@ foreach ($args as $arg_name => $arg_value) {
 $opener_link = rex_request('opener_link', 'string');
 $opener_input_field = rex_request('opener_input_field', 'string', '');
 
+$pattern = '/[^a-z0-9_-]/i';
+if (preg_match($pattern, $opener_input_field, $match)) {
+    throw new InvalidArgumentException(sprintf('Invalid character "%s" in opener_input_field.', $match[0]));
+}
+
 if ($opener_input_field != '') {
     $arg_url .= '&amp;opener_input_field=' . urlencode($opener_input_field);
     $arg_fields .= '<input type="hidden" name="opener_input_field" value="' . htmlspecialchars($opener_input_field) . '" />' . "\n";
