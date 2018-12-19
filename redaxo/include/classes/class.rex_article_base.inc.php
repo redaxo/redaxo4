@@ -39,7 +39,7 @@ class rex_article_base
         $this->rex_article_base($article_id, $clang);
     }
 
-    // this is the deprecated old style constructor kept for compat reasons. 
+    // this is the deprecated old style constructor kept for compat reasons.
     // important: if you change the signatur of this method, change also the signature of __construct()
     /*private*/ function rex_article_base($article_id = null, $clang = null)
     {
@@ -522,10 +522,12 @@ class rex_article_base
     {
         return preg_replace_callback(
             '@redaxo://(\d+)(?:-(\d+))?/?@i',
-            create_function(
-                '$matches',
-                'return rex_getUrl($matches[1], isset($matches[2]) ? $matches[2] : ' . (integer) $this->clang . ');'
-            ),
+            function ($matches) {
+                $secondParam = isset($matches[2])
+                    ? $matches[2]
+                    : (integer) $this->clang;
+                return rex_getUrl($matches[1], $secondParam );
+            },
             $content
         );
     }
