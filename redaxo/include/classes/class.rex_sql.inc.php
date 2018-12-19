@@ -745,6 +745,18 @@ class rex_sql
     }
 
     /**
+     * Escapes and adds backsticks around.
+     *
+     * @param string $name
+     *
+     * @return string
+     */
+    /*public*/ function escapeIdentifier($name)
+    {
+        return '`' . str_replace('`', '``', $name) . '`';
+    }
+
+    /**
      * Erstellt das CREATE TABLE Statement um die Tabelle $table
      * der Datenbankverbindung $DBID zu erstellen.
      *
