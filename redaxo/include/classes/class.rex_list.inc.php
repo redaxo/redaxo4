@@ -747,7 +747,7 @@ class rex_list
             $sortType = $this->getSortType();
 
             $sql = rex_sql::factory();
-            $sortColumn = $sql->escape($sortColumn);
+            $sortColumn = $sql->escapeIdentifier($sortColumn);
 
             if (strpos(strtoupper($query), ' ORDER BY ') === false) {
                 $query .= ' ORDER BY ' . $sortColumn . ' ' . $sortType;
