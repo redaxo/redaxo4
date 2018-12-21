@@ -6,6 +6,12 @@ Alle weiteren AddOns mit geplanten Änderungen etc. werden hier nicht abgehandel
 Änderungen im Detail:
 ---------------------------------------------------------------------------------
 
+Version 4.7.3 (2018-09-26)
+
+  Wichtig
+  * Kritische Sicherheitslücke (SQL-Injection) in der rex_list Klasse geschlossen (gemeldet von @Balis0ng, ADLab of VenusTech) (@bloep, @staabm)
+  * XSS-Sicherheitslücken im Medienpool geschlossen (gemeldet von @Balis0ng, ADLab of VenusTech) (@bloep, @staabm)
+
 Version 4.7.2 (2017-03-01)
 
   Bugfixes

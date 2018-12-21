@@ -23,12 +23,17 @@ $arg_url = '';
 $arg_fields = '';
 foreach ($args as $arg_name => $arg_value) {
     $arg_url .= '&amp;args[' . urlencode($arg_name) . ']=' . urlencode($arg_value);
-    $arg_fields .= '<input type="hidden" name="args[' . $arg_name . ']" value="' . htmlspecialchars($arg_value) . '" />' . "\n";
+    $arg_fields .= '<input type="hidden" name="args[' . htmlspecialchars($arg_name) . ']" value="' . htmlspecialchars($arg_value) . '" />' . "\n";
 }
 
 // ----- opener_input_field setzen
 $opener_link = rex_request('opener_link', 'string');
 $opener_input_field = rex_request('opener_input_field', 'string', '');
+
+$pattern = '/[^a-z0-9_-]/i';
+if (preg_match($pattern, $opener_input_field, $match)) {
+    throw new InvalidArgumentException(sprintf('Invalid character "%s" in opener_input_field.', $match[0]));
+}
 
 if ($opener_input_field != '') {
     $arg_url .= '&amp;opener_input_field=' . urlencode($opener_input_field);
@@ -119,7 +124,7 @@ function selectMedia(filename, alt)
 {
     <?php
     if ($opener_input_field != '') {
-        echo 'opener.document.getElementById("' . $opener_input_field . '").value = filename;';
+        echo 'opener.document.getElementById("' . htmlspecialchars($opener_input_field) . '").value = filename;';
     }
     ?>
     self.close();
@@ -129,7 +134,7 @@ function selectMedialist(filename)
 {
     <?php
         if (substr($opener_input_field, 0, 14) == 'REX_MEDIALIST_') {
-            $id = substr($opener_input_field, 14, strlen($opener_input_field));
+            $id = (int) substr($opener_input_field, 14, strlen($opener_input_field));
             echo 'var medialist = "REX_MEDIALIST_SELECT_' . $id . '";
 
                         var source = opener.document.getElementById(medialist);
@@ -150,7 +155,7 @@ function selectMediaListArray(files)
 {
     <?php
         if (substr($opener_input_field, 0, 14) == 'REX_MEDIALIST_') {
-            $id = substr($opener_input_field, 14, strlen($opener_input_field));
+            $id = (int) substr($opener_input_field, 14, strlen($opener_input_field));
             echo 'var medialist = "REX_MEDIALIST_SELECT_' . $id . '";
 
                         var source = opener.document.getElementById(medialist);
