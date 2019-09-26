@@ -520,12 +520,13 @@ class rex_article_base
 
     /*protected*/ function replaceLinks($content)
     {
+        $clang = (integer) $this->clang;
         return preg_replace_callback(
             '@redaxo://(\d+)(?:-(\d+))?/?@i',
-            function ($matches) {
+            function ($matches) use ($clang) {
                 $secondParam = isset($matches[2])
                     ? $matches[2]
-                    : (integer) $this->clang;
+                    : $clang;
                 return rex_getUrl($matches[1], $secondParam );
             },
             $content
